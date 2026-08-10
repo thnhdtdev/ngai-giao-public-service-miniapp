@@ -1,33 +1,24 @@
 import React from "react";
-import { HomeHeader, Utinities, ListOA, NewsSection } from "@components";
+
+import { HomeHeader } from "@components";
 import PageLayout from "@components/layout/PageLayout";
-import { APP_UTINITIES } from "@constants/utinities";
-import { useStore } from "@store";
-import Contacts from "./Contacts";
-import Procedures from "./Procedures";
+
+import HeroSection from "@components/home/HeroSection";
+import QuickActions from "@components/home/QuickActions";
 
 const HomePage: React.FunctionComponent = () => {
-    const [organization] = useStore(state => [
-        state.organization,
-        state.getOrganization,
-    ]);
-
     return (
+
         <PageLayout
             id="home-page"
-            customHeader={
-                <HomeHeader
-                    title="DỊCH VỤ CÔNG"
-                    name={organization?.name || ""}
-                />
-            }
+            bg="#F5F6F8"
+            noHeader
         >
-            <Utinities utinities={APP_UTINITIES} />
-            <ListOA />
-            <Contacts />
-            <Procedures />
-            <NewsSection />
+            <HeroSection />
+
+            <QuickActions />
         </PageLayout>
+
     );
 };
 

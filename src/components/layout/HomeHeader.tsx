@@ -1,10 +1,7 @@
 import React, { FC } from "react";
-import { Box } from "zmp-ui";
 import styled from "styled-components";
-import tw from "twin.macro";
+
 import Logo from "@assets/logo.png";
-import TextItemSkeleton from "@components/skeleton/TextSketeton";
-import { useStore } from "@store";
 import Background from "@assets/header-background.png";
 
 export interface HomeHeaderProps {
@@ -12,55 +9,138 @@ export interface HomeHeaderProps {
     name: string;
 }
 
-const HeaderContainer = styled.div`
-    ${tw`flex flex-row bg-main text-white items-center fixed top-0 left-0 w-full px-4 h-[calc(48px + var(--zaui-safe-area-inset-top, 0px))]`};
-    padding-top: var(--zaui-safe-area-inset-top);
-    z-index: 1;
-    background: linear-gradient(
-            0deg,
-            rgba(4, 109, 214, 0.9),
-            rgba(4, 109, 214, 0.9)
+const HeaderContainer = styled.header`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: calc(
+        56px + var(--zaui-safe-area-inset-top, 0px)
+    );
+
+    padding-top: var(--zaui-safe-area-inset-top, 0px);
+
+    z-index: 100;
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(4, 90, 170, 0.98) 0%,
+            rgba(6, 116, 204, 0.94) 100%
         ),
         url(${Background});
+
     background-size: cover;
     background-position: center;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+
+    box-shadow:
+        0 2px 8px rgba(0, 52, 104, 0.12);
 `;
 
-const Title = styled.div`
-    ${tw`text-base font-medium`}
+const HeaderContent = styled.div`
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 16px;
+
+    /*
+     * Chừa khoảng trống cho nút "... / X"
+     * do Zalo hiển thị ở góc phải.
+     */
+    padding-right: 108px;
 `;
 
 const LogoWrapper = styled.div`
-    width: 32px;
-    height: 32px;
-    position: relative;
-    margin-right: 8px;
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 10px;
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.16);
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
 `;
 
-const StyledText = styled.div`
-    ${tw`text-wth_a70 text-xs`}
-    min-height: 16px;
+const LogoImage = styled.img`
+    width: 26px;
+    height: 26px;
+
+    object-fit: contain;
 `;
-const HomeHeader: FC<HomeHeaderProps> = props => {
-    const { title, name } = props;
-    const loading = useStore(state => state.gettingOrganization);
+
+const TextContainer = styled.div`
+    min-width: 0;
+    flex: 1;
+`;
+
+const Title = styled.div`
+    overflow: hidden;
+
+    font-size: 14px;
+    line-height: 18px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    text-transform: uppercase;
+`;
+
+const OrganizationName = styled.div`
+    margin-top: 1px;
+
+    overflow: hidden;
+
+    font-size: 11px;
+    line-height: 15px;
+
+    font-weight: 400;
+
+    color: rgba(255, 255, 255, 0.82);
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+`;
+
+const HomeHeader: FC<HomeHeaderProps> = ({
+    title,
+    name,
+}) => {
     return (
         <HeaderContainer>
-            <LogoWrapper>
-                <img src={Logo} alt={title} />
-            </LogoWrapper>
-            <Box flex flexDirection="column">
-                <Title>{title}</Title>
-                {loading ? (
-                    <TextItemSkeleton
-                        color="rgba(255,255,255,0.2)"
-                        height={16}
-                        width={180}
+            <HeaderContent>
+                <LogoWrapper>
+                    <LogoImage
+                        src={Logo}
+                        alt="Hành chính công Ngãi Giao"
                     />
-                ) : (
-                    <StyledText>{name}</StyledText>
-                )}
-            </Box>
+                </LogoWrapper>
+
+                <TextContainer>
+                    <Title>{title}</Title>
+
+                    <OrganizationName>
+                        {name}
+                    </OrganizationName>
+                </TextContainer>
+            </HeaderContent>
         </HeaderContainer>
     );
 };
