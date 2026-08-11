@@ -5,6 +5,11 @@ import styled from "styled-components";
 import HeroBackground from "@assets/background1.png";
 import Logo from "@assets/logo-hcc.png";
 import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
+import { openPhone } from "zmp-sdk";
+import {
+    Newspaper,
+    Phone,
+} from "lucide-react";
 
 const Hero = styled.section`
     position: relative;
@@ -127,65 +132,118 @@ const Description = styled.p`
     color: rgba(255, 255, 255, 0.9);
 `;
 
-const SearchButton = styled.button`
-    width: 100%;
+const HeroActions = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
 
-    margin-top: 24px;
+    margin-top: 18px;
+`;
 
-    min-height: 50px;
+const HeroAction = styled.button`
+    min-width: 0;
+    min-height: 70px;
 
     display: flex;
     align-items: center;
 
-    gap: 10px;
+    gap: 9px;
 
-    padding: 0 16px;
+    padding: 10px 11px;
 
-    border: none;
-    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
 
-    background: rgba(255, 255, 255, 0.97);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.16),
+            rgba(128, 93, 190, 0.28)
+        );
 
-    color: #59616b;
-
+    color: #ffffff;
     text-align: left;
 
-    font-size: 14px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 
-    box-shadow: 0 8px 24px rgba(0, 45, 90, 0.14);
+    box-shadow:
+        0 6px 18px rgba(0, 35, 80, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
 
     &:active {
-        transform: scale(0.99);
+        transform: scale(0.98);
     }
 `;
 
-const SearchIcon = () => (
-    <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        aria-hidden="true"
-    >
-        <circle
-            cx="11"
-            cy="11"
-            r="7"
-            stroke="currentColor"
-            strokeWidth="2"
-        />
+const HeroActionIcon = styled.div`
+    width: 40px;
+    height: 40px;
 
-        <path
-            d="M16.5 16.5L21 21"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-        />
-    </svg>
-);
+    flex: 0 0 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e00000,
+            #c40000
+        );
+
+    color: #ffffff;
+
+    box-shadow: 0 4px 12px rgba(170, 0, 0, 0.28);
+`;
+
+const HeroActionContent = styled.div`
+    min-width: 0;
+`;
+
+const HeroActionTitle = styled.div`
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 700;
+
+    color: #ffffff;
+`;
+
+const HeroActionDescription = styled.div`
+    margin-top: 3px;
+
+    font-size: 11px;
+    line-height: 15px;
+
+    color: rgba(255, 255, 255, 0.8);
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;
 
 const HeroSection: React.FC = () => {
-    const navigate = useNavigate();
+     const navigate = useNavigate();
+
+    const handleCallHotline = async () => {
+        const phoneNumber =
+            NGAI_GIAO_ORGANIZATION.hotline.phoneNumber;
+
+        if (!phoneNumber) {
+            return;
+        }
+
+        try {
+            await openPhone({
+                phoneNumber,
+            });
+        } catch (error) {
+            console.error("Không thể mở cuộc gọi:", error);
+        }
+    };
 
     return (
         <Hero>
@@ -222,16 +280,52 @@ const HeroSection: React.FC = () => {
                         và thuận tiện.
                     </Description>
 
-                    <SearchButton
-                        type="button"
-                        onClick={() =>
-                            navigate("/information-guide")
-                        }
-                    >
-                        <SearchIcon />
+                    <HeroActions>
+    <HeroAction
+        type="button"
+        onClick={() => navigate("/news")}
+    >
+        <HeroActionIcon>
+            <Newspaper
+                size={22}
+                strokeWidth={2}
+            />
+        </HeroActionIcon>
 
-                        Tìm kiếm thủ tục hành chính
-                    </SearchButton>
+        <HeroActionContent>
+            <HeroActionTitle>
+                Tin tức nổi bật
+            </HeroActionTitle>
+
+            <HeroActionDescription>
+                Cập nhật mới nhất
+            </HeroActionDescription>
+        </HeroActionContent>
+    </HeroAction>
+
+    <HeroAction
+        type="button"
+        onClick={() => void handleCallHotline()}
+    >
+        <HeroActionIcon>
+            <Phone
+                size={22}
+                strokeWidth={2}
+            />
+        </HeroActionIcon>
+
+        <HeroActionContent>
+            <HeroActionTitle>
+                Đường dây nóng
+            </HeroActionTitle>
+
+            <HeroActionDescription>
+                {NGAI_GIAO_ORGANIZATION.hotline.display}
+            </HeroActionDescription>
+        </HeroActionContent>
+    </HeroAction>
+</HeroActions>
+                    
                 </MainContent>
             </Content>
         </Hero>
