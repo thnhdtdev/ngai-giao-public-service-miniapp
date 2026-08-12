@@ -26,8 +26,10 @@ node_modules/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# Dotenv environment files (may contain credentials)
 .env
+.env.*
+!.env.example
 
 # Misc
 .DS_Store
@@ -35,4 +37,3 @@ Thumbs.db
 
 # Production build
 www/
-
