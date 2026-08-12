@@ -64,7 +64,12 @@ const QuickActions: React.FC = () => {
         }
 
         if (action.type === "external") {
-            await openWebview({ url: action.url });
+            await openWebview({
+                url: action.url,
+                config: {
+                    style: "normal",
+                },
+            });
             return;
         }
 

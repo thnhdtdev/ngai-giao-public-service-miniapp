@@ -72,9 +72,10 @@ const utilities: UtilityItem[] = [
     },
     {
         id: "faq",
-        type: "coming-soon",
-        title: "Câu hỏi thường gặp",
+        type: "route",
+        title: "Trợ lý hỏi đáp",
         icon: <CircleHelp className="h-7 w-7" />,
+        path: "/qa",
         theme: "bg-sky-50 text-sky-600",
     },
     {
@@ -124,6 +125,9 @@ const MainUtilities: React.FC = () => {
             try {
                 await openWebview({
                     url: item.url,
+                    config: {
+                        style: "normal",
+                    },
                 });
             } catch {
                 openSnackbar({
