@@ -5,6 +5,7 @@ import PageLayout from "@components/layout/PageLayout";
 
 import HeroSection from "@components/home/HeroSection";
 import QuickActions from "@components/home/QuickActions";
+import MainUtilities from "@components/home/MainUtilities";
 
 const HomePage: React.FunctionComponent = () => {
     return (
@@ -17,6 +18,8 @@ const HomePage: React.FunctionComponent = () => {
             <HeroSection />
 
             <QuickActions />
+
+            <MainUtilities />
         </PageLayout>
 
     );

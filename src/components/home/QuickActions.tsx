@@ -35,10 +35,28 @@ const Section = styled.section`
     padding: 20px 16px;
 `;
 
+const TitleRow = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+`;
+
+const TitleIcon = styled.div`
+    color: #1677ff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
 const Title = styled.h2`
-    margin: 0 0 12px;
-    font-size: 18px;
-    font-weight: 600;
+    margin: 0;
+
+    font-size: 19px;
+    line-height: 26px;
+    font-weight: 700;
+
     color: #202124;
 `;
 
@@ -224,8 +242,13 @@ const QuickActions: React.FC = () => {
 
     return (
         <Section>
-            <Title>Dịch vụ công</Title>
+<TitleRow>
+    <TitleIcon>
+        <Landmark size={22} strokeWidth={2} />
+    </TitleIcon>
 
+    <Title>Dịch vụ công</Title>
+</TitleRow>
             <Grid>
                 {actions.map(action => (
     <Action
