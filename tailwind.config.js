@@ -1,6 +1,10 @@
+const path = require("path");
+
+const sourcePath = path.resolve(__dirname, "src").replace(/\\/g, "/");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [],
+    content: [`${sourcePath}/**/*.{js,ts,jsx,tsx}`],
     theme: {
         extend: {
             colors: {

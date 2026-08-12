@@ -1,303 +1,136 @@
 import React from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import {
-    ArrowLeft,
-    Clock3,
-    CalendarDays,
-    Info,
-} from "lucide-react";
-
-const Page = styled.div`
-    min-height: 100vh;
-    background: #f5f7fb;
-`;
-
-const Header = styled.div`
-    position: sticky;
-    top: 0;
-    z-index: 10;
-
-    height: 56px;
-    padding: 0 16px;
-
-    display: flex;
-    align-items: center;
-
-    background: #ffffff;
-    border-bottom: 1px solid #edf0f5;
-`;
-
-const BackButton = styled.button`
-    width: 40px;
-    height: 40px;
-
-    padding: 0;
-    border: 0;
-    border-radius: 12px;
-
-    background: transparent;
-    color: #202124;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:active {
-        background: #f1f3f5;
-    }
-`;
-
-const HeaderTitle = styled.div`
-    margin-left: 8px;
-
-    font-size: 17px;
-    font-weight: 700;
-
-    color: #202124;
-`;
-
-const Content = styled.div`
-    padding: 18px 16px 28px;
-`;
-
-const IntroCard = styled.div`
-    padding: 18px;
-
-    border-radius: 20px;
-
-    color: #ffffff;
-
-    background: linear-gradient(
-        135deg,
-        #0891b2 0%,
-        #0e7490 100%
-    );
-
-    box-shadow: 0 8px 22px rgba(8, 145, 178, 0.18);
-`;
-
-const IntroIcon = styled.div`
-    width: 46px;
-    height: 46px;
-
-    border-radius: 14px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-`;
-
-const IntroTitle = styled.div`
-    margin-top: 14px;
-
-    font-size: 19px;
-    line-height: 26px;
-    font-weight: 700;
-`;
-
-const IntroDescription = styled.div`
-    margin-top: 5px;
-
-    font-size: 13px;
-    line-height: 19px;
-
-    color: rgba(255, 255, 255, 0.88);
-`;
-
-const SectionTitle = styled.div`
-    margin: 22px 0 12px;
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    font-size: 16px;
-    font-weight: 700;
-
-    color: #252a34;
-`;
-
-const ScheduleCard = styled.div`
-    padding: 4px 16px;
-
-    border-radius: 18px;
-
-    background: #ffffff;
-
-    border: 1px solid #edf0f5;
-
-    box-shadow: 0 4px 16px rgba(20, 40, 80, 0.06);
-`;
-
-const ScheduleRow = styled.div`
-    padding: 15px 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-
-    &:not(:last-child) {
-        border-bottom: 1px solid #eef1f5;
-    }
-`;
-
-const ScheduleLabel = styled.div`
-    min-width: 0;
-`;
-
-const Day = styled.div`
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: 600;
-
-    color: #252a34;
-`;
-
-const Period = styled.div`
-    margin-top: 3px;
-
-    font-size: 12px;
-    line-height: 18px;
-
-    color: #747b88;
-`;
-
-const Time = styled.div`
-    flex-shrink: 0;
-
-    padding: 7px 10px;
-
-    border-radius: 10px;
-
-    background: #e7f8fb;
-    color: #087d99;
-
-    font-size: 13px;
-    font-weight: 700;
-`;
-
-const Notice = styled.div`
-    margin-top: 16px;
-    padding: 14px;
-
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-
-    border-radius: 15px;
-
-    background: #fff9e8;
-    border: 1px solid #f8e7a8;
-
-    color: #6c5a20;
-
-    font-size: 13px;
-    line-height: 19px;
-`;
+import { ArrowLeft, CalendarDays, Clock3, Info } from "lucide-react";
 
 export const WorkingHoursPage: React.FC = () => {
     const navigate = useNavigate();
 
     return (
-        <Page>
-            <Header>
-                <BackButton
+        <div className="min-h-screen bg-slate-50">
+            <div className="sticky top-0 z-10 flex h-14 items-center border-b border-slate-200 bg-white px-4">
+                <button
+                    className="flex h-10 w-10 items-center justify-center rounded-xl border-0 bg-transparent p-0 text-gray-800 active:bg-slate-100"
                     type="button"
                     aria-label="Quay lại"
                     onClick={() => navigate(-1)}
                 >
-                    <ArrowLeft size={22} />
-                </BackButton>
+                    <ArrowLeft className="h-6 w-6" />
+                </button>
 
-                <HeaderTitle>Giờ làm việc</HeaderTitle>
-            </Header>
+                <div className="ml-2 text-lg font-bold text-gray-800">
+                    Giờ làm việc
+                </div>
+            </div>
 
-            <Content>
-                <IntroCard>
-                    <IntroIcon>
-                        <Clock3 size={26} />
-                    </IntroIcon>
+            <div className="px-4 pb-7 pt-5">
+                <div className="rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-700 p-5 text-white shadow-md">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 bg-white/20">
+                        <Clock3 className="h-7 w-7" />
+                    </div>
 
-                    <IntroTitle>
+                    <div className="mt-4 text-xl font-bold leading-7">
                         Trung tâm Hành chính công xã Ngãi Giao
-                    </IntroTitle>
+                    </div>
 
-                    <IntroDescription>
-                        Thời gian tiếp nhận và giải quyết thủ tục hành chính
-                        tại Trung tâm.
-                    </IntroDescription>
-                </IntroCard>
+                    <div className="mt-1 text-sm leading-5 text-white/90">
+                        Thời gian tiếp nhận và giải quyết thủ tục hành chính tại
+                        Trung tâm.
+                    </div>
+                </div>
 
-                <SectionTitle>
-                    <CalendarDays size={20} color="#0891B2" />
+                <div className="mb-3 mt-6 flex items-center gap-2 text-base font-bold text-gray-800">
+                    <CalendarDays className="h-5 w-5 text-cyan-600" />
                     Lịch làm việc
-                </SectionTitle>
+                </div>
 
-                <ScheduleCard>
-                    <ScheduleRow>
-                        <ScheduleLabel>
-                            <Day>Thứ Hai - Thứ Sáu</Day>
-                            <Period>Buổi sáng</Period>
-                        </ScheduleLabel>
+                <div className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white px-4 py-1 shadow-sm">
+                    <div className="flex items-center justify-between gap-3 py-4">
+                        <div className="min-w-0">
+                            <div className="text-sm font-semibold leading-5 text-gray-800">
+                                Thứ Hai - Thứ Sáu
+                            </div>
+                            <div className="mt-1 text-xs leading-5 text-slate-500">
+                                Buổi sáng
+                            </div>
+                        </div>
 
-                        <Time>07:30 - 11:30</Time>
-                    </ScheduleRow>
+                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                            07:30 - 11:30
+                        </div>
+                    </div>
 
-                    <ScheduleRow>
-                        <ScheduleLabel>
-                            <Day>Thứ Hai - Thứ Sáu</Day>
-                            <Period>Buổi chiều</Period>
-                        </ScheduleLabel>
+                    <div className="flex items-center justify-between gap-3 py-4">
+                        <div className="min-w-0">
+                            <div className="text-sm font-semibold leading-5 text-gray-800">
+                                Thứ Hai - Thứ Sáu
+                            </div>
+                            <div className="mt-1 text-xs leading-5 text-slate-500">
+                                Buổi chiều
+                            </div>
+                        </div>
 
-                        <Time>13:30 - 17:00</Time>
-                    </ScheduleRow>
+                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                            13:30 - 17:00
+                        </div>
+                    </div>
 
-                    <ScheduleRow>
-                        <ScheduleLabel>
-                            <Day>Thứ Bảy</Day>
-                            <Period>Buổi sáng</Period>
-                        </ScheduleLabel>
+                    <div className="flex items-center justify-between gap-3 py-4">
+                        <div className="min-w-0">
+                            <div className="text-sm font-semibold leading-5 text-gray-800">
+                                Thứ Bảy
+                            </div>
+                            <div className="mt-1 text-xs leading-5 text-slate-500">
+                                Buổi sáng
+                            </div>
+                        </div>
 
-                        <Time>07:30 - 11:30</Time>
-                    </ScheduleRow>
+                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                            07:30 - 11:30
+                        </div>
+                    </div>
 
-                    <ScheduleRow>
-                        <ScheduleLabel>
-                            <Day>Thứ Bảy</Day>
-                            <Period>Buổi chiều</Period>
-                        </ScheduleLabel>
+                    <div className="flex items-center justify-between gap-3 py-4">
+                        <div className="min-w-0">
+                            <div className="text-sm font-semibold leading-5 text-gray-800">
+                                Thứ Bảy
+                            </div>
+                            <div className="mt-1 text-xs leading-5 text-slate-500">
+                                Buổi chiều
+                            </div>
+                        </div>
 
-                        <Time>Nghỉ</Time>
-                    </ScheduleRow>
+                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                            Nghỉ
+                        </div>
+                    </div>
 
-                    <ScheduleRow>
-                        <ScheduleLabel>
-                            <Day>Chủ nhật</Day>
-                            <Period>Lịch làm việc</Period>
-                        </ScheduleLabel>
+                    <div className="flex items-center justify-between gap-3 py-4">
+                        <div className="min-w-0">
+                            <div className="text-sm font-semibold leading-5 text-gray-800">
+                                Chủ nhật
+                            </div>
+                            <div className="mt-1 text-xs leading-5 text-slate-500">
+                                Lịch làm việc
+                            </div>
+                        </div>
 
-                        <Time>Nghỉ</Time>
-                    </ScheduleRow>
-                </ScheduleCard>
+                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                            Nghỉ
+                        </div>
+                    </div>
+                </div>
 
-                <Notice>
-                    <Info
-                        size={20}
-                        style={{ flexShrink: 0, marginTop: 1 }}
-                    />
+                <div className="mt-4 flex items-start gap-2.5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-5 text-amber-800">
+                    <Info className="mt-px h-5 w-5 shrink-0" />
 
                     <span>
-                        Trung tâm làm việc từ Thứ Hai đến sáng Thứ Bảy.
-                        Nghỉ chiều Thứ Bảy, Chủ nhật và các ngày nghỉ lễ, Tết theo quy định.
+                        Trung tâm làm việc từ Thứ Hai đến sáng Thứ Bảy. Nghỉ
+                        chiều Thứ Bảy, Chủ nhật và các ngày nghỉ lễ, Tết theo
+                        quy định.
                     </span>
-                </Notice>
-            </Content>
-        </Page>
+                </div>
+            </div>
+        </div>
     );
 };
 
