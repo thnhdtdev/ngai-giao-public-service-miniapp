@@ -1,16 +1,16 @@
 import {
+    Globe2,
+    FileDown,
     CalendarDays,
+    Clock3,
     CircleHelp,
     CirclePlay,
-    Clock3,
-    ContactRound,
-    FileDown,
-    Globe2,
     Star,
+    MessageCircle,
 } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { openWebview } from "zmp-sdk";
+import { openChat, openWebview } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
 
 type UtilityItemBase = {
@@ -23,7 +23,12 @@ type UtilityItemBase = {
 type UtilityItem =
     | (UtilityItemBase & { type: "route"; path: string })
     | (UtilityItemBase & { type: "external"; url: string })
-    | (UtilityItemBase & { type: "coming-soon" });
+    | (UtilityItemBase & { type: "coming-soon" })
+    | (UtilityItemBase & {
+          type: "oa";
+          oaId: string;
+          message?: string;
+      });
 
 const utilities: UtilityItem[] = [
     {
@@ -57,11 +62,13 @@ const utilities: UtilityItem[] = [
         theme: "bg-cyan-50 text-cyan-600",
     },
     {
-        id: "departments",
-        type: "coming-soon",
-        title: "Danh bạ bộ phận",
-        icon: <ContactRound className="h-7 w-7" />,
-        theme: "bg-green-50 text-green-600",
+        id: "contact",
+        type: "oa",
+        title: "Liên hệ",
+        icon: <MessageCircle className="h-7 w-7" />,
+        oaId: "2261565257434514638",
+        message: "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
+        theme: "bg-emerald-50 text-emerald-600",
     },
     {
         id: "faq",
@@ -96,18 +103,40 @@ const MainUtilities: React.FC = () => {
             return;
         }
 
+        if (item.type === "oa") {
+            try {
+                await openChat({
+                    type: "oa",
+                    id: item.oaId,
+                    message: item.message,
+                });
+            } catch {
+                openSnackbar({
+                    text: "Không thể mở chat Zalo OA",
+                    type: "error",
+                });
+            }
+
+            return;
+        }
+
         if (item.type === "external") {
             try {
-                await openWebview({ url: item.url });
-            } catch (error) {
-                console.error("Không thể mở liên kết:", error);
+                await openWebview({
+                    url: item.url,
+                });
+            } catch {
+                openSnackbar({
+                    text: "Không thể mở liên kết",
+                    type: "error",
+                });
             }
 
             return;
         }
 
         openSnackbar({
-            text: "Tính năng đang được phát triển",
+            text: `Chức năng "${item.title}" đang được hoàn thiện`,
             type: "info",
         });
     };
