@@ -14,11 +14,15 @@ import { CreateScheduleAppointmentPage } from "./CreateScheduleAppointment";
 import { AppointmentScheduleResultPage } from "./AppointmentScheduleResult";
 import { SearchPage } from "./Search";
 import { ProfilePage } from "./Profile";
+import { WorkingHoursPage } from "./WorkingHours";
 
 const Routes: React.FC = () => (
     <ZMPRouter>
         <AnimationRoutes>
             <Route path="/" element={<HomePage />} />
+
+            <Route path="/working-hours" element={<WorkingHoursPage />}
+        />
             <Route path="/guidelines" element={<GuidelinesPage />} />
 
             <Route path="/feedbacks" element={<FeedbackPage />} />

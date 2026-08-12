@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { openWebview } from "zmp-sdk";
+import {useNavigate} from "react-router-dom";
 import {
     Globe2,
     FileDown,
@@ -12,24 +13,26 @@ import {
     Star,
 } from "lucide-react";
 
+type UtilityItemBase = {
+    id: string;
+    title: string;
+    icon: React.ReactNode;
+    color: string;
+    background: string;
+};
+
 type UtilityItem =
-    | {
-          id: string;
+    | (UtilityItemBase & {
+          type: "route";
+          path: string;
+      })
+    | (UtilityItemBase & {
           type: "external";
-          title: string;
-          icon: React.ReactNode;
           url: string;
-          color: string;
-          background: string;
-      }
-    | {
-          id: string;
+      })
+    | (UtilityItemBase & {
           type: "coming-soon";
-          title: string;
-          icon: React.ReactNode;
-          color: string;
-          background: string;
-      };
+      });
 
 const Section = styled.section`
     padding: 6px 16px 22px;
@@ -171,9 +174,10 @@ const utilities: UtilityItem[] = [
     },
     {
         id: "working-hours",
-        type: "coming-soon",
+        type: "route",
         title: "Giờ làm việc",
         icon: <Clock3 size={28} strokeWidth={2} />,
+        path: "/working-hours",
         color: "#0891B2",
         background: "#E7F8FB",
     },
@@ -212,19 +216,25 @@ const utilities: UtilityItem[] = [
 ];
 
 const MainUtilities: React.FC = () => {
+        const navigate = useNavigate();
     const handleUtility = async (item: UtilityItem) => {
-        if (item.type === "external") {
-            try {
-                await openWebview({
-                    url: item.url,
-                });
-            } catch (error) {
-                console.error("Không thể mở liên kết:", error);
-            }
+    if (item.type === "route") {
+        navigate(item.path);
+        return;
+    }
 
-            return;
+    if (item.type === "external") {
+        try {
+            await openWebview({
+                url: item.url,
+            });
+        } catch (error) {
+            console.error("Không thể mở liên kết:", error);
         }
-    };
+
+        return;
+    }
+};
 
     return (
         <Section>
