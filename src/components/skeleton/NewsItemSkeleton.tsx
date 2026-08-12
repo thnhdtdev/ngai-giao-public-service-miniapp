@@ -1,43 +1,23 @@
 import React from "react";
-import styled from "styled-components";
-import tw from "twin.macro";
-import { Box } from "zmp-ui";
 import TextItemSkeleton from "./TextSketeton";
 
-const Wrapper = styled.div`
-    ${tw``}
-    &:not(:first-child) {
-        margin-top: 16px;
-    }
-`;
-
-const RightWrapper = styled(Box)`
-    ${tw`flex-1 ml-3  overflow-hidden`}
-`;
-
-const ThumbSkeleton = styled.div`
-    ${tw`bg-devider_1 animate-pulse rounded`}
-    width: 80px;
-    height: 80px;
-`;
-
 const NewsItemSkeleton: React.FunctionComponent = () => (
-    <Wrapper>
-        <Box flex>
-            <ThumbSkeleton />
-            <RightWrapper>
-                <Box mt={2}>
+    <div className="mt-4 first:mt-0">
+        <div className="flex">
+            <div className="h-20 w-20 animate-pulse rounded bg-devider_1" />
+            <div className="ml-3 flex-1 overflow-hidden">
+                <div className="mt-2">
                     <TextItemSkeleton height={16} />
-                </Box>
-                <Box mt={2}>
+                </div>
+                <div className="mt-2">
                     <TextItemSkeleton height={20} />
-                </Box>
-                <Box mt={1}>
+                </div>
+                <div className="mt-1">
                     <TextItemSkeleton height={20} />
-                </Box>
-            </RightWrapper>
-        </Box>
-    </Wrapper>
+                </div>
+            </div>
+        </div>
+    </div>
 );
 
 export default NewsItemSkeleton;

@@ -4,7 +4,6 @@ import { useStore } from "@store";
 import React, { useEffect } from "react";
 import { App, SnackbarProvider } from "zmp-ui";
 import Auth from "./Auth";
-import ErrorNotification from "./notifications/ErrorNotification";
 
 const MyApp = () => {
     const token = useStore(state => state.token);
@@ -31,7 +30,6 @@ const MyApp = () => {
     return (
         <App>
             <SnackbarProvider>
-                <ErrorNotification />
                 <Auth />
                 <Routes />
             </SnackbarProvider>

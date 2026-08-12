@@ -7,6 +7,14 @@ module.exports = {
     content: [`${sourcePath}/**/*.{js,ts,jsx,tsx}`],
     theme: {
         extend: {
+            spacing: {
+                "safe-top": "var(--zaui-safe-area-inset-top, 0px)",
+                "safe-header":
+                    "calc(3rem + var(--zaui-safe-area-inset-top, 0px))",
+                "safe-home-header":
+                    "calc(3.5rem + var(--zaui-safe-area-inset-top, 0px))",
+                "safe-bottom": "var(--zaui-safe-area-inset-bottom, 0px)",
+            },
             colors: {
                 main: "#046DD6",
                 wth_a70: "rgba(255, 255, 255, 0.7)",

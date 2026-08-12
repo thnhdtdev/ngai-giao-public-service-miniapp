@@ -1,21 +1,15 @@
 import React from "react";
-import styled from "styled-components";
-import { Box } from "zmp-ui";
 import TextItemSkeleton from "./TextSketeton";
 
-const Wrapper = styled.div`
-    padding: 16px 12px;
-`;
-
 const SearchItemSkeleton: React.FunctionComponent = () => (
-    <Wrapper>
-        <Box pr={6}>
-            <Box mb={1}>
+    <div className="px-3 py-4">
+        <div className="pr-6">
+            <div className="mb-1">
                 <TextItemSkeleton height={22} />
-            </Box>
+            </div>
             <TextItemSkeleton />
-        </Box>
-    </Wrapper>
+        </div>
+    </div>
 );
 
 export default SearchItemSkeleton;

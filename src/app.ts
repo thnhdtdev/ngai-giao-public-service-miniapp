@@ -2,11 +2,8 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
-import "./css/tailwind.css";
-// Import tailwind styles
 import "zmp-ui/zaui.css";
-
-import "./css/app.scss";
+import "./css/tailwind.css";
 
 // Import App Component
 import App from "./components/app";

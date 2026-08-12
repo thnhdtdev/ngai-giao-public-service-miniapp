@@ -1,29 +1,17 @@
 import React from "react";
-import styled from "styled-components";
-import tw from "twin.macro";
-import { Box } from "zmp-ui";
 import AvatarSkeleton from "./AvatarSkeleton";
 import TextItemSkeleton from "./TextSketeton";
 
-const Wrapper = styled.div``;
-
-const RightWrapper = styled(Box)`
-    flex: 1;
-    ${tw`ml-2 pr-[96px]`}
-`;
-
 const OAItemSkeleton: React.FunctionComponent = () => (
-    <Wrapper>
-        <Box flex>
-            <AvatarSkeleton />
-            <RightWrapper>
-                <TextItemSkeleton height={20} />
-                <Box mt={1}>
-                    <TextItemSkeleton />
-                </Box>
-            </RightWrapper>
-        </Box>
-    </Wrapper>
+    <div className="flex">
+        <AvatarSkeleton />
+        <div className="ml-2 flex-1 pr-24">
+            <TextItemSkeleton height={20} />
+            <div className="mt-1">
+                <TextItemSkeleton />
+            </div>
+        </div>
+    </div>
 );
 
 export default OAItemSkeleton;
