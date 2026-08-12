@@ -1,137 +1,121 @@
+import PageLayout from "@components/layout/PageLayout";
+import { CalendarDays, Clock3, Info } from "lucide-react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, CalendarDays, Clock3, Info } from "lucide-react";
 
-export const WorkingHoursPage: React.FC = () => {
-    const navigate = useNavigate();
+export const WorkingHoursPage: React.FC = () => (
+    <PageLayout
+        className="bg-slate-50"
+        name="working-hours"
+        title="Giờ làm việc"
+    >
+        <div className="px-4 pb-7 pt-5">
+            <div className="rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-700 p-5 text-white shadow-md">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 bg-white/20">
+                    <Clock3 className="h-7 w-7" />
+                </div>
 
-    return (
-        <div className="min-h-screen bg-slate-50">
-            <div className="sticky top-0 z-10 flex h-14 items-center border-b border-slate-200 bg-white px-4">
-                <button
-                    className="flex h-10 w-10 items-center justify-center rounded-xl border-0 bg-transparent p-0 text-gray-800 active:bg-slate-100"
-                    type="button"
-                    aria-label="Quay lại"
-                    onClick={() => navigate(-1)}
-                >
-                    <ArrowLeft className="h-6 w-6" />
-                </button>
+                <div className="mt-4 text-xl font-bold leading-7">
+                    Trung tâm Hành chính công xã Ngãi Giao
+                </div>
 
-                <div className="ml-2 text-lg font-bold text-gray-800">
-                    Giờ làm việc
+                <div className="mt-1 text-sm leading-5 text-white/90">
+                    Thời gian tiếp nhận và giải quyết thủ tục hành chính tại
+                    Trung tâm.
                 </div>
             </div>
 
-            <div className="px-4 pb-7 pt-5">
-                <div className="rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-700 p-5 text-white shadow-md">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 bg-white/20">
-                        <Clock3 className="h-7 w-7" />
-                    </div>
+            <div className="mb-3 mt-6 flex items-center gap-2 text-base font-bold text-gray-800">
+                <CalendarDays className="h-5 w-5 text-cyan-600" />
+                Lịch làm việc
+            </div>
 
-                    <div className="mt-4 text-xl font-bold leading-7">
-                        Trung tâm Hành chính công xã Ngãi Giao
-                    </div>
-
-                    <div className="mt-1 text-sm leading-5 text-white/90">
-                        Thời gian tiếp nhận và giải quyết thủ tục hành chính tại
-                        Trung tâm.
-                    </div>
-                </div>
-
-                <div className="mb-3 mt-6 flex items-center gap-2 text-base font-bold text-gray-800">
-                    <CalendarDays className="h-5 w-5 text-cyan-600" />
-                    Lịch làm việc
-                </div>
-
-                <div className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white px-4 py-1 shadow-sm">
-                    <div className="flex items-center justify-between gap-3 py-4">
-                        <div className="min-w-0">
-                            <div className="text-sm font-semibold leading-5 text-gray-800">
-                                Thứ Hai - Thứ Sáu
-                            </div>
-                            <div className="mt-1 text-xs leading-5 text-slate-500">
-                                Buổi sáng
-                            </div>
+            <div className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white px-4 py-1 shadow-sm">
+                <div className="flex items-center justify-between gap-3 py-4">
+                    <div className="min-w-0">
+                        <div className="text-sm font-semibold leading-5 text-gray-800">
+                            Thứ Hai - Thứ Sáu
                         </div>
-
-                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                            07:30 - 11:30
+                        <div className="mt-1 text-xs leading-5 text-slate-500">
+                            Buổi sáng
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-between gap-3 py-4">
-                        <div className="min-w-0">
-                            <div className="text-sm font-semibold leading-5 text-gray-800">
-                                Thứ Hai - Thứ Sáu
-                            </div>
-                            <div className="mt-1 text-xs leading-5 text-slate-500">
-                                Buổi chiều
-                            </div>
-                        </div>
-
-                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                            13:30 - 17:00
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-3 py-4">
-                        <div className="min-w-0">
-                            <div className="text-sm font-semibold leading-5 text-gray-800">
-                                Thứ Bảy
-                            </div>
-                            <div className="mt-1 text-xs leading-5 text-slate-500">
-                                Buổi sáng
-                            </div>
-                        </div>
-
-                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                            07:30 - 11:30
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-3 py-4">
-                        <div className="min-w-0">
-                            <div className="text-sm font-semibold leading-5 text-gray-800">
-                                Thứ Bảy
-                            </div>
-                            <div className="mt-1 text-xs leading-5 text-slate-500">
-                                Buổi chiều
-                            </div>
-                        </div>
-
-                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                            Nghỉ
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-3 py-4">
-                        <div className="min-w-0">
-                            <div className="text-sm font-semibold leading-5 text-gray-800">
-                                Chủ nhật
-                            </div>
-                            <div className="mt-1 text-xs leading-5 text-slate-500">
-                                Lịch làm việc
-                            </div>
-                        </div>
-
-                        <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                            Nghỉ
-                        </div>
+                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                        07:30 - 11:30
                     </div>
                 </div>
 
-                <div className="mt-4 flex items-start gap-2.5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-5 text-amber-800">
-                    <Info className="mt-px h-5 w-5 shrink-0" />
+                <div className="flex items-center justify-between gap-3 py-4">
+                    <div className="min-w-0">
+                        <div className="text-sm font-semibold leading-5 text-gray-800">
+                            Thứ Hai - Thứ Sáu
+                        </div>
+                        <div className="mt-1 text-xs leading-5 text-slate-500">
+                            Buổi chiều
+                        </div>
+                    </div>
 
-                    <span>
-                        Trung tâm làm việc từ Thứ Hai đến sáng Thứ Bảy. Nghỉ
-                        chiều Thứ Bảy, Chủ nhật và các ngày nghỉ lễ, Tết theo
-                        quy định.
-                    </span>
+                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                        13:30 - 17:00
+                    </div>
                 </div>
+
+                <div className="flex items-center justify-between gap-3 py-4">
+                    <div className="min-w-0">
+                        <div className="text-sm font-semibold leading-5 text-gray-800">
+                            Thứ Bảy
+                        </div>
+                        <div className="mt-1 text-xs leading-5 text-slate-500">
+                            Buổi sáng
+                        </div>
+                    </div>
+
+                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                        07:30 - 11:30
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-3 py-4">
+                    <div className="min-w-0">
+                        <div className="text-sm font-semibold leading-5 text-gray-800">
+                            Thứ Bảy
+                        </div>
+                        <div className="mt-1 text-xs leading-5 text-slate-500">
+                            Buổi chiều
+                        </div>
+                    </div>
+
+                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                        Nghỉ
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-3 py-4">
+                    <div className="min-w-0">
+                        <div className="text-sm font-semibold leading-5 text-gray-800">
+                            Chủ nhật
+                        </div>
+                        <div className="mt-1 text-xs leading-5 text-slate-500">
+                            Lịch làm việc
+                        </div>
+                    </div>
+
+                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
+                        Nghỉ
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-4 flex items-start gap-2.5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-5 text-amber-800">
+                <Info className="mt-px h-5 w-5 shrink-0" />
+
+                <span>
+                    Trung tâm làm việc từ Thứ Hai đến sáng Thứ Bảy. Nghỉ chiều
+                    Thứ Bảy, Chủ nhật và các ngày nghỉ lễ, Tết theo quy định.
+                </span>
             </div>
         </div>
-    );
-};
+    </PageLayout>
+);
 
 export default WorkingHoursPage;

@@ -31,7 +31,7 @@ const utilities: UtilityItem[] = [
         type: "external",
         title: "Nộp hồ sơ trực tuyến",
         icon: <Globe2 className="h-7 w-7" />,
-        url: "https://dichvucong.gov.vn/p/home/dvc-dich-vu-cong-truc-tuyen-ds.html",
+        url: "https://dichvucong.gov.vn/",
         theme: "bg-blue-50 text-blue-600",
     },
     {
