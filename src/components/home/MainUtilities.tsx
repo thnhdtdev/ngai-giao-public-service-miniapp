@@ -1,262 +1,183 @@
-import React from "react";
-import styled from "styled-components";
-import { openWebview } from "zmp-sdk";
 import {
     Globe2,
-    FileDown,
-    CalendarDays,
     Clock3,
-    ContactRound,
     CircleHelp,
     CirclePlay,
     Star,
+    MessageCircle,
+    FileText,
+    ClipboardList,
+    MapPin,
 } from "lucide-react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { openChat, openWebview } from "zmp-sdk";
+import { useSnackbar } from "zmp-ui";
+
+type UtilityItemBase = {
+    id: string;
+    title: string;
+    icon: React.ReactNode;
+    theme: string;
+};
 
 type UtilityItem =
-    | {
-          id: string;
-          type: "external";
-          title: string;
-          icon: React.ReactNode;
-          url: string;
-          color: string;
-          background: string;
-      }
-    | {
-          id: string;
-          type: "coming-soon";
-          title: string;
-          icon: React.ReactNode;
-          color: string;
-          background: string;
-      };
-
-const Section = styled.section`
-    padding: 6px 16px 22px;
-`;
-
-const TitleRow = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-`;
-
-const TitleIcon = styled.div`
-    color: #1677ff;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const Title = styled.h2`
-    margin: 0;
-
-    font-size: 19px;
-    line-height: 26px;
-    font-weight: 700;
-
-    color: #202124;
-`;
-
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-
-    column-gap: 10px;
-    row-gap: 20px;
-`;
-
-const UtilityButton = styled.button`
-    appearance: none;
-
-    border: 0;
-    padding: 0;
-    margin: 0;
-
-    background: transparent;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    min-width: 0;
-
-    cursor: pointer;
-
-    &:active {
-        opacity: 0.72;
-    }
-`;
-
-const IconBox = styled.div<{
-    $background: string;
-    $color: string;
-}>`
-    width: 58px;
-    height: 58px;
-
-    border-radius: 17px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: ${({ $color }) => $color};
-    background: ${({ $background }) => $background};
-
-    border: 1px solid rgba(47, 128, 237, 0.07);
-
-    box-shadow:
-        0 5px 15px rgba(30, 64, 175, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-
-    ${UtilityButton}:active & {
-        transform: scale(0.94);
-        box-shadow: 0 2px 7px rgba(30, 64, 175, 0.08);
-    }
-`;
-
-const UtilityTitle = styled.div`
-    width: 100%;
-
-    margin-top: 8px;
-
-    font-size: 12.5px;
-    line-height: 17px;
-    font-weight: 600;
-
-    color: #3f4652;
-
-    text-align: center;
-
-    overflow-wrap: break-word;
-
-    @media (max-width: 350px) {
-        font-size: 11.5px;
-        line-height: 16px;
-    }
-`;
+    | (UtilityItemBase & { type: "route"; path: string })
+    | (UtilityItemBase & { type: "external"; url: string })
+    | (UtilityItemBase & { type: "coming-soon" })
+    | (UtilityItemBase & {
+          type: "oa";
+          oaId: string;
+          message?: string;
+      });
 
 const utilities: UtilityItem[] = [
     {
         id: "online-service",
         type: "external",
         title: "Nộp hồ sơ trực tuyến",
-        icon: <Globe2 size={28} strokeWidth={2} />,
-        url: "https://dichvucong.gov.vn/p/home/dvc-dich-vu-cong-truc-tuyen-ds.html",
-        color: "#2563EB",
-        background: "#EAF2FF",
+        icon: <Globe2 className="h-7 w-7" />,
+        url: "https://dichvucong.gov.vn/",
+        theme: "bg-blue-50 text-blue-600",
     },
     {
-        id: "forms",
-        type: "coming-soon",
-        title: "Biểu mẫu TTHC",
-        icon: <FileDown size={28} strokeWidth={2} />,
-        color: "#7C3AED",
-        background: "#F1EAFE",
+        id: "online-guide",
+        type: "route",
+        title: "Hướng dẫn nộp online",
+        icon: <FileText className="h-7 w-7" />,
+        path: "/online-guide",
+        theme: "bg-violet-50 text-violet-600",
     },
     {
-        id: "citizen-reception",
-        type: "coming-soon",
-        title: "Lịch tiếp công dân",
-        icon: <CalendarDays size={28} strokeWidth={2} />,
-        color: "#E85D04",
-        background: "#FFF1E8",
+        id: "common-procedures",
+        type: "route",
+        title: "Thủ tục thường dùng",
+        icon: <ClipboardList className="h-7 w-7" />,
+        path: "/common-procedures",
+        theme: "bg-orange-50 text-orange-600",
     },
     {
         id: "working-hours",
-        type: "coming-soon",
+        type: "route",
         title: "Giờ làm việc",
-        icon: <Clock3 size={28} strokeWidth={2} />,
-        color: "#0891B2",
-        background: "#E7F8FB",
+        icon: <Clock3 className="h-7 w-7" />,
+        path: "/working-hours",
+        theme: "bg-cyan-50 text-cyan-600",
     },
     {
-        id: "departments",
-        type: "coming-soon",
-        title: "Danh bạ bộ phận",
-        icon: <ContactRound size={28} strokeWidth={2} />,
-        color: "#16A34A",
-        background: "#E9F9EE",
+        id: "contact",
+        type: "oa",
+        title: "Liên hệ",
+        icon: <MessageCircle className="h-7 w-7" />,
+        oaId: "2261565257434514638",
+        message: "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
+        theme: "bg-emerald-50 text-emerald-600",
     },
     {
         id: "faq",
-        type: "coming-soon",
-        title: "Câu hỏi thường gặp",
-        icon: <CircleHelp size={28} strokeWidth={2} />,
-        color: "#0284C7",
-        background: "#E8F5FC",
+        type: "route",
+        title: "Trợ lý hỏi đáp",
+        icon: <CircleHelp className="h-7 w-7" />,
+        path: "/qa",
+        theme: "bg-sky-50 text-sky-600",
     },
     {
         id: "videos",
         type: "coming-soon",
         title: "Video hướng dẫn",
-        icon: <CirclePlay size={28} strokeWidth={2} />,
-        color: "#DB2777",
-        background: "#FCEAF3",
+        icon: <CirclePlay className="h-7 w-7" />,
+        theme: "bg-pink-50 text-pink-600",
     },
     {
-        id: "rating",
-        type: "coming-soon",
-        title: "Đánh giá hài lòng",
-        icon: <Star size={28} strokeWidth={2} />,
-        color: "#D97706",
-        background: "#FFF5D9",
+        id: "location",
+        type: "route",
+        title: "Địa chỉ & Chỉ đường",
+        icon: <MapPin className="h-7 w-7" />,
+        path: "/location",
+        theme: "bg-violet-50 text-violet-600",
     },
 ];
 
 const MainUtilities: React.FC = () => {
+    const navigate = useNavigate();
+    const { openSnackbar } = useSnackbar();
+
     const handleUtility = async (item: UtilityItem) => {
-        if (item.type === "external") {
+        if (item.type === "route") {
+            navigate(item.path);
+            return;
+        }
+
+        if (item.type === "oa") {
             try {
-                await openWebview({
-                    url: item.url,
+                await openChat({
+                    type: "oa",
+                    id: item.oaId,
+                    message: item.message,
                 });
-            } catch (error) {
-                console.error("Không thể mở liên kết:", error);
+            } catch {
+                openSnackbar({
+                    text: "Không thể mở chat Zalo OA",
+                    type: "error",
+                });
             }
 
             return;
         }
+
+        if (item.type === "external") {
+            try {
+                await openWebview({
+                    url: item.url,
+                    config: {
+                        style: "normal",
+                    },
+                });
+            } catch {
+                openSnackbar({
+                    text: "Không thể mở liên kết",
+                    type: "error",
+                });
+            }
+
+            return;
+        }
+
+        openSnackbar({
+            text: `Chức năng "${item.title}" đang được hoàn thiện`,
+            type: "info",
+        });
     };
 
     return (
-        <Section>
-            <TitleRow>
-                <TitleIcon>
-                    <Star size={22} strokeWidth={2} />
-                </TitleIcon>
+        <section className="px-4 pb-6 pt-2">
+            <div className="mb-4 flex items-center gap-2">
+                <Star className="h-6 w-6 text-blue-600" />
+                <h2 className="m-0 text-xl font-bold leading-7 text-gray-800">
+                    Tiện ích chính
+                </h2>
+            </div>
 
-                <Title>Tiện ích chính</Title>
-            </TitleRow>
-
-            <Grid>
-                {utilities.map((item) => (
-                    <UtilityButton
+            <div className="grid grid-cols-4 gap-x-2.5 gap-y-5">
+                {utilities.map(item => (
+                    <button
+                        className="group m-0 flex min-w-0 flex-col items-center border-0 bg-transparent p-0 active:opacity-75"
                         key={item.id}
                         type="button"
-                        onClick={() => void handleUtility(item)}
+                        onClick={() => handleUtility(item)}
                     >
-                        <IconBox
-                            $background={item.background}
-                            $color={item.color}
+                        <span
+                            className={`flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-100 shadow-sm transition-transform group-active:scale-95 ${item.theme}`}
                         >
                             {item.icon}
-                        </IconBox>
-
-                        <UtilityTitle>
+                        </span>
+                        <span className="mt-2 w-full break-words text-center text-xs font-semibold leading-4 text-gray-700">
                             {item.title}
-                        </UtilityTitle>
-                    </UtilityButton>
+                        </span>
+                    </button>
                 ))}
-            </Grid>
-        </Section>
+            </div>
+        </section>
     );
 };
 

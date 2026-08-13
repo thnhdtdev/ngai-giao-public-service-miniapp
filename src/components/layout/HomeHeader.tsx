@@ -1,148 +1,40 @@
-import React, { FC } from "react";
-import styled from "styled-components";
-
-import Logo from "@assets/logo.png";
 import Background from "@assets/header-background.png";
+import Logo from "@assets/logo.png";
+import React, { FC } from "react";
 
 export interface HomeHeaderProps {
     title: string;
     name: string;
 }
 
-const HeaderContainer = styled.header`
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+const HomeHeader: FC<HomeHeaderProps> = ({ title, name }) => (
+    <header className="h-safe-home-header fixed inset-x-0 top-0 z-50 overflow-hidden border-b border-white/20 pt-safe-top text-white shadow-sm">
+        <img
+            className="absolute inset-0 h-full w-full object-cover"
+            src={Background}
+            alt=""
+            aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-700/95 to-blue-500/95" />
 
-    height: calc(
-        56px + var(--zaui-safe-area-inset-top, 0px)
-    );
-
-    padding-top: var(--zaui-safe-area-inset-top, 0px);
-
-    z-index: 100;
-    color: #ffffff;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(4, 90, 170, 0.98) 0%,
-            rgba(6, 116, 204, 0.94) 100%
-        ),
-        url(${Background});
-
-    background-size: cover;
-    background-position: center;
-
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-
-    box-shadow:
-        0 2px 8px rgba(0, 52, 104, 0.12);
-`;
-
-const HeaderContent = styled.div`
-    height: 56px;
-
-    display: flex;
-    align-items: center;
-
-    padding-left: 16px;
-
-    /*
-     * Chừa khoảng trống cho nút "... / X"
-     * do Zalo hiển thị ở góc phải.
-     */
-    padding-right: 108px;
-`;
-
-const LogoWrapper = styled.div`
-    width: 36px;
-    height: 36px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-right: 10px;
-
-    border-radius: 10px;
-
-    background: rgba(255, 255, 255, 0.16);
-
-    border: 1px solid rgba(255, 255, 255, 0.22);
-`;
-
-const LogoImage = styled.img`
-    width: 26px;
-    height: 26px;
-
-    object-fit: contain;
-`;
-
-const TextContainer = styled.div`
-    min-width: 0;
-    flex: 1;
-`;
-
-const Title = styled.div`
-    overflow: hidden;
-
-    font-size: 14px;
-    line-height: 18px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.2px;
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-
-    text-transform: uppercase;
-`;
-
-const OrganizationName = styled.div`
-    margin-top: 1px;
-
-    overflow: hidden;
-
-    font-size: 11px;
-    line-height: 15px;
-
-    font-weight: 400;
-
-    color: rgba(255, 255, 255, 0.82);
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-`;
-
-const HomeHeader: FC<HomeHeaderProps> = ({
-    title,
-    name,
-}) => {
-    return (
-        <HeaderContainer>
-            <HeaderContent>
-                <LogoWrapper>
-                    <LogoImage
-                        src={Logo}
-                        alt="Hành chính công Ngãi Giao"
-                    />
-                </LogoWrapper>
-
-                <TextContainer>
-                    <Title>{title}</Title>
-
-                    <OrganizationName>
-                        {name}
-                    </OrganizationName>
-                </TextContainer>
-            </HeaderContent>
-        </HeaderContainer>
-    );
-};
+        <div className="relative flex h-14 items-center pl-4 pr-28">
+            <div className="mr-2.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-white/20">
+                <img
+                    className="h-7 w-7 object-contain"
+                    src={Logo}
+                    alt="Hành chính công Ngãi Giao"
+                />
+            </div>
+            <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-bold uppercase leading-5 tracking-wide">
+                    {title}
+                </div>
+                <div className="mt-px truncate text-xs leading-4 text-white/80">
+                    {name}
+                </div>
+            </div>
+        </div>
+    </header>
+);
 
 export default HomeHeader;

@@ -1,334 +1,119 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-
 import HeroBackground from "@assets/background1.png";
 import Logo from "@assets/logo-hcc.png";
 import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
+import { Newspaper, Phone } from "lucide-react";
+import React from "react";
 import { openPhone } from "zmp-sdk";
-import {
-    Newspaper,
-    Phone,
-} from "lucide-react";
+import { useSnackbar } from "zmp-ui";
 
-const Hero = styled.section`
-    position: relative;
-    overflow: hidden;
+const actionClassName =
+    "flex min-h-16 min-w-0 items-center gap-2 rounded-2xl border border-white/50 bg-gradient-to-br from-white/20 to-violet-400/30 p-3 text-left text-white shadow-lg backdrop-blur-md transition-transform active:scale-95";
 
-    min-height: 300px;
-
-    padding:
-        calc(var(--zaui-safe-area-inset-top, 0px) + 68px)
-        16px
-        28px;
-
-    color: #ffffff;
-
-    background-image: url(${HeroBackground});
-    background-size: cover;
-    background-position: center;
-`;
-
-const Overlay = styled.div`
-    position: absolute;
-    inset: 0;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(3, 52, 101, 0.58) 0%,
-            rgba(3, 73, 139, 0.76) 52%,
-            rgba(4, 101, 188, 0.92) 100%
-        );
-`;
-
-const Content = styled.div`
-    position: relative;
-    z-index: 1;
-`;
-
-const Identity = styled.div`
-    display: flex;
-    align-items: center;
-
-    /*
-     * Chừa vùng bên phải cho nút ... và X của Zalo
-     */
-    padding-right: 92px;
-`;
-
-const LogoWrapper = styled.div`
-    width: 56px;
-    height: 56px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-right: 12px;
-
-    border-radius: 16px;
-
-    // background: rgba(255, 255, 255, 0.12);
-`;
-
-const LogoImage = styled.img`
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-`;
-
-const OrganizationBlock = styled.div`
-    min-width: 0;
-`;
-
-const OrganizationLabel = styled.div`
-    font-size: 12px;
-    line-height: 17px;
-    font-weight: 600;
-    letter-spacing: 0.25px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.88);
-`;
-
-const OrganizationName = styled.div`
-    margin-top: 2px;
-    text-transform: uppercase;
-
-    font-size: 16px;
-    line-height: 21px;
-    font-weight: 700;
-
-    color: #ffffff;
-`;
-
-const MainContent = styled.div`
-    margin-top: 24px;
-`;
-
-const Locality = styled.h1`
-    margin: 0;
-
-    font-size: 30px;
-    line-height: 36px;
-
-    font-weight: 700;
-
-    letter-spacing: -0.4px;
-
-    color: #ffffff;
-`;
-
-const Description = styled.p`
-    max-width: 300px;
-
-    margin: 8px 0 0;
-
-    font-size: 14px;
-    line-height: 20px;
-
-    color: rgba(255, 255, 255, 0.9);
-`;
-
-const HeroActions = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-
-    margin-top: 18px;
-`;
-
-const HeroAction = styled.button`
-    min-width: 0;
-    min-height: 70px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-
-    padding: 10px 11px;
-
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 15px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.16),
-            rgba(128, 93, 190, 0.28)
-        );
-
-    color: #ffffff;
-    text-align: left;
-
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    box-shadow:
-        0 6px 18px rgba(0, 35, 80, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18);
-
-    &:active {
-        transform: scale(0.98);
-    }
-`;
-
-const HeroActionIcon = styled.div`
-    width: 40px;
-    height: 40px;
-
-    flex: 0 0 40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e00000,
-            #c40000
-        );
-
-    color: #ffffff;
-
-    box-shadow: 0 4px 12px rgba(170, 0, 0, 0.28);
-`;
-
-const HeroActionContent = styled.div`
-    min-width: 0;
-`;
-
-const HeroActionTitle = styled.div`
-    font-size: 14px;
-    line-height: 18px;
-    font-weight: 700;
-
-    color: #ffffff;
-`;
-
-const HeroActionDescription = styled.div`
-    margin-top: 3px;
-
-    font-size: 11px;
-    line-height: 15px;
-
-    color: rgba(255, 255, 255, 0.8);
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-`;
+const actionIconClassName =
+    "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-700 text-white shadow-md";
 
 const HeroSection: React.FC = () => {
-     const navigate = useNavigate();
+    const { openSnackbar } = useSnackbar();
 
     const handleCallHotline = async () => {
-        const phoneNumber =
-            NGAI_GIAO_ORGANIZATION.hotline.phoneNumber;
+        const { phoneNumber } = NGAI_GIAO_ORGANIZATION.hotline;
 
         if (!phoneNumber) {
             return;
         }
 
         try {
-            await openPhone({
-                phoneNumber,
-            });
+            await openPhone({ phoneNumber });
         } catch (error) {
             console.error("Không thể mở cuộc gọi:", error);
         }
     };
 
     return (
-        <Hero>
-            <Overlay />
+        <section className="relative min-h-72 overflow-hidden px-4 pb-7 pt-20 text-white">
+            <img
+                className="absolute inset-0 h-full w-full object-cover"
+                src={HeroBackground}
+                alt=""
+                aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-950/60 via-blue-900/80 to-blue-600/90" />
 
-            <Content>
-                <Identity>
-                    <LogoWrapper>
-                        <LogoImage
+            <div className="relative z-10">
+                <div className="flex items-center pr-24">
+                    <div className="mr-3 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl">
+                        <img
+                            className="h-12 w-12 object-contain"
                             src={Logo}
                             alt="Trung tâm Phục vụ Hành chính công Ngãi Giao"
                         />
-                    </LogoWrapper>
+                    </div>
 
-                    <OrganizationBlock>
-                        <OrganizationLabel>
+                    <div className="min-w-0">
+                        <div className="text-xs font-semibold uppercase leading-4 tracking-wide text-white/90">
                             Trung tâm Phục vụ
-                        </OrganizationLabel>
-
-                        <OrganizationName>
+                        </div>
+                        <div className="mt-0.5 text-base font-bold uppercase leading-5 text-white">
                             Hành chính công
-                        </OrganizationName>
-                    </OrganizationBlock>
-                </Identity>
+                        </div>
+                    </div>
+                </div>
 
-                <MainContent>
-                    <Locality>
+                <div className="mt-6">
+                    <h1 className="m-0 text-3xl font-bold leading-9 tracking-tight text-white">
                         {NGAI_GIAO_ORGANIZATION.locality}
-                    </Locality>
+                    </h1>
 
-                    <Description>
-                        Đồng hành cùng người dân trong thực hiện
-                        thủ tục hành chính nhanh chóng, minh bạch
-                        và thuận tiện.
-                    </Description>
+                    <p className="mt-2 max-w-xs text-sm leading-5 text-white/90">
+                        Đồng hành cùng người dân trong thực hiện thủ tục hành
+                        chính nhanh chóng, minh bạch và thuận tiện.
+                    </p>
 
-                    <HeroActions>
-    <HeroAction
-        type="button"
-        onClick={() => navigate("/news")}
-    >
-        <HeroActionIcon>
-            <Newspaper
-                size={22}
-                strokeWidth={2}
-            />
-        </HeroActionIcon>
+                    <div className="mt-5 grid grid-cols-2 gap-2.5">
+                        <button
+                            className={actionClassName}
+                            type="button"
+                            onClick={() =>
+                                openSnackbar({
+                                    text: "Tính năng đang được phát triển",
+                                    type: "info",
+                                })
+                            }
+                        >
+                            <span className={actionIconClassName}>
+                                <Newspaper className="h-6 w-6" />
+                            </span>
+                            <span className="min-w-0">
+                                <span className="block text-sm font-bold leading-5">
+                                    Tin tức nổi bật
+                                </span>
+                                <span className="mt-1 block truncate text-xs leading-4 text-white/80">
+                                    Cập nhật mới nhất
+                                </span>
+                            </span>
+                        </button>
 
-        <HeroActionContent>
-            <HeroActionTitle>
-                Tin tức nổi bật
-            </HeroActionTitle>
-
-            <HeroActionDescription>
-                Cập nhật mới nhất
-            </HeroActionDescription>
-        </HeroActionContent>
-    </HeroAction>
-
-    <HeroAction
-        type="button"
-        onClick={() => void handleCallHotline()}
-    >
-        <HeroActionIcon>
-            <Phone
-                size={22}
-                strokeWidth={2}
-            />
-        </HeroActionIcon>
-
-        <HeroActionContent>
-            <HeroActionTitle>
-                Đường dây nóng
-            </HeroActionTitle>
-
-            <HeroActionDescription>
-                {NGAI_GIAO_ORGANIZATION.hotline.display}
-            </HeroActionDescription>
-        </HeroActionContent>
-    </HeroAction>
-</HeroActions>
-                    
-                </MainContent>
-            </Content>
-        </Hero>
+                        <button
+                            className={actionClassName}
+                            type="button"
+                            onClick={() => handleCallHotline()}
+                        >
+                            <span className={actionIconClassName}>
+                                <Phone className="h-6 w-6" />
+                            </span>
+                            <span className="min-w-0">
+                                <span className="block text-sm font-bold leading-5">
+                                    Đường dây nóng
+                                </span>
+                                <span className="mt-1 block truncate text-xs leading-4 text-white/80">
+                                    {NGAI_GIAO_ORGANIZATION.hotline.display}
+                                </span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     );
 };
 

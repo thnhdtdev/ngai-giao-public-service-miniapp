@@ -44,7 +44,12 @@ export const followOfficialAccount = async ({
 
 export const openWebView = async (link: string): Promise<void> => {
     try {
-        await openWebview({ url: link });
+        await openWebview({
+            url: link,
+            config: {
+                style: "normal",
+            },
+        });
         return Promise.resolve();
     } catch (err) {
         throw err;
@@ -82,7 +87,7 @@ export const pickImages = async (
             serverUploadUrl: params.serverUploadUrl,
         });
         const { data } = res;
-        const result = JSON.parse(data);
+        const result = JSON.parse(Array.isArray(data) ? data[0] : data);
         const { domain, images } = result.data as UploadImageResponse;
         const uploadedImgUrls = images.map(img => ({
             src: domain + img,

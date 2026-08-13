@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .zaui-snackbar-info {
+        @apply text-text_2;
+    }
+
+    .app-default-header::after {
+        @apply hidden;
+    }
+
+    .app-default-header .zaui-btn-icon {
+        @apply text-white;
+    }
+
+    .app-default-header .zaui-header-back-btn:active {
+        @apply bg-transparent;
+    }
+
+    .app-default-header .zaui-header-title {
+        @apply pr-24;
+    }
+
+    .app-oa-item .zaui-list-item-subtitle {
+        @apply truncate text-xs;
+    }
+
+    .app-oa-item .zaui-list-item-title-container {
+        @apply h-5;
+    }
+
+    .app-oa-item .zaui-list-item-title {
+        @apply w-full truncate text-base font-medium leading-5;
+    }
+
+    .app-oa-item .zaui-list-item-prefix {
+        @apply mr-2;
+    }
+
+    .app-oa-item .zaui-list-item-right {
+        @apply items-center overflow-hidden;
+    }
+
+    .app-oa-item .zaui-list-item-content {
+        @apply overflow-hidden;
+    }
+}

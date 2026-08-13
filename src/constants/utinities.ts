@@ -1,5 +1,5 @@
-import * as Icon from "@components/icons";
 import { Utinity } from "@dts";
+import { BookOpen, CalendarDays, Globe2, PenLine, Search } from "lucide-react";
 import SocialInsuranceLogo from "@assets/logo-social-insurance.png";
 import Youtube from "@assets/youtube.png";
 import Location from "@assets/location.png";
@@ -13,31 +13,31 @@ export const APP_UTINITIES: Array<Utinity> = [
     {
         key: "create-schedule-appointment",
         label: "Đặt lịch làm việc",
-        icon: Icon.CalendarIcon,
+        icon: CalendarDays,
         path: "/create-schedule-appointment",
     },
     {
         key: "info",
         label: "Thông tin - hướng dẫn",
-        icon: Icon.BookIcon,
+        icon: BookOpen,
         path: "/information-guide",
     },
     {
         key: "feedback",
         label: "Góp ý - phản ánh",
-        icon: Icon.PenIcon,
+        icon: PenLine,
         path: "/feedbacks",
     },
     {
         key: "goverment",
         label: "Cổng dịch vụ công quốc gia",
-        icon: Icon.GlobeIcon,
+        icon: Globe2,
         link: "https://dichvucong.gov.vn/",
     },
     {
         key: "file-search",
         label: "Tra cứu hồ sơ",
-        icon: Icon.SearchIcon,
+        icon: Search,
         path: "/search",
     },
 ];
