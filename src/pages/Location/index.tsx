@@ -7,7 +7,7 @@ import { Building2, MapPin, Navigation, Copy, Info } from "lucide-react";
 const CENTER_NAME = "Trung tâm Phục vụ Hành chính công xã Ngãi Giao";
 
 const CENTER_ADDRESS =
-    "Số 26 đường Nguyễn Chí Thanh, xã Ngãi Giao, TPHCM, Việt Nam";
+    "Số 70 đường Trần Hưng Đạo, xã Ngãi Giao, TPHCM, Việt Nam";
 
 const LocationPage: React.FC = () => {
     const { openSnackbar } = useSnackbar();
