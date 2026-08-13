@@ -7,6 +7,7 @@ import {
     MessageCircle,
     FileText,
     ClipboardList,
+    MapPin,
 } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -88,11 +89,12 @@ const utilities: UtilityItem[] = [
         theme: "bg-pink-50 text-pink-600",
     },
     {
-        id: "rating",
-        type: "coming-soon",
-        title: "Đánh giá hài lòng",
-        icon: <Star className="h-7 w-7" />,
-        theme: "bg-amber-50 text-amber-600",
+        id: "location",
+        type: "route",
+        title: "Địa chỉ & Chỉ đường",
+        icon: <MapPin className="h-7 w-7" />,
+        path: "/location",
+        theme: "bg-violet-50 text-violet-600",
     },
 ];
 
