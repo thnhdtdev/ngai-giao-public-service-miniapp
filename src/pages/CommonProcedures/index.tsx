@@ -92,7 +92,22 @@ const categories: ProcedureCategory[] = [
         description: "Chứng thực bản sao, chữ ký và các thủ tục thường gặp",
         icon: <BadgeCheck className="h-7 w-7" />,
         theme: "border-violet-100 bg-violet-50 text-violet-600",
-        procedures: [],
+        procedures: [
+            {
+                id: "certified-copy",
+                title: "Chứng thực bản sao từ bản chính",
+                description:
+                    "Chứng thực bản sao giấy tờ, văn bản từ bản chính",
+                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-8e22-77ef-819f-e49460350904",
+            },
+            {
+                id: "signature-certification",
+                title: "Chứng thực chữ ký",
+                description:
+                    "Chứng thực chữ ký, điểm chỉ hoặc trường hợp không thể ký, điểm chỉ",
+                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-8e2e-7359-b42f-d5dc8d74741b",
+            },
+        ],
     },
     {
         id: "land",
