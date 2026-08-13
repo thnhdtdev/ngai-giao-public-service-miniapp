@@ -1,12 +1,12 @@
 import {
     Globe2,
-    CalendarDays,
     Clock3,
     CircleHelp,
     CirclePlay,
     Star,
     MessageCircle,
     FileText,
+    ClipboardList,
 } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -48,10 +48,11 @@ const utilities: UtilityItem[] = [
         theme: "bg-violet-50 text-violet-600",
     },
     {
-        id: "citizen-reception",
-        type: "coming-soon",
-        title: "Lịch tiếp công dân",
-        icon: <CalendarDays className="h-7 w-7" />,
+        id: "common-procedures",
+        type: "route",
+        title: "Thủ tục thường dùng",
+        icon: <ClipboardList className="h-7 w-7" />,
+        path: "/common-procedures",
         theme: "bg-orange-50 text-orange-600",
     },
     {
