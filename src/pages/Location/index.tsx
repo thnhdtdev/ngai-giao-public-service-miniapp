@@ -13,7 +13,7 @@ const LocationPage: React.FC = () => {
     const { openSnackbar } = useSnackbar();
 
     const handleDirections = async () => {
-        const MAP_URL = "https://maps.app.goo.gl/NsZ4PCej965c8K7C7";
+        const MAP_URL = "https://maps.app.goo.gl/DfENcpKnLYf3LcP9A";
 
         try {
             await openWebview({
