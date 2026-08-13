@@ -1,12 +1,12 @@
 import {
     Globe2,
-    FileDown,
     CalendarDays,
     Clock3,
     CircleHelp,
     CirclePlay,
     Star,
     MessageCircle,
+    FileText,
 } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -40,10 +40,11 @@ const utilities: UtilityItem[] = [
         theme: "bg-blue-50 text-blue-600",
     },
     {
-        id: "forms",
-        type: "coming-soon",
-        title: "Biểu mẫu TTHC",
-        icon: <FileDown className="h-7 w-7" />,
+        id: "online-guide",
+        type: "route",
+        title: "Hướng dẫn nộp online",
+        icon: <FileText className="h-7 w-7" />,
+        path: "/online-guide",
         theme: "bg-violet-50 text-violet-600",
     },
     {
