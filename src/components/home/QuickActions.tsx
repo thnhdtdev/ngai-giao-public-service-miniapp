@@ -2,6 +2,7 @@ import {
     FileText,
     Globe2,
     Landmark,
+    Megaphone,
     MessageCircle,
     Search,
 } from "lucide-react";
@@ -16,6 +17,7 @@ type ActionItem = {
     description: string;
     icon: React.ReactNode;
     theme: string;
+    fullWidth?: boolean;
 } & (
     | { type: "route"; path: string }
     | { type: "external"; url: string }
@@ -59,6 +61,15 @@ const actions: ActionItem[] = [
         url: "https://dichvucong.gov.vn/nop-phan-anh-kien-nghi",
         theme: "from-orange-500 to-red-500",
     },
+    {
+        id: "public-listing",
+        type: "coming-soon",
+        icon: <Megaphone className="h-6 w-6" />,
+        title: "Niêm yết công khai",
+        description: "Xem các thông tin được niêm yết công khai",
+        theme: "from-cyan-500 to-teal-600",
+        fullWidth: true,
+    },
 ];
 
 const QuickActions: React.FC = () => {
@@ -99,7 +110,9 @@ const QuickActions: React.FC = () => {
             <div className="grid grid-cols-2 gap-3">
                 {actions.map(action => (
                     <button
-                        className={`relative flex min-h-32 flex-col overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br p-4 text-left text-white shadow-lg transition-transform active:scale-95 ${action.theme}`}
+                        className={`relative flex min-h-32 flex-col overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br p-4 text-left text-white shadow-lg transition-transform active:scale-95 ${
+                            action.theme
+                        } ${action.fullWidth ? "col-span-2" : ""}`}
                         key={action.id}
                         type="button"
                         onClick={() => handleAction(action)}
