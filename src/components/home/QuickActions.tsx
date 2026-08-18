@@ -1,4 +1,10 @@
-import { FileText, Landmark, MessageCircle, Search } from "lucide-react";
+import {
+    FileText,
+    Globe2,
+    Landmark,
+    MessageCircle,
+    Search,
+} from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { openWebview } from "zmp-sdk";
@@ -27,19 +33,21 @@ const actions: ActionItem[] = [
         theme: "from-blue-500 to-blue-600",
     },
     {
-        id: "procedures",
-        type: "coming-soon",
+        id: "common-procedures",
+        type: "route",
         icon: <FileText className="h-6 w-6" />,
-        title: "Thủ tục hành chính",
-        description: "Xem hồ sơ cần chuẩn bị trước khi đến",
+        title: "Thủ tục thường dùng",
+        description: "Các thủ tục hành chính thường xuyên thực hiện",
+        path: "/common-procedures",
         theme: "from-violet-500 to-violet-600",
     },
     {
-        id: "guidelines",
-        type: "coming-soon",
-        icon: <Landmark className="h-6 w-6" />,
-        title: "Hướng dẫn Một cửa",
-        description: "Quy trình thực hiện thủ tục tại Trung tâm",
+        id: "online-guide",
+        type: "route",
+        icon: <Globe2 className="h-6 w-6" />,
+        title: "Hướng dẫn nộp online",
+        description: "Hướng dẫn các bước nộp hồ sơ trực tuyến",
+        path: "/online-guide",
         theme: "from-green-500 to-green-600",
     },
     {
