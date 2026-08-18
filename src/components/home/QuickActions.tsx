@@ -63,10 +63,11 @@ const actions: ActionItem[] = [
     },
     {
         id: "public-listing",
-        type: "coming-soon",
+        type: "route",
         icon: <Megaphone className="h-6 w-6" />,
         title: "Niêm yết công khai",
         description: "Xem các thông tin được niêm yết công khai",
+        path: "/public-notices",
         theme: "from-cyan-500 to-teal-600",
         fullWidth: true,
     },

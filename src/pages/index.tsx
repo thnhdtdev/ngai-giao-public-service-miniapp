@@ -8,6 +8,7 @@ import { CommonProceduresPage } from "./CommonProcedures";
 import { WorkingHoursPage } from "./WorkingHours";
 import { OnlineGuidePage } from "./OnlineGuide";
 import { LocationPage } from "./Location";
+import { PublicNoticesPage } from "./PublicNotices";
 
 const Routes: React.FC = () => (
     <ZMPRouter>
@@ -20,6 +21,7 @@ const Routes: React.FC = () => (
                 path="/common-procedures"
                 element={<CommonProceduresPage />}
             />
+            <Route path="/public-notices" element={<PublicNoticesPage />} />
             <Route path="/location" element={<LocationPage />} />
         </AnimationRoutes>
     </ZMPRouter>
