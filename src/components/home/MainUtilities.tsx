@@ -81,9 +81,10 @@ const utilities: UtilityItem[] = [
     },
     {
         id: "videos",
-        type: "coming-soon",
+        type: "route",
         title: "Video hướng dẫn",
         icon: <CirclePlay className="h-7 w-7" />,
+        path: "/guide-videos",
         theme: "bg-pink-50 text-pink-600",
     },
     {
