@@ -1,4 +1,6 @@
 import Banner1 from "@assets/banner-1.png";
+import Banner2 from "@assets/banner-2.png";
+import Banner3 from "@assets/banner-3.png";
 
 export type GuideVideo = {
     id: string;
@@ -25,8 +27,8 @@ export const GUIDE_VIDEOS: GuideVideo[] = [
         description:
             "Hướng dẫn thực hiện các thủ tục chứng thực bản sao và chứng thực chữ ký.",
         duration: "",
-        thumbnail: "",
-        url: "",
+        thumbnail: Banner2,
+        url: "https://youtu.be/oHZp4jLxbhQ",
     },
     {
         id: "linked-birth-registration",
@@ -34,8 +36,8 @@ export const GUIDE_VIDEOS: GuideVideo[] = [
         description:
             "Hướng dẫn thực hiện thủ tục đăng ký khai sinh liên thông và các bước liên quan.",
         duration: "",
-        thumbnail: "",
-        url: "",
+        thumbnail: Banner3,
+        url: "https://youtu.be/51jfegoY_sM",
     },
     {
         id: "business-registration",
