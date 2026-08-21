@@ -18,6 +18,7 @@ export const NGAI_GIAO_ORGANIZATION = {
 
     zalo: {
         oaId: "2261565257434514638",
+        profileUrl: "https://zalo.me/2261565257434514638",
         defaultSupportMessage:
             "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
     },

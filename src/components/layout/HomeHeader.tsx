@@ -1,7 +1,8 @@
 import React, { FC } from "react";
-import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
-import Background from "@assets/header-background.png";
+
 import Logo from "@assets/logo.png";
+import Background from "@assets/header-background.png";
+import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 
 export interface HomeHeaderProps {
     title: string;
