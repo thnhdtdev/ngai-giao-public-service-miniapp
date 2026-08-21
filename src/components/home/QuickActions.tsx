@@ -1,4 +1,11 @@
-import { FileText, Landmark, MessageCircle, Search } from "lucide-react";
+import {
+    FileText,
+    Globe2,
+    Landmark,
+    Megaphone,
+    MessageCircle,
+    Search,
+} from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { openWebview } from "zmp-sdk";
@@ -10,6 +17,7 @@ type ActionItem = {
     description: string;
     icon: React.ReactNode;
     theme: string;
+    fullWidth?: boolean;
 } & (
     | { type: "route"; path: string }
     | { type: "external"; url: string }
@@ -27,19 +35,21 @@ const actions: ActionItem[] = [
         theme: "from-blue-500 to-blue-600",
     },
     {
-        id: "procedures",
-        type: "coming-soon",
+        id: "common-procedures",
+        type: "route",
         icon: <FileText className="h-6 w-6" />,
-        title: "Thủ tục hành chính",
-        description: "Xem hồ sơ cần chuẩn bị trước khi đến",
+        title: "Thủ tục thường dùng",
+        description: "Các thủ tục hành chính thường xuyên thực hiện",
+        path: "/common-procedures",
         theme: "from-violet-500 to-violet-600",
     },
     {
-        id: "guidelines",
-        type: "coming-soon",
-        icon: <Landmark className="h-6 w-6" />,
-        title: "Hướng dẫn Một cửa",
-        description: "Quy trình thực hiện thủ tục tại Trung tâm",
+        id: "online-guide",
+        type: "route",
+        icon: <Globe2 className="h-6 w-6" />,
+        title: "Hướng dẫn nộp online",
+        description: "Hướng dẫn các bước nộp hồ sơ trực tuyến",
+        path: "/online-guide",
         theme: "from-green-500 to-green-600",
     },
     {
@@ -50,6 +60,16 @@ const actions: ActionItem[] = [
         description: "Gửi phản ánh trên Cổng DVCQG",
         url: "https://dichvucong.gov.vn/nop-phan-anh-kien-nghi",
         theme: "from-orange-500 to-red-500",
+    },
+    {
+        id: "public-listing",
+        type: "route",
+        icon: <Megaphone className="h-6 w-6" />,
+        title: "Niêm yết công khai",
+        description: "Xem các thông tin được niêm yết công khai",
+        path: "/public-notices",
+        theme: "from-cyan-500 to-teal-600",
+        fullWidth: true,
     },
 ];
 
@@ -91,7 +111,9 @@ const QuickActions: React.FC = () => {
             <div className="grid grid-cols-2 gap-3">
                 {actions.map(action => (
                     <button
-                        className={`relative flex min-h-32 flex-col overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br p-4 text-left text-white shadow-lg transition-transform active:scale-95 ${action.theme}`}
+                        className={`relative flex min-h-32 flex-col overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br p-4 text-left text-white shadow-lg transition-transform active:scale-95 ${
+                            action.theme
+                        } ${action.fullWidth ? "col-span-2" : ""}`}
                         key={action.id}
                         type="button"
                         onClick={() => handleAction(action)}

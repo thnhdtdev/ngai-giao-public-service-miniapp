@@ -1,3 +1,4 @@
+import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 import {
     Globe2,
     Clock3,
@@ -5,9 +6,9 @@ import {
     CirclePlay,
     Star,
     MessageCircle,
-    FileText,
     ClipboardList,
     MapPin,
+    Landmark,
 } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +32,9 @@ type UtilityItem =
           message?: string;
       });
 
+const { oaId } = NGAI_GIAO_ORGANIZATION.zalo;
+      
+
 const utilities: UtilityItem[] = [
     {
         id: "online-service",
@@ -41,19 +45,17 @@ const utilities: UtilityItem[] = [
         theme: "bg-blue-50 text-blue-600",
     },
     {
-        id: "online-guide",
-        type: "route",
-        title: "Hướng dẫn nộp online",
-        icon: <FileText className="h-7 w-7" />,
-        path: "/online-guide",
+        id: "one-stop-guide",
+        type: "coming-soon",
+        title: "Hướng dẫn một cửa",
+        icon: <Landmark className="h-7 w-7" />,
         theme: "bg-violet-50 text-violet-600",
     },
     {
         id: "common-procedures",
-        type: "route",
+        type: "coming-soon",
         title: "Thủ tục thường dùng",
         icon: <ClipboardList className="h-7 w-7" />,
-        path: "/common-procedures",
         theme: "bg-orange-50 text-orange-600",
     },
     {
@@ -67,10 +69,10 @@ const utilities: UtilityItem[] = [
     {
         id: "contact",
         type: "oa",
-        title: "Liên hệ",
+        title: "Giải đáp thắc mắc",
         icon: <MessageCircle className="h-7 w-7" />,
-        oaId: "2261565257434514638",
-        message: "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
+        oaId,
+        message: NGAI_GIAO_ORGANIZATION.zalo.defaultSupportMessage,
         theme: "bg-emerald-50 text-emerald-600",
     },
     {
@@ -83,9 +85,10 @@ const utilities: UtilityItem[] = [
     },
     {
         id: "videos",
-        type: "coming-soon",
+        type: "route",
         title: "Video hướng dẫn",
         icon: <CirclePlay className="h-7 w-7" />,
+        path: "/guide-videos",
         theme: "bg-pink-50 text-pink-600",
     },
     {

@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-    followOA,
-    getUserInfo,
-    openChat,
-} from "zmp-sdk";
+import { followOA, getUserInfo, openChat } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
-import {
-    Bell,
-    Building2,
-    CalendarDays,
-    Check,
-    MessageCircle,
-    Star,
-} from "lucide-react";
+import { Bell, CalendarDays, Check, MessageCircle, Star } from "lucide-react";
 import logoHcc from "@assets/logo-hcc.png";
+import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 
-const OA_ID = "2261565257434514638";
+
+const { oaId } = NGAI_GIAO_ORGANIZATION.zalo;
 
 const OfficialChannel: React.FC = () => {
     const { openSnackbar } = useSnackbar();
@@ -29,18 +20,15 @@ const OfficialChannel: React.FC = () => {
             const { userInfo } = await getUserInfo();
 
             setFollowed(Boolean(userInfo?.followedOA));
-        } catch (error) {
-            console.error(
-                "Không thể kiểm tra trạng thái OA:",
-                error,
-            );
+        } catch {
+            setFollowed(false);
         } finally {
             setChecking(false);
         }
     };
 
     useEffect(() => {
-        void checkFollowStatus();
+        checkFollowStatus();
     }, []);
 
     const handleFollowOA = async () => {
@@ -52,7 +40,7 @@ const OfficialChannel: React.FC = () => {
             setFollowing(true);
 
             await followOA({
-                id: OA_ID,
+                id: oaId,
             });
 
             setFollowed(true);
@@ -63,11 +51,6 @@ const OfficialChannel: React.FC = () => {
                 duration: 2500,
             });
         } catch (error) {
-            console.error(
-                "Không thể quan tâm Zalo OA:",
-                error,
-            );
-
             const appError = error as {
                 code?: number;
             };
@@ -91,16 +74,10 @@ const OfficialChannel: React.FC = () => {
         try {
             await openChat({
                 type: "oa",
-                id: OA_ID,
-                message:
-                    "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
+                id: oaId,
+                message: NGAI_GIAO_ORGANIZATION.zalo.defaultSupportMessage,
             });
-        } catch (error) {
-            console.error(
-                "Không thể mở Zalo OA:",
-                error,
-            );
-
+        } catch {
             openSnackbar({
                 text: "Không thể mở kênh hỗ trợ.",
                 type: "error",
@@ -108,6 +85,16 @@ const OfficialChannel: React.FC = () => {
             });
         }
     };
+
+    let followButtonText = "Quan tâm";
+
+    if (checking) {
+        followButtonText = "...";
+    } else if (following) {
+        followButtonText = "Đang xử lý...";
+    } else if (followed) {
+        followButtonText = "Đã quan tâm";
+    }
 
     return (
         <section className="px-4 pb-6">
@@ -123,8 +110,8 @@ const OfficialChannel: React.FC = () => {
                     </div>
 
                     <p className="mb-0 mt-1 text-sm leading-5 text-blue-50">
-                        Quan tâm để nhận thông báo và cập nhật mới
-                        nhất từ Trung tâm
+                        Quan tâm để nhận thông báo và cập nhật mới nhất từ Trung
+                        tâm
                     </p>
                 </div>
 
@@ -133,17 +120,16 @@ const OfficialChannel: React.FC = () => {
                     <div className="flex items-center gap-3">
                         {/* Logo */}
                         <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-white">
-    <img
-        src={logoHcc}
-        alt="Logo Trung tâm Phục vụ Hành chính công"
-        className="h-full w-full object-cover"
-    />
-</div>
+                            <img
+                                src={logoHcc}
+                                alt="Logo Trung tâm Phục vụ Hành chính công"
+                                className="h-full w-full object-cover"
+                            />
+                        </div>
 
                         <div className="min-w-0 flex-1">
                             <h3 className="m-0 text-base font-bold leading-5 text-gray-900">
-                                Trung tâm Phục vụ Hành chính công
-                                xã Ngãi Giao
+                                {NGAI_GIAO_ORGANIZATION.organization.name}
                             </h3>
 
                             <div className="mt-1 flex items-center gap-1 text-xs font-semibold text-blue-600">
@@ -154,27 +140,15 @@ const OfficialChannel: React.FC = () => {
 
                         <button
                             type="button"
-                            disabled={
-                                checking ||
-                                following ||
-                                followed
-                            }
-                            onClick={() =>
-                                void handleFollowOA()
-                            }
+                            disabled={checking || following || followed}
+                            onClick={() => handleFollowOA()}
                             className={`shrink-0 rounded-full border-0 px-4 py-2 text-sm font-bold ${
                                 followed
                                     ? "bg-gray-100 text-gray-500"
                                     : "bg-blue-50 text-blue-600 active:bg-blue-100"
                             }`}
                         >
-                            {checking
-                                ? "..."
-                                : following
-                                  ? "Đang xử lý..."
-                                  : followed
-                                    ? "Đã quan tâm"
-                                    : "Quan tâm"}
+                            {followButtonText}
                         </button>
                     </div>
 
@@ -208,7 +182,7 @@ const OfficialChannel: React.FC = () => {
                     {/* Contact */}
                     <button
                         type="button"
-                        onClick={() => void handleOpenChat()}
+                        onClick={() => handleOpenChat()}
                         className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-blue-600 active:bg-blue-50"
                     >
                         <MessageCircle className="h-5 w-5" />

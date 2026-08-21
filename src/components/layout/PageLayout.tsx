@@ -13,6 +13,7 @@ interface PropsType extends PageProps {
     restoreScrollBackOnly?: boolean;
     bg?: string;
     noHeader?: boolean;
+    onBackClick?: React.MouseEventHandler;
 }
 
 const PageLayout = React.forwardRef<HTMLDivElement, PropsType>((props, ref) => {
@@ -24,6 +25,7 @@ const PageLayout = React.forwardRef<HTMLDivElement, PropsType>((props, ref) => {
         restoreScroll,
         bg,
         noHeader = false,
+        onBackClick,
         className,
         ...rest
     } = props;
@@ -49,7 +51,13 @@ const PageLayout = React.forwardRef<HTMLDivElement, PropsType>((props, ref) => {
             ref={pageRef}
         >
             {!noHeader &&
-                (customHeader || <DefaultHeader title={title} back />)}
+                (customHeader || (
+                    <DefaultHeader
+                        title={title}
+                        back
+                        onBackClick={onBackClick}
+                    />
+                ))}
             {children}
         </Page>
     );

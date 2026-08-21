@@ -1,20 +1,19 @@
-import PageLayout from "@components/layout/PageLayout";
 import React from "react";
 import { openWebview } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
 import { Building2, MapPin, Navigation, Copy, Info } from "lucide-react";
 
-const CENTER_NAME = "Trung tâm Phục vụ Hành chính công xã Ngãi Giao";
+import PageLayout from "@components/layout/PageLayout";
+import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 
-const CENTER_ADDRESS =
-    "Số 70 đường Trần Hưng Đạo, xã Ngãi Giao, TPHCM, Việt Nam";
+const CENTER_NAME = NGAI_GIAO_ORGANIZATION.organization.fullName;
+const CENTER_ADDRESS = NGAI_GIAO_ORGANIZATION.organization.address.display;
+const MAP_URL = NGAI_GIAO_ORGANIZATION.organization.address.mapUrl;
 
 const LocationPage: React.FC = () => {
     const { openSnackbar } = useSnackbar();
 
     const handleDirections = async () => {
-        const MAP_URL = "https://maps.app.goo.gl/DfENcpKnLYf3LcP9A";
-
         try {
             await openWebview({
                 url: MAP_URL,

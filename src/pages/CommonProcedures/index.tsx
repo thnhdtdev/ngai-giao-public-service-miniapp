@@ -43,14 +43,14 @@ const categories: ProcedureCategory[] = [
                 title: "Cấp Giấy xác nhận tình trạng hôn nhân",
                 description:
                     "Thực hiện thủ tục cấp Giấy xác nhận tình trạng hôn nhân",
-                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-6eb3-7019-bf3f-fc58c9ee44b9",
+                url: "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfd-6eb3-7019-bf3f-fc58c9ee44b9&province=019bad30-cd8e-7296-afa4-708eb56a0f18&ministry=&ward=019bad30-cd8e-7296-afa5-244e16a5d8d3&searchType=PROVINCE&commune=WARD&provinceCode=79&wardCode=26575",
             },
             {
                 id: "civil-status-copy",
                 title: "Cấp bản sao Trích lục hộ tịch, bản sao Giấy khai sinh",
                 description:
                     "Yêu cầu cấp bản sao trích lục hộ tịch hoặc bản sao Giấy khai sinh",
-                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-867c-72db-b6a7-dcbd8c763807",
+                url: "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfd-867c-72db-b6a7-dcbd8c763807&province=019bad30-cd8e-7296-afa4-708eb56a0f18&ministry=&ward=019bad30-cd8e-7296-afa5-244e16a5d8d3&searchType=PROVINCE&commune=WARD&provinceCode=79&wardCode=26575",
             },
             {
                 id: "linked-birth-registration",
@@ -63,26 +63,26 @@ const categories: ProcedureCategory[] = [
                 id: "birth-reregistration",
                 title: "Đăng ký lại khai sinh",
                 description: "Thực hiện thủ tục đăng ký lại khai sinh",
-                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-6eac-7598-b88b-15f8a61b366a",
+                url: "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfd-6eac-7598-b88b-15f8a61b366a&province=019bad30-cd8e-7296-afa4-708eb56a0f18&ministry=&ward=019bad30-cd8e-7296-afa5-244e16a5d8d3&searchType=PROVINCE&commune=WARD&provinceCode=79&wardCode=26575",
             },
             {
                 id: "civil-status-correction",
                 title: "Thay đổi, cải chính, bổ sung thông tin hộ tịch, xác định lại dân tộc",
                 description:
                     "Thay đổi, cải chính hoặc bổ sung thông tin hộ tịch",
-                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-671e-714b-8fd6-8230c82f7867",
+                url: "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfd-671e-714b-8fd6-8230c82f7867&province=019bad30-cd8e-7296-afa4-708eb56a0f18&ministry=&ward=019bad30-cd8e-7296-afa5-244e16a5d8d3&searchType=PROVINCE&commune=WARD&provinceCode=79&wardCode=26575",
             },
             {
                 id: "death-registration",
                 title: "Đăng ký khai tử",
                 description: "Thực hiện thủ tục đăng ký khai tử",
-                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-3fac-7489-b53b-9c6c958f2da4",
+                url: "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfd-3fac-7489-b53b-9c6c958f2da4&province=019bad30-cd8e-7296-afa4-708eb56a0f18&ministry=&ward=019bad30-cd8e-7296-afa5-244e16a5d8d3&searchType=PROVINCE&commune=WARD&provinceCode=79&wardCode=26575",
             },
             {
                 id: "marriage-registration",
                 title: "Đăng ký kết hôn",
                 description: "Thực hiện thủ tục đăng ký kết hôn",
-                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-3fac-7489-b53b-a15eb239a6fe",
+                url: "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfd-3fac-7489-b53b-a15eb239a6fe&province=019bad30-cd8e-7296-afa4-708eb56a0f18&ministry=&ward=019bad30-cd8e-7296-afa5-244e16a5d8d3&searchType=PROVINCE&commune=WARD&provinceCode=79&wardCode=26575",
             },
         ],
     },
@@ -98,14 +98,14 @@ const categories: ProcedureCategory[] = [
                 title: "Chứng thực bản sao từ bản chính",
                 description:
                     "Chứng thực bản sao giấy tờ, văn bản từ bản chính",
-                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-8e22-77ef-819f-e49460350904",
+                url: "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfd-8e22-77ef-819f-e49460350904&province=019bad30-cd8e-7296-afa4-708eb56a0f18&ministry=&ward=019bad30-cd8e-7296-afa5-244e16a5d8d3&searchType=PROVINCE&commune=WARD&provinceCode=79&wardCode=26575",
             },
             {
                 id: "signature-certification",
                 title: "Chứng thực chữ ký",
                 description:
                     "Chứng thực chữ ký, điểm chỉ hoặc trường hợp không thể ký, điểm chỉ",
-                url: "https://dichvucong.gov.vn/thu-tuc-hanh-chinh/019d2bfd-8e2e-7359-b42f-d5dc8d74741b",
+                url: "https://dichvucong.gov.vn/tim-kiem-thu-tuc-hanh-chinh?formalityId=019d2bfd-8e2e-7359-b42f-d5dc8d74741b&province=019bad30-cd8e-7296-afa4-708eb56a0f18&ministry=&ward=019bad30-cd8e-7296-afa5-244e16a5d8d3&searchType=PROVINCE&commune=WARD&provinceCode=79&wardCode=26575",
             },
         ],
     },

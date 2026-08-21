@@ -15,7 +15,7 @@ import {
 } from "@dts/index";
 import db from "@mock/db.json";
 import Thumbnail from "@assets/thumb.png";
-import FeedbackThumbnail from "@assets/feedback-thumb.png";
+// import FeedbackThumbnail from "@assets/feedback-thumb.png";
 import { useStore as store } from "@store";
 
 export interface GetOrganizationParams {
@@ -99,7 +99,7 @@ export const getFeedbacks = async (
             creationTime: new Date(item.creationTime),
             responseTime: new Date(item.responseTime),
             id: Number(item.id),
-            imageUrls: [FeedbackThumbnail],
+            // imageUrls: [FeedbackThumbnail],
         })),
     };
 

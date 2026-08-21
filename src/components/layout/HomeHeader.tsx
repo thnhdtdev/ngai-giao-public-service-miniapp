@@ -1,6 +1,7 @@
+import React, { FC } from "react";
+import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 import Background from "@assets/header-background.png";
 import Logo from "@assets/logo.png";
-import React, { FC } from "react";
 
 export interface HomeHeaderProps {
     title: string;
@@ -22,7 +23,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({ title, name }) => (
                 <img
                     className="h-7 w-7 object-contain"
                     src={Logo}
-                    alt="Hành chính công Ngãi Giao"
+                    alt={NGAI_GIAO_ORGANIZATION.organization.name}
                 />
             </div>
             <div className="min-w-0 flex-1">
