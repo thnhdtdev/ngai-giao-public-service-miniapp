@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { followOA, getUserInfo, openChat } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
-import { Bell, CalendarDays, Check, MessageCircle, Star } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { followOA, getUserInfo, openChat, openWebview } from "zmp-sdk";
+import {
+    Bell,
+    CalendarDays,
+    Check,
+    ExternalLink,
+    MessageCircle,
+    Star,
+} from "lucide-react";
+
 import logoHcc from "@assets/logo-hcc.png";
 import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 
+const { organization, zalo, social } = NGAI_GIAO_ORGANIZATION;
 
-const { oaId } = NGAI_GIAO_ORGANIZATION.zalo;
-
-const OfficialChannel: React.FC = () => {
+const OfficialChannels: React.FC = () => {
     const { openSnackbar } = useSnackbar();
 
     const [followed, setFollowed] = useState(false);
@@ -40,7 +47,7 @@ const OfficialChannel: React.FC = () => {
             setFollowing(true);
 
             await followOA({
-                id: oaId,
+                id: zalo.oaId,
             });
 
             setFollowed(true);
@@ -74,12 +81,30 @@ const OfficialChannel: React.FC = () => {
         try {
             await openChat({
                 type: "oa",
-                id: oaId,
-                message: NGAI_GIAO_ORGANIZATION.zalo.defaultSupportMessage,
+                id: zalo.oaId,
+                message: zalo.defaultSupportMessage,
             });
         } catch {
             openSnackbar({
                 text: "Không thể mở kênh hỗ trợ.",
+                type: "error",
+                duration: 3000,
+            });
+        }
+    };
+
+    const handleOpenFacebook = async () => {
+        try {
+            await openWebview({
+                url: social.facebook.url,
+                config: {
+                    style: "normal",
+                    leftButton: "back",
+                },
+            });
+        } catch {
+            openSnackbar({
+                text: "Không thể mở trang Facebook.",
                 type: "error",
                 duration: 3000,
             });
@@ -110,8 +135,8 @@ const OfficialChannel: React.FC = () => {
                     </div>
 
                     <p className="mb-0 mt-1 text-sm leading-5 text-blue-50">
-                        Quan tâm để nhận thông báo và cập nhật mới nhất từ Trung
-                        tâm
+                        Theo dõi các kênh để nhận thông báo và cập nhật mới nhất
+                        từ Trung tâm
                     </p>
                 </div>
 
@@ -122,14 +147,14 @@ const OfficialChannel: React.FC = () => {
                         <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-white">
                             <img
                                 src={logoHcc}
-                                alt="Logo Trung tâm Phục vụ Hành chính công"
+                                alt={`Logo ${organization.fullName}`}
                                 className="h-full w-full object-cover"
                             />
                         </div>
 
                         <div className="min-w-0 flex-1">
                             <h3 className="m-0 text-base font-bold leading-5 text-gray-900">
-                                {NGAI_GIAO_ORGANIZATION.organization.name}
+                                {organization.name}
                             </h3>
 
                             <div className="mt-1 flex items-center gap-1 text-xs font-semibold text-blue-600">
@@ -142,13 +167,34 @@ const OfficialChannel: React.FC = () => {
                             type="button"
                             disabled={checking || following || followed}
                             onClick={() => handleFollowOA()}
-                            className={`shrink-0 rounded-full border-0 px-4 py-2 text-sm font-bold ${
+                            className={`shrink-0 whitespace-nowrap rounded-full border-0 px-3 py-2 text-xs font-bold ${
                                 followed
                                     ? "bg-gray-100 text-gray-500"
                                     : "bg-blue-50 text-blue-600 active:bg-blue-100"
                             }`}
                         >
                             {followButtonText}
+                        </button>
+                    </div>
+
+                    {/* Official channel actions */}
+                    <div className="mt-4 grid grid-cols-2 gap-3">
+                        <button
+                            type="button"
+                            onClick={() => handleOpenChat()}
+                            className="flex items-center justify-center gap-2 rounded-xl border border-blue-100 bg-blue-50 px-3 py-3 text-sm font-bold text-blue-600 active:bg-blue-100"
+                        >
+                            <MessageCircle className="h-5 w-5 shrink-0" />
+                            <span>Nhắn tin Zalo</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => handleOpenFacebook()}
+                            className="flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-3 py-3 text-sm font-bold text-sky-700 active:bg-sky-100"
+                        >
+                            <ExternalLink className="h-5 w-5 shrink-0" />
+                            <span>Xem {social.facebook.label}</span>
                         </button>
                     </div>
 
@@ -178,20 +224,10 @@ const OfficialChannel: React.FC = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Contact */}
-                    <button
-                        type="button"
-                        onClick={() => handleOpenChat()}
-                        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-blue-600 active:bg-blue-50"
-                    >
-                        <MessageCircle className="h-5 w-5" />
-                        Nhắn tin hỗ trợ
-                    </button>
                 </div>
             </div>
         </section>
     );
 };
 
-export default OfficialChannel;
+export default OfficialChannels;
