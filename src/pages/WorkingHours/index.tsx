@@ -1,6 +1,9 @@
-import PageLayout from "@components/layout/PageLayout";
-import { CalendarDays, Clock3, Info } from "lucide-react";
 import React from "react";
+import { CalendarDays, Clock3, Info } from "lucide-react";
+
+import PageLayout from "@components/layout/PageLayout";
+import { WORKING_HOURS } from "@constants/workingHours";
+import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 
 export const WorkingHoursPage: React.FC = () => (
     <PageLayout
@@ -15,7 +18,7 @@ export const WorkingHoursPage: React.FC = () => (
                 </div>
 
                 <div className="mt-4 text-xl font-bold leading-7">
-                    Trung tâm Hành chính công xã Ngãi Giao
+                    {NGAI_GIAO_ORGANIZATION.organization.fullName}
                 </div>
 
                 <div className="mt-1 text-sm leading-5 text-white/90">
@@ -30,80 +33,32 @@ export const WorkingHoursPage: React.FC = () => (
             </div>
 
             <div className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white px-4 py-1 shadow-sm">
-                <div className="flex items-center justify-between gap-3 py-4">
-                    <div className="min-w-0">
-                        <div className="text-sm font-semibold leading-5 text-gray-800">
-                            Thứ Hai - Thứ Sáu
-                        </div>
-                        <div className="mt-1 text-xs leading-5 text-slate-500">
-                            Buổi sáng
-                        </div>
-                    </div>
+                {WORKING_HOURS.map(item => (
+                    <div
+                        key={item.id}
+                        className="flex items-center justify-between gap-3 py-4"
+                    >
+                        <div className="min-w-0">
+                            <div className="text-sm font-semibold leading-5 text-gray-800">
+                                {item.days}
+                            </div>
 
-                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                        07:30 - 11:30
-                    </div>
-                </div>
-
-                <div className="flex items-center justify-between gap-3 py-4">
-                    <div className="min-w-0">
-                        <div className="text-sm font-semibold leading-5 text-gray-800">
-                            Thứ Hai - Thứ Sáu
+                            <div className="mt-1 text-xs leading-5 text-slate-500">
+                                {item.period}
+                            </div>
                         </div>
-                        <div className="mt-1 text-xs leading-5 text-slate-500">
-                            Buổi chiều
-                        </div>
-                    </div>
 
-                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                        13:30 - 17:00
-                    </div>
-                </div>
-
-                <div className="flex items-center justify-between gap-3 py-4">
-                    <div className="min-w-0">
-                        <div className="text-sm font-semibold leading-5 text-gray-800">
-                            Thứ Bảy
-                        </div>
-                        <div className="mt-1 text-xs leading-5 text-slate-500">
-                            Buổi sáng
+                        <div
+                            className={`shrink-0 rounded-lg px-2.5 py-2 text-sm font-bold ${
+                                item.isClosed
+                                    ? "bg-slate-100 text-slate-600"
+                                    : "bg-cyan-50 text-cyan-700"
+                            }`}
+                        >
+                            {item.time}
                         </div>
                     </div>
-
-                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                        07:30 - 11:30
-                    </div>
-                </div>
-
-                <div className="flex items-center justify-between gap-3 py-4">
-                    <div className="min-w-0">
-                        <div className="text-sm font-semibold leading-5 text-gray-800">
-                            Thứ Bảy
-                        </div>
-                        <div className="mt-1 text-xs leading-5 text-slate-500">
-                            Buổi chiều
-                        </div>
-                    </div>
-
-                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                        Nghỉ
-                    </div>
-                </div>
-
-                <div className="flex items-center justify-between gap-3 py-4">
-                    <div className="min-w-0">
-                        <div className="text-sm font-semibold leading-5 text-gray-800">
-                            Chủ nhật
-                        </div>
-                        <div className="mt-1 text-xs leading-5 text-slate-500">
-                            Lịch làm việc
-                        </div>
-                    </div>
-
-                    <div className="shrink-0 rounded-lg bg-cyan-50 px-2.5 py-2 text-sm font-bold text-cyan-700">
-                        Nghỉ
-                    </div>
-                </div>
+                ))}
             </div>
 
             <div className="mt-4 flex items-start gap-2.5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-5 text-amber-800">

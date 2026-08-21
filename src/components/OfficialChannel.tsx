@@ -3,8 +3,10 @@ import { followOA, getUserInfo, openChat } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
 import { Bell, CalendarDays, Check, MessageCircle, Star } from "lucide-react";
 import logoHcc from "@assets/logo-hcc.png";
+import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 
-const OA_ID = "2261565257434514638";
+
+const { oaId } = NGAI_GIAO_ORGANIZATION.zalo;
 
 const OfficialChannel: React.FC = () => {
     const { openSnackbar } = useSnackbar();
@@ -38,7 +40,7 @@ const OfficialChannel: React.FC = () => {
             setFollowing(true);
 
             await followOA({
-                id: OA_ID,
+                id: oaId,
             });
 
             setFollowed(true);
@@ -72,8 +74,8 @@ const OfficialChannel: React.FC = () => {
         try {
             await openChat({
                 type: "oa",
-                id: OA_ID,
-                message: "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
+                id: oaId,
+                message: NGAI_GIAO_ORGANIZATION.zalo.defaultSupportMessage,
             });
         } catch {
             openSnackbar({
@@ -127,7 +129,7 @@ const OfficialChannel: React.FC = () => {
 
                         <div className="min-w-0 flex-1">
                             <h3 className="m-0 text-base font-bold leading-5 text-gray-900">
-                                Trung tâm Phục vụ Hành chính công xã Ngãi Giao
+                                {NGAI_GIAO_ORGANIZATION.organization.name}
                             </h3>
 
                             <div className="mt-1 flex items-center gap-1 text-xs font-semibold text-blue-600">

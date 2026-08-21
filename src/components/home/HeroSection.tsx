@@ -16,7 +16,7 @@ const HeroSection: React.FC = () => {
     const { openSnackbar } = useSnackbar();
 
     const handleCallHotline = async () => {
-        const { phoneNumber } = NGAI_GIAO_ORGANIZATION.hotline;
+        const { phoneNumber } = NGAI_GIAO_ORGANIZATION.organization.hotline;
 
         if (!phoneNumber) {
             return;
@@ -61,7 +61,7 @@ const HeroSection: React.FC = () => {
 
                 <div className="mt-6">
                     <h1 className="m-0 text-3xl font-bold leading-9 tracking-tight text-white">
-                        {NGAI_GIAO_ORGANIZATION.locality}
+                        {NGAI_GIAO_ORGANIZATION.organization.locality}
                     </h1>
 
                     <p className="mt-2 max-w-xs text-sm leading-5 text-white/90">
@@ -106,7 +106,7 @@ const HeroSection: React.FC = () => {
                                     Đường dây nóng
                                 </span>
                                 <span className="mt-1 block truncate text-xs leading-4 text-white/80">
-                                    {NGAI_GIAO_ORGANIZATION.hotline.display}
+                                    {NGAI_GIAO_ORGANIZATION.organization.hotline.display}
                                 </span>
                             </span>
                         </button>

@@ -1,3 +1,4 @@
+import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 import {
     Globe2,
     Clock3,
@@ -30,6 +31,9 @@ type UtilityItem =
           oaId: string;
           message?: string;
       });
+
+const { oaId } = NGAI_GIAO_ORGANIZATION.zalo;
+      
 
 const utilities: UtilityItem[] = [
     {
@@ -67,8 +71,8 @@ const utilities: UtilityItem[] = [
         type: "oa",
         title: "Giải đáp thắc mắc",
         icon: <MessageCircle className="h-7 w-7" />,
-        oaId: "2261565257434514638",
-        message: "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
+        oaId,
+        message: NGAI_GIAO_ORGANIZATION.zalo.defaultSupportMessage,
         theme: "bg-emerald-50 text-emerald-600",
     },
     {

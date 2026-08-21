@@ -1,7 +1,6 @@
-import PageLayout from "@components/layout/PageLayout";
 import React from "react";
-import { openChat, openWebview } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
+import { openChat, openWebview } from "zmp-sdk";
 import {
     Baby,
     BadgeCheck,
@@ -12,6 +11,9 @@ import {
     ShieldCheck,
 } from "lucide-react";
 
+import PageLayout from "@components/layout/PageLayout";
+import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
+
 type QACategory = {
     id: string;
     title: string;
@@ -20,6 +22,8 @@ type QACategory = {
     theme: string;
     notebookUrl?: string;
 };
+
+const { oaId } = NGAI_GIAO_ORGANIZATION.zalo;
 
 const categories: QACategory[] = [
     {
@@ -82,8 +86,8 @@ const QA: React.FC = () => {
         try {
             await openChat({
                 type: "oa",
-                id: "2261565257434514638",
-                message: "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
+                id: oaId,
+                message: NGAI_GIAO_ORGANIZATION.zalo.defaultSupportMessage,
             });
         } catch {
             openSnackbar({
