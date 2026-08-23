@@ -3,7 +3,7 @@ import Logo from "@assets/logo-hcc.png";
 import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 import { Newspaper, Phone } from "lucide-react";
 import React from "react";
-import { openPhone } from "zmp-sdk";
+import { openPhone, openWebview } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
 
 const actionClassName =
@@ -15,6 +15,24 @@ const actionIconClassName =
 const HeroSection: React.FC = () => {
     const { openSnackbar } = useSnackbar();
 
+    const handleOpenFeaturedNews = async () => {
+        try {
+            await openWebview({
+                url: NGAI_GIAO_ORGANIZATION.zalo.profileUrl,
+                config: {
+                    style: "normal",
+                    leftButton: "back",
+                },
+            });
+        } catch {
+            openSnackbar({
+                text: "Không thể mở tin tức nổi bật. Vui lòng thử lại.",
+                type: "error",
+                duration: 3000,
+            });
+        }
+    };
+
     const handleCallHotline = async () => {
         const { phoneNumber } = NGAI_GIAO_ORGANIZATION.organization.hotline;
 
@@ -24,8 +42,12 @@ const HeroSection: React.FC = () => {
 
         try {
             await openPhone({ phoneNumber });
-        } catch (error) {
-            console.error("Không thể mở cuộc gọi:", error);
+        } catch {
+            openSnackbar({
+                text: "Không thể thực hiện cuộc gọi. Vui lòng thử lại.",
+                type: "error",
+                duration: 3000,
+            });
         }
     };
 
@@ -73,12 +95,7 @@ const HeroSection: React.FC = () => {
                         <button
                             className={actionClassName}
                             type="button"
-                            onClick={() =>
-                                openSnackbar({
-                                    text: "Tính năng đang được phát triển",
-                                    type: "info",
-                                })
-                            }
+                            onClick={() => handleOpenFeaturedNews()}
                         >
                             <span className={actionIconClassName}>
                                 <Newspaper className="h-6 w-6" />
@@ -106,7 +123,10 @@ const HeroSection: React.FC = () => {
                                     Đường dây nóng
                                 </span>
                                 <span className="mt-1 block truncate text-xs leading-4 text-white/80">
-                                    {NGAI_GIAO_ORGANIZATION.organization.hotline.display}
+                                    {
+                                        NGAI_GIAO_ORGANIZATION.organization
+                                            .hotline.display
+                                    }
                                 </span>
                             </span>
                         </button>

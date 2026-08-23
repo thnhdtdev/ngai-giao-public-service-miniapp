@@ -33,7 +33,6 @@ type UtilityItem =
       });
 
 const { oaId } = NGAI_GIAO_ORGANIZATION.zalo;
-      
 
 const utilities: UtilityItem[] = [
     {
@@ -46,9 +45,10 @@ const utilities: UtilityItem[] = [
     },
     {
         id: "one-stop-guide",
-        type: "coming-soon",
+        type: "route",
         title: "Hướng dẫn một cửa",
         icon: <Landmark className="h-7 w-7" />,
+        path: "/one-stop-guide",
         theme: "bg-violet-50 text-violet-600",
     },
     {
