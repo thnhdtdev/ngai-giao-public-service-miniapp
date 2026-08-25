@@ -11,6 +11,7 @@ import { LocationPage } from "./Location";
 import { PublicNoticesPage } from "./PublicNotices";
 import { GuideVideosPage } from "./GuideVideos";
 import { OneStopGuidePage } from "./OneStopGuide";
+import { DocumentViewerPage } from "./PublicNotices/DocumentViewer";
 
 const Routes: React.FC = () => (
     <ZMPRouter>
@@ -19,6 +20,7 @@ const Routes: React.FC = () => (
             <Route path="/working-hours" element={<WorkingHoursPage />} />
             <Route path="/qa" element={<QAPage />} />
             <Route path="/online-guide" element={<OnlineGuidePage />} />
+            <Route path="/public-notices/document/:noticeId" element={<DocumentViewerPage />} />
             <Route
                 path="/common-procedures"
                 element={<CommonProceduresPage />}

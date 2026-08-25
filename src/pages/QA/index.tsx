@@ -32,8 +32,7 @@ const categories: QACategory[] = [
         description: "Khai sinh, khai tử, kết hôn và các thủ tục hộ tịch khác",
         icon: <Baby className="h-7 w-7" />,
         theme: "bg-blue-50 text-blue-600 border-blue-100",
-        notebookUrl:
-            "https://notebook.google.com/social_preview/notebook/64e788b1-d8d7-4837-bfaa-f778053bb823/preview",
+        notebookUrl: "",
     },
     {
         id: "certification",

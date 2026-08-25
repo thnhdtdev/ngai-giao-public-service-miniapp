@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { openWebview } from "zmp-sdk";
-import { useSnackbar } from "zmp-ui";
 
 import {
     ChevronRight,
-    ExternalLink,
     FileText,
     Landmark,
     MapPinned,
@@ -17,6 +14,7 @@ import {
     PublicNotice,
     PublicNoticeCategory,
 } from "@constants/publicNotices";
+
 import PageLayout from "@components/layout/PageLayout";
 
 const formatTitle = (title: string) => {
@@ -33,7 +31,6 @@ const formatTitle = (title: string) => {
 
 const PublicNoticesPage: React.FC = () => {
     const navigate = useNavigate();
-    const { openSnackbar } = useSnackbar();
 
     const [selectedCategory, setSelectedCategory] =
         useState<PublicNoticeCategory | null>(null);
@@ -47,31 +44,12 @@ const PublicNoticesPage: React.FC = () => {
         navigate(-1);
     };
 
-    const handleOpenNotice = async (notice: PublicNotice) => {
+    const handleOpenNotice = (notice: PublicNotice) => {
         if (!notice.url) {
-            openSnackbar({
-                text: "Liên kết văn bản đang được cập nhật",
-                type: "info",
-                duration: 2500,
-            });
-
             return;
         }
 
-        try {
-            await openWebview({
-                url: notice.url,
-                config: {
-                    style: "normal",
-                },
-            });
-        } catch {
-            openSnackbar({
-                text: "Không thể mở văn bản. Vui lòng thử lại.",
-                type: "error",
-                duration: 3000,
-            });
-        }
+        navigate(`/public-notices/document/${notice.id}`);
     };
 
     return (
@@ -79,7 +57,9 @@ const PublicNoticesPage: React.FC = () => {
             className="bg-gray-50"
             name="public-notices"
             title={
-                selectedCategory ? selectedCategory.title : "Niêm yết công khai"
+                selectedCategory
+                    ? selectedCategory.title
+                    : "Niêm yết công khai"
             }
             onBackClick={handleBack}
         >
@@ -112,7 +92,7 @@ const PublicNoticesPage: React.FC = () => {
                             </p>
                         </div>
 
-                        {/* 2 cột */}
+                        {/* Categories */}
                         <section className="grid grid-cols-2 gap-3">
                             {PUBLIC_NOTICE_CATEGORIES.map(category => (
                                 <button
@@ -155,10 +135,16 @@ const PublicNoticesPage: React.FC = () => {
                     </>
                 ) : (
                     <>
-                        {/* Category */}
+                        {/* Category header */}
                         <section className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
                             <div className="flex items-center gap-3">
-                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                                <div
+                                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${
+                                        selectedCategory.id === "non-boundary"
+                                            ? "bg-orange-50 text-orange-600"
+                                            : "bg-blue-50 text-blue-600"
+                                    }`}
+                                >
                                     {selectedCategory.id === "non-boundary" ? (
                                         <MapPinned className="h-6 w-6" />
                                     ) : (
@@ -185,14 +171,15 @@ const PublicNoticesPage: React.FC = () => {
                             </h2>
                         </div>
 
-                        {/* List */}
+                        {/* Documents */}
                         <section className="space-y-3">
                             {selectedCategory.notices.map((notice, index) => (
                                 <button
                                     key={notice.id}
                                     type="button"
                                     onClick={() => handleOpenNotice(notice)}
-                                    className="flex w-full items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 text-left shadow-sm active:bg-gray-50"
+                                    disabled={!notice.url}
+                                    className="flex w-full items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 text-left shadow-sm active:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                                 >
                                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600">
                                         <FileText className="h-5 w-5" />
@@ -208,12 +195,19 @@ const PublicNoticesPage: React.FC = () => {
                                         </div>
 
                                         <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-blue-600">
-                                            Xem tài liệu
-                                            <ExternalLink className="h-3.5 w-3.5" />
+                                            {notice.url
+                                                ? "Xem tài liệu"
+                                                : "Đang cập nhật"}
+
+                                            {notice.url && (
+                                                <ChevronRight className="h-3.5 w-3.5" />
+                                            )}
                                         </div>
                                     </div>
 
-                                    <ChevronRight className="mt-1 h-5 w-5 shrink-0 text-gray-300" />
+                                    {notice.url && (
+                                        <ChevronRight className="mt-1 h-5 w-5 shrink-0 text-gray-300" />
+                                    )}
                                 </button>
                             ))}
                         </section>
