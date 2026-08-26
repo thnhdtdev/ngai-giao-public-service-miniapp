@@ -1,3 +1,31 @@
+const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
+
+export const getPublicNoticeById = (
+    noticeId: string,
+): PublicNotice | undefined => {
+    for (const category of PUBLIC_NOTICE_CATEGORIES) {
+        const notice = category.notices.find(
+            item => item.id === noticeId,
+        );
+
+        if (notice) {
+            return notice;
+        }
+    }
+
+    return undefined;
+};
+
+export const getPublicNoticeCategoryByNoticeId = (
+    noticeId: string,
+): PublicNoticeCategory | undefined => {
+    return PUBLIC_NOTICE_CATEGORIES.find(category =>
+        category.notices.some(
+            notice => notice.id === noticeId,
+        ),
+    );
+};
+
 export type PublicNotice = {
     id: string;
     title: string;
@@ -20,48 +48,43 @@ export const PUBLIC_NOTICE_CATEGORIES: PublicNoticeCategory[] = [
         notices: [
             {
                 id: "non-boundary-01",
-                title: "Phê duyệt danh mục thủ tục hành chính thuộc thẩm quyền quản lý và giải quyết thực hiện không phụ thuộc vào địa giới hành chính",
-                url: "https://drive.google.com/file/d/1lyZRwvUYf-jsh4p3aYNPqVCjZ8vE5wFs/view",
+                title: "Thủ tục hành chính thuộc thẩm quyền quản lý và giải quyết của Sở, ban, ngành, Ủy ban nhân dân cấp xã thực hiện không phụ thuộc vào địa giới hành chính",
+                url: `${MEDIA_BASE_URL}/documents/phi-dia-gioi/PL_danh_muc_PDG.pdf`,
             },
             {
                 id: "non-boundary-02",
-                title: "THỦ TỤC HÀNH CHÍNH THUỘC THẨM QUYỀN QUẢN LÝ VÀ GIẢI QUYẾT CỦA SỞ, BAN, NGÀNH, ỦY BAN NHÂN DÂN CẤP XÃ THỰC HIỆN KHÔNG PHỤ THUỘC VÀO ĐỊA GIỚI HÀNH CHÍNH",
-                url: "https://drive.google.com/file/d/1WxESBMWbTDK-L3yxW74i8T7jjLMXK4Dc/view",
+                title: "Về việc phê duyệt quy trình nội bộ, quy trình điện tử giải quyết thủ tục hành chính không phụ thuộc vào địa giới hành chính thuộc phạm vi chức năng quản lý của Sở Tư pháp",
+                url: `${MEDIA_BASE_URL}/documents/phi-dia-gioi/QD3424.pdf`,
             },
             {
                 id: "non-boundary-03",
-                title: "Tiếp nhận, luân chuyển hồ sơ và trả kết quả giải quyết thủ tục hành chính (bản giấy) không phụ thuộc địa giới hành chính tại Thành phố Hồ Chí Minh",
-                url: "https://drive.google.com/file/d/1sqEL3iWLjCQcCJeaohg-zP6HJ_JatDSc/view",
+                title: "Ban hành Quy trình thí điểm tiếp nhận, luân chuyển hồ sơ và trả kết quả giải quyết thủ tục hành chính (bản giấy) không phụ thuộc địa giới hành chính tại Thành phố Hồ Chí Minh",
+                url: `${MEDIA_BASE_URL}/documents/phi-dia-gioi/QD3516.pdf`,
             },
             {
                 id: "non-boundary-04",
-                title: "BAN HÀNH QUY TRÌNH THÍ ĐIỂM TIẾP NHẬN, LUÂN CHUYỂN HỒ SƠ VÀ TRẢ KẾT QUẢ GIẢI QUYẾT THỦ TỤC HÀNH CHÍNH (BẢN GIẤY) KHÔNG PHỤ THUỘC ĐỊA GIỚI HÀNH CHÍNH TẠI THÀNH PHỐ HỒ CHÍ MINH ",
-                url: "https://drive.google.com/file/d/1Bsr4WqK_wJKOvBmpNf2F39HRKoAf9_IW/view",
+                title: "Về việc phê duyệt quy trình nội bộ, quy trình điện tử giải quyết thủ tục hành chính không phụ thuộc vào địa giới hành chính thuộc phạm vi chức năng quản lý của Sở Công Thương",
+                url: `${MEDIA_BASE_URL}/documents/phi-dia-gioi/QD3544_QTNB_SCT.pdf`,
             },
             {
                 id: "non-boundary-05",
                 title: "PHÊ DUYỆT QUY TRÌNH NỘI BỘ, QUY TRÌNH ĐIỆN TỬ GIẢI QUYẾT THỦ TỤC HÀNH CHÍNH KHÔNG PHỤ THUỘC VÀO ĐỊA GIỚI HÀNH CHÍNH LĨNH VỰC NGƯỜI CÓ CÔNG; LAO ĐỘNG – TIỀN LƯƠNG; CHÍNH SÁCH THUỘC PHẠM VI CHỨC NĂNG QUẢN LÝ CỦA SỞ NỘI VỤ",
-                url: "https://drive.google.com/file/d/1A6kdWLMSyKHAk3j8ZJPOYifdPuw2BWoN/view",
+                url: `${MEDIA_BASE_URL}/documents/phi-dia-gioi/QD3493.pdf`,
             },
             {
                 id: "non-boundary-06",
-                title: "PHÊ DUYỆT QUY TRÌNH NỘI BỘ, QUY TRÌNH ĐIỆN TỬ GIẢI QUYẾT THỦ TỤC HÀNH CHÍNH KHÔNG PHỤ THUỘC VÀO ĐỊA GIỚI HÀNH CHÍNH THUỘC PHẠM VI CHỨC NĂNG QUẢN LÝ CỦA SỞ DU LỊCH",
-                url: "https://drive.google.com/file/d/1N2x8Z47a3jUap0tPyL5qcksfRoLtXb8-/view",
+                title: "Về việc phê duyệt quy trình nội bộ, quy trình điện tử giải quyết thủ tục hành chính không phụ thuộc vào địa giới hành chính thuộc phạm vi chức năng quản lý của Sở Du lịch",
+                url: `${MEDIA_BASE_URL}/documents/phi-dia-gioi/QD3630_QTNB_SDL.pdf`,
             },
             {
                 id: "non-boundary-07",
-                title: "PHÊ DUYỆT QUY TRÌNH NỘI BỘ, QUY TRÌNH ĐIỆN TỬ GIẢI QUYẾT THỦ TỤC HÀNH CHÍNH KHÔNG PHỤ THUỘC VÀO ĐỊA GIỚI HÀNH CHÍNH THUỘC PHẠM VI CHỨC NĂNG QUẢN LÝ CỦA SỞ CÔNG THƯƠNG ",
-                url: "https://drive.google.com/file/d/1mlY_KFBEozGaY2wzyO3NcVlCBn8L7qX7/view",
+                title: "Về việc phê duyệt quy trình nội bộ, quy trình điện tử giải quyết thủ tục hành chính không phụ thuộc vào địa giới hành chính lĩnh vực Người có công; Lao động – Tiền lương; Chính sách thuộc phạm vi chức năng quản lý của Sở Nội vụ",
+                url: `${MEDIA_BASE_URL}/documents/phi-dia-gioi/QD74.pdf`,
             },
             {
                 id: "non-boundary-08",
-                title: "PHÊ DUYỆT QUY TRÌNH NỘI BỘ, QUY TRÌNH ĐIỆN TỬ GIẢI QUYẾT THỦ TỤC HÀNH CHÍNH KHÔNG PHỤ THUỘC VÀO ĐỊA GIỚI HÀNH CHÍNH LĨNH VỰC THỂ DỤC THỂ THAO THUỘC PHẠM VI CHỨC NĂNG QUẢN LÝ CỦA SỞ VĂN HÓA VÀ THỂ THAO",
-                url: "https://drive.google.com/file/d/1QKYkBYCn3yiI5dAHM9u0q96vgkJ4ubre/view",
-            },
-            {
-                id: "non-boundary-09",
-                title: "PHÊ DUYỆT QUY TRÌNH NỘI BỘ, QUY TRÌNH ĐIỆN TỬ GIẢI QUYẾT THỦ TỤC HÀNH CHÍNH KHÔNG PHỤ THUỘC VÀO ĐỊA GIỚI HÀNH CHÍNH THUỘC PHẠM VI CHỨC NĂNG QUẢN LÝ CỦA SỞ TƯ PHÁP",
-                url: "https://drive.google.com/file/d/15OmNCWXbXiZwqdMOUNGyZWcaKzhwDQwa/view",
+                title: "Phê duyệt Danh mục thủ tục hành chính thuộc thẩm quyền quản lý và giải quyết của sở, ban, ngành, Ủy ban nhân dân cấp xã thực hiện không phụ thuộc vào địa giới hành chính trên địa bàn Thành phố Hồ Chí Minh",
+                url: `${MEDIA_BASE_URL}/documents/phi-dia-gioi/QD_cong_bo_TTHC_PDGHC.pdf`,
             },
         ],
     },
@@ -75,23 +98,18 @@ export const PUBLIC_NOTICE_CATEGORIES: PublicNoticeCategory[] = [
             {
                 id: "ngai-giao-01",
                 title: "Nghị quyết quy định mức thu lệ phí đối với hoạt động cung cấp dịch vụ công bằng hình thức trực tuyến",
-                url: "",
+                url: `${MEDIA_BASE_URL}/documents/ngai-giao/PL_danh_muc_PDG_signed.pdf`,
             },
             {
                 id: "ngai-giao-02",
                 title: " Công bố danh mục thủ tục hành chính (TTHC) thuộc thẩm quyền tiếp nhận hoặc giải quyết của các cấp chính quyền trên địa bàn Thành phố.",
-                url: "https://drive.google.com/file/d/1AsZKrTdLFEoFYp8oz5crvcZAPpzQdEg_/view",
+                url: `${MEDIA_BASE_URL}/documents/ngai-giao/QD_signed.pdf`,
             },
             {
                 id: "ngai-giao-03",
                 title: "Danh mục các thủ tục hành chính thuộc thẩm quyền quản lý và giải quyết của Sở, ban, ngành và Ủy ban nhân dân cấp xã tại Thành phố Hồ Chí Minh",
-                url: "https://drive.google.com/file/d/1JdVgGio63kAT06NtuUEf_g6ZdrBPALx3/view",
-            },
-            {
-                id: "ngai-giao-04",
-                title: "Phụ lục danh mục dịch vụ công trực tuyến cấp xã(THEO QĐ 3494)",
-                url: "https://docs.google.com/spreadsheets/d/11NWeAPNm_RoMkQhlXYX5wT3pXYnBgXf72tjd6H50M90/edit?gid=0#gid=0",
-            },
+                url: "",
+            }
         ],
     },
 ];
