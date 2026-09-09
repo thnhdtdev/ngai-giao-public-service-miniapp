@@ -12,20 +12,13 @@ export const NGAI_GIAO_ORGANIZATION = {
 
         address: {
             display: "Số 70 đường Trần Hưng Đạo, xã Ngãi Giao, TPHCM, Việt Nam",
-            mapUrl: "https://maps.app.goo.gl/DfENcpKnLYf3LcP9A",
         },
     },
 
     zalo: {
         oaId: "2261565257434514638",
-        profileUrl: "https://www.sggp.org.vn/",
+        profileUrl: "https://zalo.me/s/baomoi",
         defaultSupportMessage:
             "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
-    },
-    social: {
-        facebook: {
-            url: "https://www.facebook.com/huyenchauductinhbariavungtau",
-            label: "Facebook",
-        },
     },
 };

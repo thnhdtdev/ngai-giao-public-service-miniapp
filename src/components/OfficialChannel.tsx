@@ -1,19 +1,12 @@
 import { useSnackbar } from "zmp-ui";
 import React, { useEffect, useState } from "react";
-import { followOA, getUserInfo, openChat, openWebview } from "zmp-sdk";
-import {
-    Bell,
-    CalendarDays,
-    Check,
-    ExternalLink,
-    MessageCircle,
-    Star,
-} from "lucide-react";
+import { followOA, getUserInfo, openChat } from "zmp-sdk";
+import { Bell, CalendarDays, Check, MessageCircle, Star } from "lucide-react";
 
 import logoHcc from "@assets/logo-hcc.png";
 import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 
-const { organization, zalo, social } = NGAI_GIAO_ORGANIZATION;
+const { organization, zalo } = NGAI_GIAO_ORGANIZATION;
 
 const OfficialChannels: React.FC = () => {
     const { openSnackbar } = useSnackbar();
@@ -93,24 +86,6 @@ const OfficialChannels: React.FC = () => {
         }
     };
 
-    const handleOpenFacebook = async () => {
-        try {
-            await openWebview({
-                url: social.facebook.url,
-                config: {
-                    style: "normal",
-                    leftButton: "back",
-                },
-            });
-        } catch {
-            openSnackbar({
-                text: "Không thể mở trang Facebook.",
-                type: "error",
-                duration: 3000,
-            });
-        }
-    };
-
     let followButtonText = "Quan tâm";
 
     if (checking) {
@@ -178,23 +153,14 @@ const OfficialChannels: React.FC = () => {
                     </div>
 
                     {/* Official channel actions */}
-                    <div className="mt-4 grid grid-cols-2 gap-3">
+                    <div className="mt-4">
                         <button
                             type="button"
                             onClick={() => handleOpenChat()}
-                            className="flex items-center justify-center gap-2 rounded-xl border border-blue-100 bg-blue-50 px-3 py-3 text-sm font-bold text-blue-600 active:bg-blue-100"
+                            className="flex w-full items-center justify-center gap-2 rounded-xl border border-blue-100 bg-blue-50 px-3 py-3 text-sm font-bold text-blue-600 active:bg-blue-100"
                         >
                             <MessageCircle className="h-5 w-5 shrink-0" />
                             <span>Nhắn tin Zalo</span>
-                        </button>
-
-                        <button
-                            type="button"
-                            onClick={() => handleOpenFacebook()}
-                            className="flex items-center justify-center gap-2 rounded-xl border border-sky-100 bg-sky-50 px-3 py-3 text-sm font-bold text-sky-700 active:bg-sky-100"
-                        >
-                            <ExternalLink className="h-5 w-5 shrink-0" />
-                            <span>Xem {social.facebook.label}</span>
                         </button>
                     </div>
 

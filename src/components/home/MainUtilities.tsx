@@ -94,7 +94,7 @@ const utilities: UtilityItem[] = [
     {
         id: "location",
         type: "route",
-        title: "Địa chỉ & Chỉ đường",
+        title: "Địa chỉ Trung tâm",
         icon: <MapPin className="h-7 w-7" />,
         path: "/location",
         theme: "bg-violet-50 text-violet-600",

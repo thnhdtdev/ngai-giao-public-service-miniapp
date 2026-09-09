@@ -34,6 +34,6 @@ export const GUIDE_VIDEOS: GuideVideo[] = [
         title: "Hướng dẫn đăng ký kinh doanh",
         description:
             "Hướng dẫn các bước thực hiện thủ tục đăng ký kinh doanh trực tuyến.",
-        videoUrl: "",
+        videoUrl: `${MEDIA_BASE_URL}/videos/dkkd.mp4`
     },
 ];
