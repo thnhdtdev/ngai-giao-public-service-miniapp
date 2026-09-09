@@ -20,5 +20,10 @@ export const NGAI_GIAO_ORGANIZATION = {
         profileUrl: "https://zalo.me/s/baomoi",
         defaultSupportMessage:
             "Xin chào, tôi cần hỗ trợ về thủ tục hành chính.",
+        businessGroup: {
+            title: "Nhóm Zalo hỗ trợ kinh doanh",
+            description: "Dành cho hộ kinh doanh và doanh nghiệp trên địa bàn.",
+            inviteUrl: "https://zalo.me/g/mn3opx4frjc8nuccqlvg",
+        },
     },
 };
