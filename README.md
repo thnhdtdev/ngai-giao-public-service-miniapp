@@ -47,6 +47,7 @@ APP_ID=<zalo-mini-app-id>
 ZMP_TOKEN=<zmp-cli-token>
 VITE_MINI_APP_ID=<zalo-mini-app-id>
 VITE_BASE_URL=<backend-api-url>
+VITE_MEDIA_BASE_URL=<cloudflare-r2-public-url>
 ```
 
 Trong đó:
@@ -55,6 +56,9 @@ Trong đó:
 -   `ZMP_TOKEN`: token phục vụ thao tác với Zalo Mini App CLI.
 -   `VITE_MINI_APP_ID`: Mini App ID dự phòng khi chạy trong môi trường không có `window.APP_ID`.
 -   `VITE_BASE_URL`: URL gốc của backend, dùng bởi lớp gọi API trong `src/service`.
+-   `VITE_MEDIA_BASE_URL`: URL public của bucket Cloudflare R2 chứa PDF, video và `documents/public-notices.json` (không có dấu `/` ở cuối).
+
+> Biến dùng trong code phía client phải có tiền tố `VITE_`. Giá trị được ghi vào bundle lúc build, nên đổi `.env` xong phải build và deploy lại.
 
 > `.env` và các file `.env.*` đã được Git bỏ qua vì có thể chứa thông tin nhạy cảm. Không dùng `git add -f` để đưa các file này vào commit.
 
@@ -104,6 +108,52 @@ npm run deploy
 ```
 
 Trước khi triển khai, cần kiểm tra đúng Mini App ID, token, backend URL và thử các chức năng dùng Zalo SDK trên thiết bị thật.
+
+## Cập nhật văn bản niêm yết công khai
+
+Danh sách văn bản được app tải từ R2 mỗi khi mở trang Niêm yết, nên **thêm, sửa hoặc xoá văn bản không cần sửa code, build hay deploy**.
+
+1. Upload file PDF lên bucket, ví dụ `documents/ngai-giao/QD_moi.pdf`.
+2. Tải file `documents/public-notices.json` từ bucket về, thêm một mục vào `notices` của danh mục phù hợp:
+
+    ```json
+    {
+        "id": "ngai-giao-04",
+        "title": "Tên đầy đủ của văn bản",
+        "file": "documents/ngai-giao/QD_moi.pdf"
+    }
+    ```
+
+3. Kiểm tra file là JSON hợp lệ (ví dụ dán vào jsonlint.com), rồi upload đè lên `documents/public-notices.json`.
+4. Mở lại trang Niêm yết trong app để kiểm tra.
+
+Quy tắc:
+
+-   `id` phải là duy nhất và **không được đổi** sau khi đã công bố, vì link xem văn bản dùng `id`.
+-   `file` là đường dẫn trong bucket, không có `/` ở đầu. Có thể dùng URL đầy đủ `https://...` nếu file nằm ở nơi khác. Để trống `file` thì văn bản hiển thị "Đang cập nhật".
+-   Muốn thêm danh mục mới, thêm một phần tử vào `categories` với `id`, `title`, `description`, `notices`.
+-   Mục sai cấu trúc sẽ bị bỏ qua. Nếu cả file lỗi hoặc không tải được, app dùng bản dự phòng [`src/content/public-notices.json`](src/content/public-notices.json) đóng gói sẵn. Thỉnh thoảng nên chép bản trên R2 về repo để bản dự phòng không quá cũ.
+
+## Cập nhật video hướng dẫn
+
+Làm tương tự niêm yết, với file `videos/guide-videos.json` trên bucket (không cần sửa code, build hay deploy):
+
+1. Upload video lên bucket, ví dụ `videos/ho-tich.mp4`. Nên dùng MP4 (H.264) để phát được trên cả iOS và Android.
+2. Thêm một mục vào mảng `videos` trong `videos/guide-videos.json` rồi upload đè:
+
+    ```json
+    {
+        "id": "civil-status",
+        "title": "Hướng dẫn thủ tục hộ tịch",
+        "description": "Mô tả ngắn hiển thị dưới tiêu đề.",
+        "file": "videos/ho-tich.mp4"
+    }
+    ```
+
+-   Thứ tự hiển thị đúng theo thứ tự trong mảng.
+-   `id`, `title`, `file` là bắt buộc; `id` phải là duy nhất.
+-   Thêm `"showBusinessGroup": true` vào video nào thì thẻ "Nhóm Zalo hỗ trợ kinh doanh" hiển thị ngay dưới video đó.
+-   Bản dự phòng nằm ở [`src/content/guide-videos.json`](src/content/guide-videos.json).
 
 ## Cấu trúc dự án
 

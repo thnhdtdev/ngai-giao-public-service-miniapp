@@ -1,6 +1,6 @@
 import PageLayout from "@components/layout/PageLayout";
-import { GUIDE_VIDEOS, GuideVideo } from "@constants/guideVideos";
 import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
+import { useGuideVideos } from "@content/guideVideos";
 import { CirclePlay, Play, Users, X } from "lucide-react";
 import React, { useState } from "react";
 import { openWebview } from "zmp-sdk";
@@ -8,9 +8,24 @@ import { useSnackbar } from "zmp-ui";
 
 const { businessGroup } = NGAI_GIAO_ORGANIZATION.zalo;
 
+const VideoSkeleton: React.FC = () => (
+    <div className="flex w-full animate-pulse items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="h-12 w-12 shrink-0 rounded-xl bg-slate-100" />
+        <div className="min-w-0 flex-1">
+            <div className="h-4 w-3/4 rounded bg-slate-100" />
+            <div className="mt-2 h-3 w-full rounded bg-slate-100" />
+        </div>
+    </div>
+);
+
 export const GuideVideosPage: React.FC = () => {
     const { openSnackbar } = useSnackbar();
-    const [selectedVideo, setSelectedVideo] = useState<GuideVideo | null>(null);
+    const { videos, loading } = useGuideVideos();
+
+    // Lưu id thay vì object để vẫn khớp khi dữ liệu mới từ R2 về
+    const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+    const selectedVideo =
+        videos.find(video => video.id === selectedVideoId) ?? null;
 
     const handleOpenBusinessGroup = async () => {
         try {
@@ -52,7 +67,7 @@ export const GuideVideosPage: React.FC = () => {
 
                             <button
                                 type="button"
-                                onClick={() => setSelectedVideo(null)}
+                                onClick={() => setSelectedVideoId(null)}
                                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 active:bg-slate-200"
                                 aria-label="Đóng video"
                             >
@@ -89,14 +104,22 @@ export const GuideVideosPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-3">
-                    {GUIDE_VIDEOS.map(video => {
+                    {loading && (
+                        <>
+                            <VideoSkeleton />
+                            <VideoSkeleton />
+                            <VideoSkeleton />
+                        </>
+                    )}
+
+                    {videos.map(video => {
                         const isSelected = selectedVideo?.id === video.id;
 
                         return (
                             <React.Fragment key={video.id}>
                                 <button
                                     type="button"
-                                    onClick={() => setSelectedVideo(video)}
+                                    onClick={() => setSelectedVideoId(video.id)}
                                     className={`flex w-full items-center gap-3 rounded-2xl border bg-white p-4 text-left shadow-sm active:bg-slate-50 ${
                                         isSelected
                                             ? "border-pink-300"
@@ -118,7 +141,7 @@ export const GuideVideosPage: React.FC = () => {
                                     </div>
                                 </button>
 
-                                {video.id === "business-registration" && (
+                                {video.showBusinessGroup && (
                                     <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4 shadow-sm">
                                         <div className="flex items-start gap-3">
                                             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-700">

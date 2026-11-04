@@ -19,6 +19,7 @@ export default () => {
                 "@components": path.resolve(__dirname, "src/components"),
                 "@common": path.resolve(__dirname, "src/common"),
                 "@constants": path.resolve(__dirname, "src/constants"),
+                "@content": path.resolve(__dirname, "src/content"),
                 "@routes": path.resolve(__dirname, "src/routes"),
                 "@shared": path.resolve(__dirname, "src/shared"),
                 "@utils": path.resolve(__dirname, "src/utils"),
