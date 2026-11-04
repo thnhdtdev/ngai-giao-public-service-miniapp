@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { openWebview } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
@@ -9,7 +9,7 @@ import {
     LoaderCircle,
     TriangleAlert,
 } from "lucide-react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Document, pdfjs } from "react-pdf";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.min.js?url";
 
 import PageLayout from "@components/layout/PageLayout";
@@ -18,8 +18,18 @@ import {
     getPublicNoticeById,
     getPublicNoticeCategoryByNoticeId,
 } from "@constants/publicNotices";
+import { useElementWidth } from "@shared/hooks/useElementWidth";
+
+import LazyPdfPage from "./LazyPdfPage";
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
+
+// Khai báo ở cấp module để giữ nguyên tham chiếu, giúp LazyPdfPage memo hiệu quả
+const LOADING_CONTENT = (
+    <div className="flex min-h-64 items-center justify-center text-blue-600">
+        <LoaderCircle className="h-7 w-7 animate-spin" />
+    </div>
+);
 
 const isPdfUrl = (url: string) => {
     try {
@@ -32,11 +42,9 @@ const isPdfUrl = (url: string) => {
 const DocumentViewerPage: React.FC = () => {
     const navigate = useNavigate();
     const { openSnackbar } = useSnackbar();
-    const viewerRef = useRef<HTMLDivElement>(null);
+    const [setViewerElement, viewerWidth] = useElementWidth<HTMLDivElement>();
 
     const [numPages, setNumPages] = useState(0);
-    const [viewerWidth, setViewerWidth] = useState(0);
-    const [loadError, setLoadError] = useState(false);
 
     const { noticeId } = useParams<{
         noticeId: string;
@@ -49,35 +57,7 @@ const DocumentViewerPage: React.FC = () => {
         : undefined;
 
     useEffect(() => {
-        const viewer = viewerRef.current;
-
-        if (!viewer) {
-            return undefined;
-        }
-
-        const updateViewerWidth = () => {
-            setViewerWidth(Math.floor(viewer.getBoundingClientRect().width));
-        };
-
-        updateViewerWidth();
-        window.addEventListener("resize", updateViewerWidth);
-
-        let resizeObserver: ResizeObserver | undefined;
-
-        if (typeof ResizeObserver !== "undefined") {
-            resizeObserver = new ResizeObserver(updateViewerWidth);
-            resizeObserver.observe(viewer);
-        }
-
-        return () => {
-            window.removeEventListener("resize", updateViewerWidth);
-            resizeObserver?.disconnect();
-        };
-    }, [notice?.url]);
-
-    useEffect(() => {
         setNumPages(0);
-        setLoadError(false);
     }, [notice?.url]);
 
     const handleOpenOriginal = async () => {
@@ -127,12 +107,6 @@ const DocumentViewerPage: React.FC = () => {
         );
     }
 
-    const loadingContent = (
-        <div className="flex min-h-64 items-center justify-center text-blue-600">
-            <LoaderCircle className="h-7 w-7 animate-spin" />
-        </div>
-    );
-
     const errorContent = (
         <div className="flex min-h-96 items-center justify-center px-6 text-center">
             <div>
@@ -169,41 +143,25 @@ const DocumentViewerPage: React.FC = () => {
     } else if (isPdfUrl(notice.url)) {
         viewerContent = (
             <div className="w-full overflow-x-hidden bg-gray-200 p-2">
-                <div className="w-full" ref={viewerRef}>
+                <div className="w-full" ref={setViewerElement}>
                     <Document
                         error={errorContent}
                         file={notice.url}
-                        loading={loadingContent}
-                        onLoadError={() => setLoadError(true)}
-                        onLoadSuccess={({ numPages: totalPages }) => {
-                            setNumPages(totalPages);
-                            setLoadError(false);
-                        }}
+                        loading={LOADING_CONTENT}
+                        onLoadSuccess={({ numPages: totalPages }) =>
+                            setNumPages(totalPages)
+                        }
                     >
-                        {!loadError &&
-                            viewerWidth > 0 &&
-                            Array.from({ length: numPages }, (_, pageIndex) => {
-                                const pageNumber = pageIndex + 1;
-
-                                return (
-                                    <section
-                                        className="mb-3 overflow-hidden rounded-lg bg-white shadow-sm last:mb-0"
-                                        key={pageNumber}
-                                    >
-                                        <div className="border-b border-gray-100 px-3 py-2 text-center text-xs font-medium text-gray-500">
-                                            Trang {pageNumber} / {numPages}
-                                        </div>
-
-                                        <Page
-                                            loading={loadingContent}
-                                            pageNumber={pageNumber}
-                                            renderAnnotationLayer={false}
-                                            renderTextLayer={false}
-                                            width={viewerWidth}
-                                        />
-                                    </section>
-                                );
-                            })}
+                        {viewerWidth > 0 &&
+                            Array.from({ length: numPages }, (_, pageIndex) => (
+                                <LazyPdfPage
+                                    key={pageIndex + 1}
+                                    loading={LOADING_CONTENT}
+                                    pageNumber={pageIndex + 1}
+                                    totalPages={numPages}
+                                    width={viewerWidth}
+                                />
+                            ))}
                     </Document>
                 </div>
             </div>

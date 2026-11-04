@@ -17,6 +17,8 @@ import {
 
 import PageLayout from "@components/layout/PageLayout";
 
+import { loadDocumentViewer } from "./loadDocumentViewer";
+
 const formatTitle = (title: string) => {
     const normalizedTitle = title.trim().toLocaleLowerCase("vi-VN");
 
@@ -42,6 +44,11 @@ const PublicNoticesPage: React.FC = () => {
         }
 
         navigate(-1);
+    };
+
+    const handleSelectCategory = (category: PublicNoticeCategory) => {
+        setSelectedCategory(category);
+        loadDocumentViewer().catch(() => undefined);
     };
 
     const handleOpenNotice = (notice: PublicNotice) => {
@@ -99,7 +106,7 @@ const PublicNoticesPage: React.FC = () => {
                                     key={category.id}
                                     type="button"
                                     onClick={() =>
-                                        setSelectedCategory(category)
+                                        handleSelectCategory(category)
                                     }
                                     className="flex min-h-48 flex-col rounded-2xl border border-gray-100 bg-white p-4 text-left shadow-sm active:bg-gray-50"
                                 >
