@@ -2,29 +2,17 @@ const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
 export const getPublicNoticeById = (
     noticeId: string,
-): PublicNotice | undefined => {
-    for (const category of PUBLIC_NOTICE_CATEGORIES) {
-        const notice = category.notices.find(
-            item => item.id === noticeId,
-        );
-
-        if (notice) {
-            return notice;
-        }
-    }
-
-    return undefined;
-};
+): PublicNotice | undefined =>
+    PUBLIC_NOTICE_CATEGORIES.flatMap(category => category.notices).find(
+        notice => notice.id === noticeId,
+    );
 
 export const getPublicNoticeCategoryByNoticeId = (
     noticeId: string,
-): PublicNoticeCategory | undefined => {
-    return PUBLIC_NOTICE_CATEGORIES.find(category =>
-        category.notices.some(
-            notice => notice.id === noticeId,
-        ),
+): PublicNoticeCategory | undefined =>
+    PUBLIC_NOTICE_CATEGORIES.find(category =>
+        category.notices.some(notice => notice.id === noticeId),
     );
-};
 
 export type PublicNotice = {
     id: string;
@@ -107,9 +95,9 @@ export const PUBLIC_NOTICE_CATEGORIES: PublicNoticeCategory[] = [
             },
             {
                 id: "ngai-giao-03",
-                title: "Danh mục các thủ tục hành chính thuộc thẩm quyền quản lý và giải quyết của Sở, ban, ngành và Ủy ban nhân dân cấp xã tại Thành phố Hồ Chí Minh",
-                url: "",
-            }
+                title: "Danh mục thủ tục hành chính có thành phần hồ sơ thay thế bằng dữ liệu",
+                url: `${MEDIA_BASE_URL}/documents/ngai-giao/TTHC-QR.pdf`,
+            },
         ],
     },
 ];
