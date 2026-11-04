@@ -6,6 +6,8 @@ import path from "path";
 export default () => {
     return defineConfig({
         root: "./src",
+        // .env nằm ở thư mục gốc; mặc định Vite đọc env từ `root` (./src)
+        envDir: path.resolve(__dirname),
         base: "./",
         plugins: [react()],
         build: {

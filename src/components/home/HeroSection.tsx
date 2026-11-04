@@ -1,4 +1,4 @@
-import HeroBackground from "@assets/background1.png";
+import HeroBackground from "@assets/background1.jpg";
 import Logo from "@assets/logo-hcc.png";
 import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 import { Newspaper, Phone } from "lucide-react";
