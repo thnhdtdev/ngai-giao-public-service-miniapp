@@ -10,10 +10,10 @@ import {
 } from "lucide-react";
 
 import {
-    PUBLIC_NOTICE_CATEGORIES,
     PublicNotice,
     PublicNoticeCategory,
-} from "@constants/publicNotices";
+    usePublicNotices,
+} from "@content/publicNotices";
 
 import PageLayout from "@components/layout/PageLayout";
 
@@ -31,15 +31,30 @@ const formatTitle = (title: string) => {
     )}${normalizedTitle.slice(1)}`;
 };
 
+const CategorySkeleton: React.FC = () => (
+    <div className="flex min-h-48 animate-pulse flex-col rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+        <div className="h-12 w-12 rounded-2xl bg-gray-100" />
+        <div className="mt-4 h-4 w-3/4 rounded bg-gray-100" />
+        <div className="mt-3 h-3 w-full rounded bg-gray-100" />
+        <div className="mt-2 h-3 w-2/3 rounded bg-gray-100" />
+    </div>
+);
+
 const PublicNoticesPage: React.FC = () => {
     const navigate = useNavigate();
+    const { categories, loading } = usePublicNotices();
 
-    const [selectedCategory, setSelectedCategory] =
-        useState<PublicNoticeCategory | null>(null);
+    // Lưu id thay vì object để vẫn khớp khi dữ liệu mới từ R2 về
+    const [selectedCategoryId, setSelectedCategoryId] = useState<
+        string | null
+    >(null);
+    const selectedCategory =
+        categories.find(category => category.id === selectedCategoryId) ??
+        null;
 
     const handleBack = () => {
         if (selectedCategory) {
-            setSelectedCategory(null);
+            setSelectedCategoryId(null);
             return;
         }
 
@@ -47,7 +62,7 @@ const PublicNoticesPage: React.FC = () => {
     };
 
     const handleSelectCategory = (category: PublicNoticeCategory) => {
-        setSelectedCategory(category);
+        setSelectedCategoryId(category.id);
         loadDocumentViewer().catch(() => undefined);
     };
 
@@ -101,7 +116,14 @@ const PublicNoticesPage: React.FC = () => {
 
                         {/* Categories */}
                         <section className="grid grid-cols-2 gap-3">
-                            {PUBLIC_NOTICE_CATEGORIES.map(category => (
+                            {loading && (
+                                <>
+                                    <CategorySkeleton />
+                                    <CategorySkeleton />
+                                </>
+                            )}
+
+                            {categories.map(category => (
                                 <button
                                     key={category.id}
                                     type="button"

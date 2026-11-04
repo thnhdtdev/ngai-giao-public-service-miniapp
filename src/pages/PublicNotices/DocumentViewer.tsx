@@ -14,10 +14,7 @@ import pdfWorker from "pdfjs-dist/build/pdf.worker.min.js?url";
 
 import PageLayout from "@components/layout/PageLayout";
 
-import {
-    getPublicNoticeById,
-    getPublicNoticeCategoryByNoticeId,
-} from "@constants/publicNotices";
+import { findPublicNotice, usePublicNotices } from "@content/publicNotices";
 import { useElementWidth } from "@shared/hooks/useElementWidth";
 
 import LazyPdfPage from "./LazyPdfPage";
@@ -50,11 +47,10 @@ const DocumentViewerPage: React.FC = () => {
         noticeId: string;
     }>();
 
-    const notice = noticeId ? getPublicNoticeById(noticeId) : undefined;
-
-    const category = noticeId
-        ? getPublicNoticeCategoryByNoticeId(noticeId)
-        : undefined;
+    const { categories, loading } = usePublicNotices();
+    const match = noticeId ? findPublicNotice(categories, noticeId) : undefined;
+    const notice = match?.notice;
+    const category = match?.category;
 
     useEffect(() => {
         setNumPages(0);
@@ -79,6 +75,20 @@ const DocumentViewerPage: React.FC = () => {
             });
         }
     };
+
+    // Mở thẳng link văn bản khi danh sách chưa tải xong
+    if (loading) {
+        return (
+            <PageLayout
+                className="bg-gray-100"
+                name="document-viewer"
+                title="Xem văn bản"
+                onBackClick={() => navigate(-1)}
+            >
+                {LOADING_CONTENT}
+            </PageLayout>
+        );
+    }
 
     if (!notice) {
         return (
