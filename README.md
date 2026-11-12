@@ -48,6 +48,7 @@ ZMP_TOKEN=<zmp-cli-token>
 VITE_MINI_APP_ID=<zalo-mini-app-id>
 VITE_BASE_URL=<backend-api-url>
 VITE_MEDIA_BASE_URL=<cloudflare-r2-public-url>
+VITE_API_BASE_URL=https://api.hccngaigiao.vn/api
 ```
 
 Trong đó:
@@ -57,6 +58,7 @@ Trong đó:
 -   `VITE_MINI_APP_ID`: Mini App ID dự phòng khi chạy trong môi trường không có `window.APP_ID`.
 -   `VITE_BASE_URL`: URL gốc của backend, dùng bởi lớp gọi API trong `src/service`.
 -   `VITE_MEDIA_BASE_URL`: URL public của bucket Cloudflare R2 chứa PDF, video và `documents/public-notices.json` (không có dấu `/` ở cuối).
+-   `VITE_API_BASE_URL`: API của website hccngaigiao.vn, dùng cho màn Tra cứu thủ tục (`/procedures`). Khi chạy `npm start`, request đi qua proxy `/hcc-api` của dev server nên không bị CORS chặn. Bản build gọi thẳng API, nên backend phải có origin của Mini App (ví dụ `https://h5.zdn.vn`) trong `CORS_ORIGIN`, và domain API phải được khai báo trong cấu hình Zalo Mini App.
 
 > Biến dùng trong code phía client phải có tiền tố `VITE_`. Giá trị được ghi vào bundle lúc build, nên đổi `.env` xong phải build và deploy lại.
 

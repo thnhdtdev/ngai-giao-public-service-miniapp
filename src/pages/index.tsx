@@ -15,6 +15,8 @@ import { LocationPage } from "./Location";
 import { PublicNoticesPage } from "./PublicNotices";
 import { GuideVideosPage } from "./GuideVideos";
 import { OneStopGuidePage } from "./OneStopGuide";
+import { ProcedureCatalogPage } from "./ProcedureCatalog";
+import { ProcedureDetailPage } from "./ProcedureCatalog/ProcedureDetail";
 import { loadDocumentViewer } from "./PublicNotices/loadDocumentViewer";
 
 const DocumentViewerPage = lazy(loadDocumentViewer);
@@ -54,6 +56,11 @@ const Routes: React.FC = () => (
             <Route path="/location" element={<LocationPage />} />
             <Route path="/guide-videos" element={<GuideVideosPage />} />
             <Route path="/one-stop-guide" element={<OneStopGuidePage />} />
+            <Route path="/procedures" element={<ProcedureCatalogPage />} />
+            <Route
+                path="/procedures/:procedureId"
+                element={<ProcedureDetailPage />}
+            />
         </AnimationRoutes>
     </ZMPRouter>
 );
