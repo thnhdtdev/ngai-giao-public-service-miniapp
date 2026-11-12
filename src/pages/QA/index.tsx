@@ -130,6 +130,40 @@ const TypingIndicator: React.FC = () => (
     </div>
 );
 
+const formatSourceNumbers = (numbers: number[]): string => {
+    const isRange =
+        numbers.length > 2 &&
+        numbers.every((value, index) => value === numbers[0] + index);
+
+    return isRange
+        ? `${numbers[0]}–${numbers[numbers.length - 1]}`
+        : numbers.join(", ");
+};
+
+
+const groupCitations = (citations: AssistantCitation[]) => {
+    const groups = new Map<
+        string,
+        { citation: AssistantCitation; numbers: number[] }
+    >();
+
+    citations.forEach((citation, index) => {
+        const key = citation.procedureCode ?? citation.sourceUrl;
+        const group = groups.get(key);
+
+        if (group) {
+            group.numbers.push(index + 1);
+        } else {
+            groups.set(key, { citation, numbers: [index + 1] });
+        }
+    });
+
+    return Array.from(groups.values()).map(({ citation, numbers }) => ({
+        citation,
+        label: formatSourceNumbers(numbers),
+    }));
+};
+
 type ExchangeViewProps = {
     exchange: ChatExchange;
     onCitation: (citation: AssistantCitation) => void;
@@ -201,34 +235,36 @@ const ExchangeView: React.FC<ExchangeViewProps> = ({
                                     </div>
 
                                     <ol className="m-0 list-none space-y-1.5 p-0">
-                                        {citations.map((citation, index) => (
-                                            <li key={citation.id}>
-                                                <button
-                                                    className="flex w-full items-start gap-2 rounded-lg border-0 bg-gray-50 p-2 text-left active:bg-gray-100"
-                                                    type="button"
-                                                    onClick={() =>
-                                                        onCitation(citation)
-                                                    }
-                                                >
-                                                    <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-md bg-blue-100 px-1 text-[11px] font-bold text-blue-700">
-                                                        {index + 1}
-                                                    </span>
-                                                    <span className="min-w-0 flex-1">
-                                                        <span className="line-clamp-2 block text-xs font-medium leading-5 text-gray-800">
-                                                            {citation.title}
+                                        {groupCitations(citations).map(
+                                            ({ citation, label }) => (
+                                                <li key={citation.id}>
+                                                    <button
+                                                        className="flex w-full items-start gap-2 rounded-lg border-0 bg-gray-50 p-2 text-left active:bg-gray-100"
+                                                        type="button"
+                                                        onClick={() =>
+                                                            onCitation(citation)
+                                                        }
+                                                    >
+                                                        <span className="flex h-5 min-w-5 shrink-0 items-center justify-center whitespace-nowrap rounded-md bg-blue-100 px-1 text-[11px] font-bold text-blue-700">
+                                                            {label}
                                                         </span>
-                                                        {citation.procedureCode && (
-                                                            <span className="block text-[11px] leading-4 text-gray-500">
-                                                                Mã thủ tục:{" "}
-                                                                {
-                                                                    citation.procedureCode
-                                                                }
+                                                        <span className="min-w-0 flex-1">
+                                                            <span className="line-clamp-2 block text-xs font-medium leading-5 text-gray-800">
+                                                                {citation.title}
                                                             </span>
-                                                        )}
-                                                    </span>
-                                                </button>
-                                            </li>
-                                        ))}
+                                                            {citation.procedureCode && (
+                                                                <span className="block text-[11px] leading-4 text-gray-500">
+                                                                    Mã thủ tục:{" "}
+                                                                    {
+                                                                        citation.procedureCode
+                                                                    }
+                                                                </span>
+                                                            )}
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                            ),
+                                        )}
                                     </ol>
                                 </div>
                             ) : (
