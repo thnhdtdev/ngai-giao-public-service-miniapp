@@ -52,10 +52,11 @@ const utilities: UtilityItem[] = [
         theme: "bg-violet-50 text-violet-600",
     },
     {
-        id: "common-procedures",
-        type: "coming-soon",
-        title: "Thủ tục thường dùng",
+        id: "procedure-catalog",
+        type: "route",
+        title: "Tra cứu thủ tục",
         icon: <ClipboardList className="h-7 w-7" />,
+        path: "/procedures",
         theme: "bg-orange-50 text-orange-600",
     },
     {

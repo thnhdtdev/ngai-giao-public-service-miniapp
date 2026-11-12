@@ -1,15 +1,49 @@
-import { defineConfig } from "vite";
+import { ConfigEnv, defineConfig, loadEnv, ProxyOptions } from "vite";
 import react from "@vitejs/plugin-react";
 
 import path from "path";
+
+// Phải trùng với DEV_PROXY_PATH trong src/api/hccClient.ts
+const HCC_API_PROXY_PATH = "/hcc-api";
+
+/**
+ * Khi dev, chuyển tiếp request qua dev server để không bị CORS chặn
+ * (backend chỉ cho phép các origin trong CORS_ORIGIN). Bản build không dùng.
+ */
+const createHccApiProxy = (
+    apiBaseUrl?: string,
+): Record<string, ProxyOptions> | undefined => {
+    if (!apiBaseUrl) {
+        return undefined;
+    }
+
+    const { origin, pathname } = new URL(apiBaseUrl);
+    const basePath = pathname.replace(/\/+$/, "");
+
+    return {
+        [HCC_API_PROXY_PATH]: {
+            target: origin,
+            changeOrigin: true,
+            rewrite: requestPath =>
+                requestPath.replace(HCC_API_PROXY_PATH, basePath),
+        },
+    };
+};
+
 // https://vitejs.dev/config/
-export default () => {
+export default ({ mode }: ConfigEnv) => {
+    const envDir = path.resolve(__dirname);
+    const env = loadEnv(mode, envDir);
+
     return defineConfig({
         root: "./src",
         // .env nằm ở thư mục gốc; mặc định Vite đọc env từ `root` (./src)
-        envDir: path.resolve(__dirname),
+        envDir,
         base: "./",
         plugins: [react()],
+        server: {
+            proxy: createHccApiProxy(env.VITE_API_BASE_URL),
+        },
         build: {
             target: "es2020",
         },
@@ -18,6 +52,7 @@ export default () => {
                 "@assets": path.resolve(__dirname, "src/assets"),
                 "@components": path.resolve(__dirname, "src/components"),
                 "@common": path.resolve(__dirname, "src/common"),
+                "@api": path.resolve(__dirname, "src/api"),
                 "@constants": path.resolve(__dirname, "src/constants"),
                 "@content": path.resolve(__dirname, "src/content"),
                 "@routes": path.resolve(__dirname, "src/routes"),
