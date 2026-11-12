@@ -9,8 +9,9 @@ Zalo Mini App hỗ trợ người dân tra cứu và tiếp cận thông tin c�
 | Trang chủ            | `/`                  | Tổng hợp dịch vụ công, kênh chính thức và các tiện ích |
 | Hướng dẫn nộp online | `/online-guide`      | Hướng dẫn nộp hồ sơ trực tuyến theo từng bước          |
 | Thủ tục thường dùng  | `/common-procedures` | Danh sách thủ tục và liên kết tra cứu liên quan        |
+| Tra cứu thủ tục      | `/procedures`        | Danh mục thủ tục từ API hccngaigiao.vn, xem chi tiết   |
 | Giờ làm việc         | `/working-hours`     | Thời gian tiếp nhận và giải quyết hồ sơ                |
-| Hỏi đáp thủ tục      | `/qa`                | Câu hỏi thường gặp và liên hệ hỗ trợ                   |
+| Trợ lý hỏi đáp       | `/qa`                | Hỏi đáp AI về thủ tục, có trích dẫn nguồn              |
 | Địa chỉ & Chỉ đường  | `/location`          | Địa chỉ Trung tâm, sao chép địa chỉ và mở bản đồ       |
 
 Ứng dụng còn tích hợp Zalo SDK để gọi điện, mở webview, mở bản đồ và trò chuyện với Zalo Official Account.
@@ -58,7 +59,7 @@ Trong đó:
 -   `VITE_MINI_APP_ID`: Mini App ID dự phòng khi chạy trong môi trường không có `window.APP_ID`.
 -   `VITE_BASE_URL`: URL gốc của backend, dùng bởi lớp gọi API trong `src/service`.
 -   `VITE_MEDIA_BASE_URL`: URL public của bucket Cloudflare R2 chứa PDF, video và `documents/public-notices.json` (không có dấu `/` ở cuối).
--   `VITE_API_BASE_URL`: API của website hccngaigiao.vn, dùng cho màn Tra cứu thủ tục (`/procedures`). Khi chạy `npm start`, request đi qua proxy `/hcc-api` của dev server nên không bị CORS chặn. Bản build gọi thẳng API, nên backend phải có origin của Mini App (ví dụ `https://h5.zdn.vn`) trong `CORS_ORIGIN`, và domain API phải được khai báo trong cấu hình Zalo Mini App.
+-   `VITE_API_BASE_URL`: API của website hccngaigiao.vn, dùng cho màn Tra cứu thủ tục (`/procedures`) và Trợ lý hỏi đáp (`/qa`, gọi `POST /assistant/chat`; backend cần cấu hình `GOOGLE_API_KEY` và đã nạp dữ liệu tri thức, nếu không app báo trợ lý đang bảo trì). Khi chạy `npm start`, request đi qua proxy `/hcc-api` của dev server nên không bị CORS chặn. Bản build gọi thẳng API, nên backend phải có origin của Mini App (ví dụ `https://h5.zdn.vn`) trong `CORS_ORIGIN`, và domain API phải được khai báo trong cấu hình Zalo Mini App.
 
 > Biến dùng trong code phía client phải có tiền tố `VITE_`. Giá trị được ghi vào bundle lúc build, nên đổi `.env` xong phải build và deploy lại.
 
