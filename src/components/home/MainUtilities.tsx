@@ -1,18 +1,17 @@
-import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 import {
     Globe2,
     Clock3,
     CircleHelp,
     CirclePlay,
     Star,
-    MessageCircle,
+    CalendarCheck,
     ClipboardList,
     MapPin,
     Landmark,
 } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { openChat, openWebview } from "zmp-sdk";
+import { openWebview } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
 
 type UtilityItemBase = {
@@ -25,14 +24,7 @@ type UtilityItemBase = {
 type UtilityItem =
     | (UtilityItemBase & { type: "route"; path: string })
     | (UtilityItemBase & { type: "external"; url: string })
-    | (UtilityItemBase & { type: "coming-soon" })
-    | (UtilityItemBase & {
-          type: "oa";
-          oaId: string;
-          message?: string;
-      });
-
-const { oaId } = NGAI_GIAO_ORGANIZATION.zalo;
+    | (UtilityItemBase & { type: "coming-soon" });
 
 const utilities: UtilityItem[] = [
     {
@@ -68,12 +60,11 @@ const utilities: UtilityItem[] = [
         theme: "bg-cyan-50 text-cyan-600",
     },
     {
-        id: "contact",
-        type: "oa",
-        title: "Giải đáp thắc mắc",
-        icon: <MessageCircle className="h-7 w-7" />,
-        oaId,
-        message: NGAI_GIAO_ORGANIZATION.zalo.defaultSupportMessage,
+        id: "booking",
+        type: "route",
+        title: "Đặt lịch hẹn",
+        icon: <CalendarCheck className="h-7 w-7" />,
+        path: "/booking",
         theme: "bg-emerald-50 text-emerald-600",
     },
     {
@@ -109,23 +100,6 @@ const MainUtilities: React.FC = () => {
     const handleUtility = async (item: UtilityItem) => {
         if (item.type === "route") {
             navigate(item.path);
-            return;
-        }
-
-        if (item.type === "oa") {
-            try {
-                await openChat({
-                    type: "oa",
-                    id: item.oaId,
-                    message: item.message,
-                });
-            } catch {
-                openSnackbar({
-                    text: "Không thể mở chat Zalo OA",
-                    type: "error",
-                });
-            }
-
             return;
         }
 
