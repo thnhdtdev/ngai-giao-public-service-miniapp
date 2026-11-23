@@ -1,5 +1,6 @@
 import { ConfigEnv, defineConfig, loadEnv, ProxyOptions } from "vite";
 import react from "@vitejs/plugin-react";
+import zaloMiniApp from "zmp-vite-plugin";
 
 import path from "path";
 
@@ -32,20 +33,18 @@ const createHccApiProxy = (
 
 // https://vitejs.dev/config/
 export default ({ mode }: ConfigEnv) => {
-    const envDir = path.resolve(__dirname);
-    const env = loadEnv(mode, envDir);
+    const env = loadEnv(mode, __dirname);
 
     return defineConfig({
-        root: "./src",
-        // .env nằm ở thư mục gốc; mặc định Vite đọc env từ `root` (./src)
-        envDir,
-        base: "./",
-        plugins: [react()],
+        // zmp-vite-plugin: khi build đặt base "./" (đường dẫn tương đối, không
+        // gắn số version như Vite 2), outDir "www", target es2015 và tự sinh
+        // www/app-config.json (listCSS, listSyncJS) cho Zalo.
+        plugins: [react(), zaloMiniApp()],
         server: {
             proxy: createHccApiProxy(env.VITE_API_BASE_URL),
         },
         build: {
-            target: "es2020",
+            emptyOutDir: true,
         },
         resolve: {
             alias: {

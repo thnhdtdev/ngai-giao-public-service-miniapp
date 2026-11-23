@@ -29,7 +29,7 @@ Zalo Mini App hỗ trợ người dân tra cứu và tiếp cận thông tin c�
 ## Công nghệ
 
 -   React 18 và TypeScript
--   Vite
+-   Vite 5 + `zmp-vite-plugin`
 -   React Router
 -   Tailwind CSS
 -   ZMP SDK và ZMP UI
@@ -114,11 +114,22 @@ npx prettier --check "src/**/*.{js,jsx,ts,tsx,json,css,md}"
 npm run format
 ```
 
-## Triển khai
+## Build và triển khai
 
 ```bash
+# Build ra thư mục www/ (kèm www/app-config.json cho Zalo)
+npm run build
+
+# Build rồi deploy bản Development
 npm run deploy
+
+# Build rồi deploy bản Testing
+npm run deploy:testing
 ```
+
+-   `zmp-vite-plugin` build với `base: "./"` nên ảnh, PDF worker và các chunk được tham chiếu **tương đối**, chạy đúng ở mọi version Zalo cấp. (Với Vite 2 trước đây, ZMP CLI gắn cứng số version vào URL và có lúc gắn sai, làm ảnh bị 404.)
+-   Plugin tự sinh `www/app-config.json` (`listCSS`, `listSyncJS`) từ `app-config.json` ở thư mục gốc. Đổi cấu hình hiển thị (tiêu đề, status bar…) thì sửa `app-config.json` rồi build lại.
+-   `zmp deploy --existing` chỉ upload thư mục `www/` đã build, không build lại. Deploy bằng extension Zalo Mini App trên VS Code cũng được.
 
 Trước khi triển khai, cần kiểm tra đúng Mini App ID, token, backend URL và thử các chức năng dùng Zalo SDK trên thiết bị thật.
 
@@ -187,7 +198,7 @@ Làm tương tự niêm yết, với file `videos/guide-videos.json` trên bucke
 ├── app-config.json      # Cấu hình giao diện Zalo Mini App
 ├── zmp-cli.json         # Cấu hình ZMP CLI
 ├── tailwind.config.js   # Cấu hình Tailwind CSS
-├── vite.config.ts       # Cấu hình Vite và alias
+├── vite.config.mts      # Cấu hình Vite, alias và plugin Zalo
 └── package.json
 ```
 
