@@ -1,0 +1,280 @@
+{
+    "title": "Bảng niêm yết công khai phí, lệ phí giải quyết TTHC",
+    "pdf": "https://hccngaigiao.vn/fee.pdf",
+    "groups": [
+        {
+            "code": "A",
+            "title": "Phí chứng thực",
+            "note": "Thông tư 226/2016/TT-BTC ngày 11/11/2016 của Bộ Tài chính (mức thu do Trung ương quy định)",
+            "sections": [
+                {
+                    "items": [
+                        {
+                            "no": "1",
+                            "name": "Chứng thực bản sao từ bản chính",
+                            "direct": "2.000/trang; từ trang thứ 3 trở lên thu 1.000/trang",
+                            "online": "2.000/trang; từ trang thứ 3 trở lên thu 1.000/trang",
+                            "note": "2.000 đồng/trang. Từ trang thứ ba trở lên thu 1.000 đồng/trang, nhưng mức thu tối đa không quá 200.000 đồng/bản. Trang là căn cứ để thu phí được tính theo trang của bản chính"
+                        },
+                        {
+                            "no": "2",
+                            "name": "Chứng thực chữ ký",
+                            "direct": "10.000/trường hợp",
+                            "online": "10.000/trường hợp",
+                            "note": "Trường hợp được hiểu là một hoặc nhiều chữ ký/văn bản"
+                        },
+                        {
+                            "no": "3",
+                            "name": "Chứng thực chữ ký người dịch",
+                            "direct": "10.000/trường hợp",
+                            "online": "10.000/trường hợp"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "B",
+            "title": "Lệ phí đăng ký hộ tịch",
+            "sections": [
+                {
+                    "code": "I",
+                    "title": "Đăng ký hộ tịch của công dân Việt Nam cư trú ở trong nước",
+                    "items": [
+                        {
+                            "no": "1",
+                            "name": "Khai sinh",
+                            "online": "Miễn phí",
+                            "children": [
+                                {
+                                    "name": "Đăng ký khai sinh không đúng hạn",
+                                    "direct": "8.000",
+                                    "online": "Miễn phí"
+                                },
+                                {
+                                    "name": "Đăng ký khai sinh cho người đã có hồ sơ, giấy tờ cá nhân",
+                                    "direct": "8.000",
+                                    "online": "Miễn phí"
+                                },
+                                {
+                                    "name": "Đăng ký lại khai sinh",
+                                    "direct": "8.000",
+                                    "online": "Miễn phí"
+                                }
+                            ]
+                        },
+                        {
+                            "no": "2",
+                            "name": "Khai tử",
+                            "online": "Miễn phí",
+                            "children": [
+                                {
+                                    "name": "Đăng ký khai tử không đúng hạn",
+                                    "direct": "8.000",
+                                    "online": "Miễn phí"
+                                },
+                                {
+                                    "name": "Đăng ký lại khai tử",
+                                    "direct": "8.000",
+                                    "online": "Miễn phí"
+                                }
+                            ]
+                        },
+                        {
+                            "no": "3",
+                            "name": "Đăng ký lại kết hôn",
+                            "direct": "30.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "4",
+                            "name": "Nhận cha, mẹ, con",
+                            "direct": "15.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "5",
+                            "name": "Thay đổi, cải chính hộ tịch",
+                            "direct": "15.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "6",
+                            "name": "Bổ sung hộ tịch cho công dân Việt Nam cư trú ở trong nước",
+                            "direct": "15.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "7",
+                            "name": "Cấp giấy xác nhận tình trạng hôn nhân",
+                            "direct": "4.000/bản",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "8",
+                            "name": "Xác nhận hoặc ghi vào sổ hộ tịch các việc hộ tịch khác",
+                            "direct": "8.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "9",
+                            "name": "Xác định lại dân tộc",
+                            "direct": "25.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "10",
+                            "name": "Đăng ký hộ tịch khác",
+                            "direct": "8.000",
+                            "online": "Miễn phí"
+                        }
+                    ]
+                },
+                {
+                    "code": "II",
+                    "title": "Đăng ký hộ tịch có yếu tố nước ngoài",
+                    "items": [
+                        {
+                            "no": "1",
+                            "name": "Khai sinh",
+                            "children": [
+                                {
+                                    "name": "Đăng ký khai sinh",
+                                    "direct": "75.000",
+                                    "online": "Miễn phí"
+                                },
+                                {
+                                    "name": "Đăng ký khai sinh cho người đã có hồ sơ, giấy tờ cá nhân (đối với người Việt Nam định cư ở nước ngoài)",
+                                    "direct": "75.000",
+                                    "online": "Miễn phí"
+                                },
+                                {
+                                    "name": "Đăng ký lại khai sinh",
+                                    "direct": "75.000",
+                                    "online": "Miễn phí"
+                                }
+                            ]
+                        },
+                        {
+                            "no": "2",
+                            "name": "Khai tử",
+                            "online": "Miễn phí",
+                            "children": [
+                                {
+                                    "name": "Đăng ký khai tử",
+                                    "direct": "75.000",
+                                    "online": "Miễn phí"
+                                },
+                                {
+                                    "name": "Đăng ký lại khai tử",
+                                    "direct": "75.000",
+                                    "online": "Miễn phí"
+                                }
+                            ]
+                        },
+                        {
+                            "no": "3",
+                            "name": "Kết hôn",
+                            "online": "Miễn phí",
+                            "children": [
+                                {
+                                    "name": "Đăng ký kết hôn",
+                                    "direct": "1.500.000",
+                                    "online": "Miễn phí"
+                                },
+                                {
+                                    "name": "Đăng ký lại kết hôn",
+                                    "direct": "1.500.000",
+                                    "online": "Miễn phí"
+                                }
+                            ]
+                        },
+                        {
+                            "no": "4",
+                            "name": "Nhận cha, mẹ, con",
+                            "direct": "1.500.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "5",
+                            "name": "Đăng ký thay đổi, cải chính hộ tịch",
+                            "direct": "25.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "6",
+                            "name": "Bổ sung hộ tịch",
+                            "direct": "28.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "7",
+                            "name": "Xác định lại dân tộc",
+                            "direct": "28.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "8",
+                            "name": "Giám hộ",
+                            "online": "Miễn phí",
+                            "children": [
+                                {
+                                    "name": "Đăng ký giám hộ",
+                                    "direct": "75.000",
+                                    "online": "Miễn phí"
+                                },
+                                {
+                                    "name": "Đăng ký chấm dứt giám hộ",
+                                    "direct": "75.000",
+                                    "online": "Miễn phí"
+                                }
+                            ]
+                        },
+                        {
+                            "no": "9",
+                            "name": "Cấp bản sao trích lục hộ tịch, bản sao giấy khai sinh",
+                            "direct": "8.000",
+                            "online": "8.000",
+                            "onlineDetail": "Miễn phí theo 66.22/2026/NQ-CP. Công dân sử dụng tài khoản định danh điện tử, hoàn thành việc tích hợp thành công 5 loại thông tin, giấy tờ cơ bản theo quy định tại Phụ lục I. Thực hiện thủ tục hành chính qua dịch vụ công trực tiếp."
+                        },
+                        {
+                            "no": "10",
+                            "name": "Ghi vào sổ hộ tịch việc hộ tịch của công dân Việt Nam đã được giải quyết tại cơ quan có thẩm quyền của nước ngoài",
+                            "direct": "75.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "11",
+                            "name": "Đăng ký hộ tịch có yếu tố nước ngoài khác",
+                            "direct": "75.000",
+                            "online": "Miễn phí"
+                        },
+                        {
+                            "no": "12",
+                            "name": "Đăng ký việc nuôi con nuôi trong nước",
+                            "direct": "400.000",
+                            "online": "400.000",
+                            "note": "Lệ phí đăng ký nuôi con nuôi – Nghị định 114/2016/NĐ-CP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "C",
+            "title": "Lệ phí Bộ Y tế",
+            "sections": [
+                {
+                    "items": [
+                        {
+                            "no": "1",
+                            "name": "Cấp giấy chứng nhận cơ sở đủ điều kiện an toàn thực phẩm đối với cơ sở kinh doanh dịch vụ ăn uống, cơ sở sản xuất thực phẩm thuộc phạm vi quản lý của Bộ Y tế",
+                            "direct": "350.000",
+                            "online": "350.000"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -154,6 +154,20 @@ Quy tắc:
 -   Muốn thêm danh mục mới, thêm một phần tử vào `categories` với `id`, `title`, `description`, `notices`.
 -   Mục sai cấu trúc sẽ bị bỏ qua. Nếu cả file lỗi hoặc không tải được, app dùng bản dự phòng [`src/content/public-notices.json`](src/content/public-notices.json) đóng gói sẵn. Thỉnh thoảng nên chép bản trên R2 về repo để bản dự phòng không quá cũ.
 
+## Cập nhật bảng phí, lệ phí
+
+Màn "Phí, lệ phí" (`/public-notices/fees`, trong trang Niêm yết công khai) đọc file `documents/fee-schedule.json` trên R2, nên **đổi mức phí không cần sửa code, build hay deploy**. Nếu không tải được, app dùng bản đóng gói [`src/content/fee-schedule.json`](src/content/fee-schedule.json).
+
+1. Lần đầu: upload nguyên file `src/content/fee-schedule.json` lên bucket tại `documents/fee-schedule.json`.
+2. Muốn sửa: tải file trên R2 về, sửa rồi upload đè. Kiểm tra JSON hợp lệ trước khi upload.
+
+Cấu trúc (giống `frontend/constants/fees.ts` của website, nên khi đổi phí nhớ cập nhật cả hai):
+
+-   `title`: tiêu đề bảng. `pdf`: link bảng phí gốc, dùng URL đầy đủ hoặc đường dẫn trong bucket (ví dụ `documents/fee.pdf`).
+-   `groups[]`: nhóm phí (`code` A/B/C, `title`, `note` là căn cứ pháp lý) → `sections[]` (`code`, `title` không bắt buộc) → `items[]`.
+-   Mỗi mục: `no`, `name`, `direct` (trực tiếp/bưu chính), `online` (trực tuyến), `onlineDetail` (điều kiện ghi dưới mức trực tuyến), `note`, `children[]` (các trường hợp con, cùng các trường như trên).
+-   Số tiền ghi dạng chữ: `"8.000"`, `"Miễn phí"`, `"2.000/trang; từ trang thứ 3…"`. Số thuần sẽ tự hiển thị thành `8.000 đ`.
+
 ## Cập nhật video hướng dẫn
 
 Làm tương tự niêm yết, với file `videos/guide-videos.json` trên bucket (không cần sửa code, build hay deploy):
