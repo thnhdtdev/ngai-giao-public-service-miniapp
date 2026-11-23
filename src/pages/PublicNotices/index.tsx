@@ -20,16 +20,23 @@ import PageLayout from "@components/layout/PageLayout";
 
 import { loadDocumentViewer } from "./loadDocumentViewer";
 
+// Giữ nguyên chữ hoa của tên riêng, viết tắt (Hồ Chí Minh, TTHC, UBND);
+// chỉ hạ về chữ thường khi cả câu viết hoa toàn bộ (từ 3 từ trở lên, để
+// không đụng vào số hiệu văn bản như "123/QĐ-UBND").
 const formatTitle = (title: string) => {
-    const normalizedTitle = title.trim().toLocaleLowerCase("vi-VN");
+    const trimmed = title.trim().replace(/\s+/g, " ");
 
-    if (!normalizedTitle) {
+    if (!trimmed) {
         return "";
     }
 
-    return `${normalizedTitle[0].toLocaleUpperCase(
-        "vi-VN",
-    )}${normalizedTitle.slice(1)}`;
+    const isAllCaps =
+        trimmed.split(" ").length >= 3 &&
+        trimmed === trimmed.toLocaleUpperCase("vi-VN") &&
+        trimmed !== trimmed.toLocaleLowerCase("vi-VN");
+    const base = isAllCaps ? trimmed.toLocaleLowerCase("vi-VN") : trimmed;
+
+    return `${base[0].toLocaleUpperCase("vi-VN")}${base.slice(1)}`;
 };
 
 const CategorySkeleton: React.FC = () => (
