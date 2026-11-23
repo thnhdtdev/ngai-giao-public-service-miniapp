@@ -44,6 +44,22 @@ const buildUrl = (path: string, params?: QueryParams): string => {
     }`;
 };
 
+/**
+ * URL đầy đủ cho đường dẫn backend trả về dạng `/api/...` (ví dụ
+ * `downloadPath` của file công khai). Khi dev đi qua proxy `/hcc-api`.
+ */
+export const hccResourceUrl = (apiPath: string): string => {
+    if (!apiPath || /^https?:\/\//i.test(apiPath)) {
+        return apiPath;
+    }
+
+    if (!API_BASE_URL) {
+        return "";
+    }
+
+    return buildUrl(apiPath.replace(/^\/?api\//, ""));
+};
+
 const readErrorMessage = (
     body: unknown,
 ): { message?: string; code?: string } => {

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import {
+    formatFileSize,
     PublicNotice,
     PublicNoticeCategory,
     usePublicNotices,
@@ -45,12 +46,11 @@ const PublicNoticesPage: React.FC = () => {
     const { categories, loading } = usePublicNotices();
 
     // Lưu id thay vì object để vẫn khớp khi dữ liệu mới từ R2 về
-    const [selectedCategoryId, setSelectedCategoryId] = useState<
-        string | null
-    >(null);
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+        null,
+    );
     const selectedCategory =
-        categories.find(category => category.id === selectedCategoryId) ??
-        null;
+        categories.find(category => category.id === selectedCategoryId) ?? null;
 
     const handleBack = () => {
         if (selectedCategory) {
@@ -79,9 +79,7 @@ const PublicNoticesPage: React.FC = () => {
             className="bg-gray-50"
             name="public-notices"
             title={
-                selectedCategory
-                    ? selectedCategory.title
-                    : "Niêm yết công khai"
+                selectedCategory ? selectedCategory.title : "Niêm yết công khai"
             }
             onBackClick={handleBack}
         >
@@ -222,6 +220,21 @@ const PublicNoticesPage: React.FC = () => {
                                         <div className="text-sm font-bold leading-5 text-gray-900">
                                             {formatTitle(notice.title)}
                                         </div>
+
+                                        {Boolean(
+                                            notice.agency || notice.sizeBytes,
+                                        ) && (
+                                            <div className="mt-1 text-xs text-gray-500">
+                                                {[
+                                                    notice.agency,
+                                                    formatFileSize(
+                                                        notice.sizeBytes,
+                                                    ),
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join(" · ")}
+                                            </div>
+                                        )}
 
                                         <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-blue-600">
                                             {notice.url
