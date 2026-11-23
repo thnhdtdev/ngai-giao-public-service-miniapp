@@ -130,6 +130,7 @@ npm run deploy:testing
 -   `zmp-vite-plugin` build với `base: "./"` nên ảnh, PDF worker và các chunk được tham chiếu **tương đối**, chạy đúng ở mọi version Zalo cấp. (Với Vite 2 trước đây, ZMP CLI gắn cứng số version vào URL và có lúc gắn sai, làm ảnh bị 404.)
 -   Plugin tự sinh `www/app-config.json` (`listCSS`, `listSyncJS`) từ `app-config.json` ở thư mục gốc. Đổi cấu hình hiển thị (tiêu đề, status bar…) thì sửa `app-config.json` rồi build lại.
 -   `zmp deploy --existing` chỉ upload thư mục `www/` đã build, không build lại. Deploy bằng extension Zalo Mini App trên VS Code cũng được.
+-   `package.json` có `overrides` thay Rollup bằng `@rollup/wasm-node` (bản WebAssembly, không có file native). **Không xoá**: trên macOS, VS Code chặn nạp file native `rollup.darwin-arm64.node` vì khác chữ ký nhà phát hành, làm extension Zalo báo "Không tìm thấy thư viện Vite". Khi nâng Vite/Rollup, cập nhật phiên bản trong `overrides` cho khớp.
 
 Trước khi triển khai, cần kiểm tra đúng Mini App ID, token, backend URL và thử các chức năng dùng Zalo SDK trên thiết bị thật.
 
