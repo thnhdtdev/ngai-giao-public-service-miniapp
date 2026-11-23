@@ -1,6 +1,7 @@
 import {
     Banknote,
     Building2,
+    CalendarCheck,
     ChevronDown,
     ClipboardList,
     Clock3,
@@ -19,6 +20,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { openWebview } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
 
+import { bookingCategoryCodeForField } from "@api/appointments";
 import { buildProcedureDetailView } from "@api/procedureDetailView";
 import { useProcedureDetail } from "@api/procedures";
 import PageLayout from "@components/layout/PageLayout";
@@ -85,6 +87,14 @@ const ProcedureDetailPage: React.FC = () => {
                 duration: 3000,
             });
         }
+    };
+
+    const handleBookAppointment = () => {
+        const code = bookingCategoryCodeForField(data?.field);
+
+        navigate(
+            code ? `/booking?category=${encodeURIComponent(code)}` : "/booking",
+        );
     };
 
     if (loading) {
@@ -201,6 +211,17 @@ const ProcedureDetailPage: React.FC = () => {
                             <ExternalLink className="h-4 w-4" />
                         </button>
                     )}
+
+                    <button
+                        type="button"
+                        onClick={handleBookAppointment}
+                        className={`${
+                            submitUrl ? "mt-2.5" : "mt-4"
+                        } flex w-full items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-4 py-3 text-sm font-bold text-blue-700 active:bg-blue-50`}
+                    >
+                        <CalendarCheck className="h-4 w-4" />
+                        Đặt lịch nộp hồ sơ tại Trung tâm
+                    </button>
                 </section>
 
                 {view.dossier.length > 0 && (

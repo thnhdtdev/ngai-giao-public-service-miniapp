@@ -12,9 +12,19 @@ Zalo Mini App hỗ trợ người dân tra cứu và tiếp cận thông tin c�
 | Tra cứu thủ tục      | `/procedures`        | Danh mục thủ tục từ API hccngaigiao.vn, xem chi tiết   |
 | Giờ làm việc         | `/working-hours`     | Thời gian tiếp nhận và giải quyết hồ sơ                |
 | Trợ lý hỏi đáp       | `/qa`                | Hỏi đáp AI về thủ tục, có trích dẫn nguồn              |
+| Đặt lịch hẹn         | `/booking`           | Đặt lịch nộp hồ sơ trong ngày tại Trung tâm            |
+| Lịch hẹn của tôi     | `/appointments`      | Xem trạng thái, sao chép mã, huỷ lịch hẹn hôm nay      |
 | Địa chỉ & Chỉ đường  | `/location`          | Địa chỉ Trung tâm, sao chép địa chỉ và mở bản đồ       |
 
 Ứng dụng còn tích hợp Zalo SDK để gọi điện, mở webview, mở bản đồ và trò chuyện với Zalo Official Account.
+
+### Đặt lịch hẹn
+
+-   Dùng API của backend hccngaigiao.vn: `GET /categories`, `GET /slots?categoryId=`, `POST /appointments`, `GET /appointments/lookup?phone=`, `POST /appointments/:id/cancel`.
+-   Backend chỉ nhận đặt lịch **trong ngày hôm nay**. Khung giờ được tạo tự động lúc 00:01 mỗi ngày theo cấu hình trong trang quản trị.
+-   Lịch đã đặt được lưu trên máy người dùng (`nativeStorage` của Zalo) để xem lại và huỷ mà không cần nhập lại số điện thoại. Không lưu số CCCD.
+-   Màn chi tiết thủ tục có nút "Đặt lịch nộp hồ sơ", tự chọn sẵn lĩnh vực theo bảng ghép trong `src/api/appointments.ts` (`FIELD_TO_CATEGORY_CODE`). Thêm lĩnh vực đặt lịch mới ở backend thì cập nhật bảng này.
+-   Khi test ở local nên trỏ `VITE_API_BASE_URL` tới backend chạy trên máy, tránh tạo lịch hẹn thật trên production.
 
 ## Công nghệ
 
