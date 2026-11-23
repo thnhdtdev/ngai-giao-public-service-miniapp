@@ -68,7 +68,7 @@ Trong đó:
 -   `ZMP_TOKEN`: token phục vụ thao tác với Zalo Mini App CLI.
 -   `VITE_MINI_APP_ID`: Mini App ID dự phòng khi chạy trong môi trường không có `window.APP_ID`.
 -   `VITE_BASE_URL`: URL gốc của backend, dùng bởi lớp gọi API trong `src/service`.
--   `VITE_MEDIA_BASE_URL`: URL public của bucket Cloudflare R2 chứa PDF, video và `documents/public-notices.json` (không có dấu `/` ở cuối).
+-   `VITE_MEDIA_BASE_URL`: URL public của bucket Cloudflare R2 chứa video, `videos/guide-videos.json` và manifest dự phòng `documents/public-notices.json` (không có dấu `/` ở cuối).
 -   `VITE_API_BASE_URL`: API của website hccngaigiao.vn, dùng cho màn Tra cứu thủ tục (`/procedures`) và Trợ lý hỏi đáp (`/qa`, gọi `POST /assistant/chat`; backend cần cấu hình `GOOGLE_API_KEY` và đã nạp dữ liệu tri thức, nếu không app báo trợ lý đang bảo trì). Khi chạy `npm start`, request đi qua proxy `/hcc-api` của dev server nên không bị CORS chặn. Bản build gọi thẳng API, nên backend phải có origin của Mini App (ví dụ `https://h5.zdn.vn`) trong `CORS_ORIGIN`, và domain API phải được khai báo trong cấu hình Zalo Mini App.
 
 > Biến dùng trong code phía client phải có tiền tố `VITE_`. Giá trị được ghi vào bundle lúc build, nên đổi `.env` xong phải build và deploy lại.
@@ -124,7 +124,14 @@ Trước khi triển khai, cần kiểm tra đúng Mini App ID, token, backend U
 
 ## Cập nhật văn bản niêm yết công khai
 
-Danh sách văn bản được app tải từ R2 mỗi khi mở trang Niêm yết, nên **thêm, sửa hoặc xoá văn bản không cần sửa code, build hay deploy**.
+**Cách chính:** văn bản lấy từ API của website hccngaigiao.vn (`GET /file-types`, `GET /files`). Cán bộ thêm, sửa, ẩn văn bản trong **trang quản trị website** (mục quản lý file công khai). Website và mini app dùng chung, không cần sửa code, build hay deploy.
+
+-   Mỗi **loại file** (file type) là một nhóm trên trang Niêm yết, theo thứ tự sắp xếp trong trang quản trị. Nhóm chưa có văn bản sẽ không hiển thị.
+-   Chỉ hiện văn bản và loại file đang bật. File PDF xem trực tiếp trong app; định dạng khác mở bằng trình duyệt.
+
+**Dự phòng:** nếu API lỗi hoặc không phản hồi trong 6 giây, app dùng manifest `documents/public-notices.json` trên R2 (cách cũ, bên dưới), rồi tới bản đóng gói [`src/content/public-notices.json`](src/content/public-notices.json). Nên giữ manifest R2 gần giống dữ liệu trong trang quản trị.
+
+### Cập nhật manifest dự phòng trên R2
 
 1. Upload file PDF lên bucket, ví dụ `documents/ngai-giao/QD_moi.pdf`.
 2. Tải file `documents/public-notices.json` từ bucket về, thêm một mục vào `notices` của danh mục phù hợp:
@@ -146,6 +153,20 @@ Quy tắc:
 -   `file` là đường dẫn trong bucket, không có `/` ở đầu. Có thể dùng URL đầy đủ `https://...` nếu file nằm ở nơi khác. Để trống `file` thì văn bản hiển thị "Đang cập nhật".
 -   Muốn thêm danh mục mới, thêm một phần tử vào `categories` với `id`, `title`, `description`, `notices`.
 -   Mục sai cấu trúc sẽ bị bỏ qua. Nếu cả file lỗi hoặc không tải được, app dùng bản dự phòng [`src/content/public-notices.json`](src/content/public-notices.json) đóng gói sẵn. Thỉnh thoảng nên chép bản trên R2 về repo để bản dự phòng không quá cũ.
+
+## Cập nhật bảng phí, lệ phí
+
+Màn "Phí, lệ phí" (`/public-notices/fees`, trong trang Niêm yết công khai) đọc file `documents/fee-schedule.json` trên R2, nên **đổi mức phí không cần sửa code, build hay deploy**. Nếu không tải được, app dùng bản đóng gói [`src/content/fee-schedule.json`](src/content/fee-schedule.json).
+
+1. Lần đầu: upload nguyên file `src/content/fee-schedule.json` lên bucket tại `documents/fee-schedule.json`.
+2. Muốn sửa: tải file trên R2 về, sửa rồi upload đè. Kiểm tra JSON hợp lệ trước khi upload.
+
+Cấu trúc (giống `frontend/constants/fees.ts` của website, nên khi đổi phí nhớ cập nhật cả hai):
+
+-   `title`: tiêu đề bảng. `pdf`: link bảng phí gốc, dùng URL đầy đủ hoặc đường dẫn trong bucket (ví dụ `documents/fee.pdf`).
+-   `groups[]`: nhóm phí (`code` A/B/C, `title`, `note` là căn cứ pháp lý) → `sections[]` (`code`, `title` không bắt buộc) → `items[]`.
+-   Mỗi mục: `no`, `name`, `direct` (trực tiếp/bưu chính), `online` (trực tuyến), `onlineDetail` (điều kiện ghi dưới mức trực tuyến), `note`, `children[]` (các trường hợp con, cùng các trường như trên).
+-   Số tiền ghi dạng chữ: `"8.000"`, `"Miễn phí"`, `"2.000/trang; từ trang thứ 3…"`. Số thuần sẽ tự hiển thị thành `8.000 đ`.
 
 ## Cập nhật video hướng dẫn
 

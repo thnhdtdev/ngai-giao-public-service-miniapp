@@ -21,20 +21,11 @@ import LazyPdfPage from "./LazyPdfPage";
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
 
-// Khai báo ở cấp module để giữ nguyên tham chiếu, giúp LazyPdfPage memo hiệu quả
 const LOADING_CONTENT = (
     <div className="flex min-h-64 items-center justify-center text-blue-600">
         <LoaderCircle className="h-7 w-7 animate-spin" />
     </div>
 );
-
-const isPdfUrl = (url: string) => {
-    try {
-        return new URL(url).pathname.toLowerCase().endsWith(".pdf");
-    } catch {
-        return url.toLowerCase().includes(".pdf");
-    }
-};
 
 const DocumentViewerPage: React.FC = () => {
     const navigate = useNavigate();
@@ -76,7 +67,6 @@ const DocumentViewerPage: React.FC = () => {
         }
     };
 
-    // Mở thẳng link văn bản khi danh sách chưa tải xong
     if (loading) {
         return (
             <PageLayout
@@ -150,7 +140,7 @@ const DocumentViewerPage: React.FC = () => {
 
     if (!notice.url) {
         viewerContent = errorContent;
-    } else if (isPdfUrl(notice.url)) {
+    } else if (notice.isPdf) {
         viewerContent = (
             <div className="w-full overflow-x-hidden bg-gray-200 p-2">
                 <div className="w-full" ref={setViewerElement}>

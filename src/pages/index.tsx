@@ -20,6 +20,7 @@ import { ProcedureDetailPage } from "./ProcedureCatalog/ProcedureDetail";
 import { BookingPage } from "./Booking";
 import { MyAppointmentsPage } from "./MyAppointments";
 import { loadDocumentViewer } from "./PublicNotices/loadDocumentViewer";
+import { FeeSchedulePage } from "./PublicNotices/FeeSchedule";
 
 const DocumentViewerPage = lazy(loadDocumentViewer);
 
@@ -55,6 +56,7 @@ const Routes: React.FC = () => (
                 element={<CommonProceduresPage />}
             />
             <Route path="/public-notices" element={<PublicNoticesPage />} />
+            <Route path="/public-notices/fees" element={<FeeSchedulePage />} />
             <Route path="/location" element={<LocationPage />} />
             <Route path="/guide-videos" element={<GuideVideosPage />} />
             <Route path="/one-stop-guide" element={<OneStopGuidePage />} />

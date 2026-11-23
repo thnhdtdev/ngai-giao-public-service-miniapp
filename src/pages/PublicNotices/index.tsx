@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
+    Banknote,
     ChevronRight,
     FileText,
     Landmark,
@@ -10,6 +11,7 @@ import {
 } from "lucide-react";
 
 import {
+    formatFileSize,
     PublicNotice,
     PublicNoticeCategory,
     usePublicNotices,
@@ -19,16 +21,27 @@ import PageLayout from "@components/layout/PageLayout";
 
 import { loadDocumentViewer } from "./loadDocumentViewer";
 
-const formatTitle = (title: string) => {
-    const normalizedTitle = title.trim().toLocaleLowerCase("vi-VN");
+// Nhóm TTHC phi địa giới: id cũ trong manifest R2 hoặc mã loại file của backend
+const isNonBoundary = (categoryId: string) =>
+    categoryId === "non-boundary" || categoryId === "PHI_DIA_GIOI";
 
-    if (!normalizedTitle) {
+// Giữ nguyên chữ hoa của tên riêng, viết tắt (Hồ Chí Minh, TTHC, UBND);
+// chỉ hạ về chữ thường khi cả câu viết hoa toàn bộ (từ 3 từ trở lên, để
+// không đụng vào số hiệu văn bản như "123/QĐ-UBND").
+const formatTitle = (title: string) => {
+    const trimmed = title.trim().replace(/\s+/g, " ");
+
+    if (!trimmed) {
         return "";
     }
 
-    return `${normalizedTitle[0].toLocaleUpperCase(
-        "vi-VN",
-    )}${normalizedTitle.slice(1)}`;
+    const isAllCaps =
+        trimmed.split(" ").length >= 3 &&
+        trimmed === trimmed.toLocaleUpperCase("vi-VN") &&
+        trimmed !== trimmed.toLocaleLowerCase("vi-VN");
+    const base = isAllCaps ? trimmed.toLocaleLowerCase("vi-VN") : trimmed;
+
+    return `${base[0].toLocaleUpperCase("vi-VN")}${base.slice(1)}`;
 };
 
 const CategorySkeleton: React.FC = () => (
@@ -45,12 +58,11 @@ const PublicNoticesPage: React.FC = () => {
     const { categories, loading } = usePublicNotices();
 
     // Lưu id thay vì object để vẫn khớp khi dữ liệu mới từ R2 về
-    const [selectedCategoryId, setSelectedCategoryId] = useState<
-        string | null
-    >(null);
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+        null,
+    );
     const selectedCategory =
-        categories.find(category => category.id === selectedCategoryId) ??
-        null;
+        categories.find(category => category.id === selectedCategoryId) ?? null;
 
     const handleBack = () => {
         if (selectedCategory) {
@@ -79,9 +91,7 @@ const PublicNoticesPage: React.FC = () => {
             className="bg-gray-50"
             name="public-notices"
             title={
-                selectedCategory
-                    ? selectedCategory.title
-                    : "Niêm yết công khai"
+                selectedCategory ? selectedCategory.title : "Niêm yết công khai"
             }
             onBackClick={handleBack}
         >
@@ -134,12 +144,12 @@ const PublicNoticesPage: React.FC = () => {
                                 >
                                     <div
                                         className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
-                                            category.id === "non-boundary"
+                                            isNonBoundary(category.id)
                                                 ? "bg-orange-50 text-orange-600"
                                                 : "bg-blue-50 text-blue-600"
                                         }`}
                                     >
-                                        {category.id === "non-boundary" ? (
+                                        {isNonBoundary(category.id) ? (
                                             <MapPinned className="h-6 w-6" />
                                         ) : (
                                             <Landmark className="h-6 w-6" />
@@ -160,6 +170,29 @@ const PublicNoticesPage: React.FC = () => {
                                     </div>
                                 </button>
                             ))}
+
+                            <button
+                                type="button"
+                                onClick={() => navigate("/public-notices/fees")}
+                                className="col-span-2 flex items-center gap-3 rounded-2xl border border-gray-100 bg-white p-4 text-left shadow-sm active:bg-gray-50"
+                            >
+                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+                                    <Banknote className="h-6 w-6" />
+                                </div>
+
+                                <div className="min-w-0 flex-1">
+                                    <h3 className="m-0 text-base font-bold leading-5 text-gray-900">
+                                        Phí, lệ phí
+                                    </h3>
+
+                                    <p className="mb-0 mt-1 text-xs leading-4 text-gray-500">
+                                        Mức thu phí, lệ phí giải quyết thủ tục
+                                        hành chính
+                                    </p>
+                                </div>
+
+                                <ChevronRight className="h-5 w-5 shrink-0 text-gray-300" />
+                            </button>
                         </section>
                     </>
                 ) : (
@@ -169,12 +202,12 @@ const PublicNoticesPage: React.FC = () => {
                             <div className="flex items-center gap-3">
                                 <div
                                     className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${
-                                        selectedCategory.id === "non-boundary"
+                                        isNonBoundary(selectedCategory.id)
                                             ? "bg-orange-50 text-orange-600"
                                             : "bg-blue-50 text-blue-600"
                                     }`}
                                 >
-                                    {selectedCategory.id === "non-boundary" ? (
+                                    {isNonBoundary(selectedCategory.id) ? (
                                         <MapPinned className="h-6 w-6" />
                                     ) : (
                                         <Landmark className="h-6 w-6" />
@@ -222,6 +255,21 @@ const PublicNoticesPage: React.FC = () => {
                                         <div className="text-sm font-bold leading-5 text-gray-900">
                                             {formatTitle(notice.title)}
                                         </div>
+
+                                        {Boolean(
+                                            notice.agency || notice.sizeBytes,
+                                        ) && (
+                                            <div className="mt-1 text-xs text-gray-500">
+                                                {[
+                                                    notice.agency,
+                                                    formatFileSize(
+                                                        notice.sizeBytes,
+                                                    ),
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join(" · ")}
+                                            </div>
+                                        )}
 
                                         <div className="mt-2 flex items-center gap-1 text-xs font-semibold text-blue-600">
                                             {notice.url
