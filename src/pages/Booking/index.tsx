@@ -25,6 +25,7 @@ import {
     useBookingCategories,
 } from "@api/appointments";
 import PageLayout from "@components/layout/PageLayout";
+import { useGoBack } from "@utils/navigation";
 
 import BookingSuccess from "./BookingSuccess";
 import {
@@ -88,6 +89,7 @@ const initialContact = (): ContactForm => {
 
 const BookingPage: React.FC = () => {
     const navigate = useNavigate();
+    const goBack = useGoBack();
     const { openSnackbar } = useSnackbar();
     const [searchParams] = useSearchParams();
     const pageRef = useRef<HTMLDivElement>(null);
@@ -147,7 +149,7 @@ const BookingPage: React.FC = () => {
 
     const handleBack = () => {
         if (result || step === 1) {
-            navigate(-1);
+            goBack();
             return;
         }
 

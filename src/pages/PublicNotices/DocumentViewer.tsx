@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { openWebview } from "zmp-sdk";
 import { useSnackbar } from "zmp-ui";
 
@@ -13,6 +13,7 @@ import { Document, pdfjs } from "react-pdf";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.min.js?url";
 
 import PageLayout from "@components/layout/PageLayout";
+import ShareButton from "@components/ShareButton";
 
 import { findPublicNotice, usePublicNotices } from "@content/publicNotices";
 import { useElementWidth } from "@shared/hooks/useElementWidth";
@@ -28,7 +29,6 @@ const LOADING_CONTENT = (
 );
 
 const DocumentViewerPage: React.FC = () => {
-    const navigate = useNavigate();
     const { openSnackbar } = useSnackbar();
     const [setViewerElement, viewerWidth] = useElementWidth<HTMLDivElement>();
 
@@ -73,7 +73,6 @@ const DocumentViewerPage: React.FC = () => {
                 className="bg-gray-100"
                 name="document-viewer"
                 title="Xem văn bản"
-                onBackClick={() => navigate(-1)}
             >
                 {LOADING_CONTENT}
             </PageLayout>
@@ -86,7 +85,6 @@ const DocumentViewerPage: React.FC = () => {
                 className="bg-gray-50"
                 name="document-viewer"
                 title="Xem văn bản"
-                onBackClick={() => navigate(-1)}
             >
                 <div className="flex min-h-96 items-center justify-center px-6 text-center">
                     <div>
@@ -181,24 +179,35 @@ const DocumentViewerPage: React.FC = () => {
             className="overflow-x-hidden bg-gray-100"
             name="document-viewer"
             title="Xem văn bản"
-            onBackClick={() => navigate(-1)}
         >
-            <div className="border-b border-gray-200 bg-white px-4 py-3">
-                {category && (
-                    <div className="mb-1 text-xs font-semibold text-blue-600">
-                        {category.title}
-                    </div>
-                )}
+            <div className="flex items-start gap-3 border-b border-gray-200 bg-white px-4 py-3">
+                <div className="min-w-0 flex-1">
+                    {category && (
+                        <div className="mb-1 text-xs font-semibold text-blue-600">
+                            {category.title}
+                        </div>
+                    )}
 
-                <div className="line-clamp-3 text-sm font-bold leading-5 text-gray-900">
-                    {notice.title}
+                    <div className="line-clamp-3 text-sm font-bold leading-5 text-gray-900">
+                        {notice.title}
+                    </div>
+
+                    {numPages > 0 && (
+                        <div className="mt-1 text-xs text-gray-500">
+                            {numPages} trang
+                        </div>
+                    )}
                 </div>
 
-                {numPages > 0 && (
-                    <div className="mt-1 text-xs text-gray-500">
-                        {numPages} trang
-                    </div>
-                )}
+                <ShareButton
+                    className="h-10 w-10 shrink-0 rounded-full border-0 bg-blue-50 text-blue-600 active:bg-blue-100"
+                    description={category?.title ?? "Niêm yết công khai"}
+                    iconClassName="h-5 w-5"
+                    path={`/public-notices/document/${encodeURIComponent(
+                        notice.id,
+                    )}`}
+                    title={notice.title}
+                />
             </div>
 
             {viewerContent}

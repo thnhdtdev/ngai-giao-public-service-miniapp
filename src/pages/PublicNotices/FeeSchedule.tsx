@@ -12,6 +12,7 @@ import {
     useFeeSchedule,
 } from "@content/feeSchedule";
 import PageLayout from "@components/layout/PageLayout";
+import ShareButton from "@components/ShareButton";
 import { NGAI_GIAO_ORGANIZATION } from "@constants/organization";
 import { normalizeSearchText } from "@utils/search";
 
@@ -196,8 +197,23 @@ const FeeSchedulePage: React.FC = () => {
         >
             <main className="px-4 pb-8 pt-4">
                 <section className="rounded-3xl bg-gradient-to-br from-emerald-600 to-teal-600 p-5 text-white shadow-sm">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/20 bg-white/15">
-                        <Banknote className="h-6 w-6" />
+                    <div className="flex items-start justify-between">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/20 bg-white/15">
+                            <Banknote className="h-6 w-6" />
+                        </div>
+
+                        <ShareButton
+                            className="h-9 rounded-full border border-white/25 bg-white/15 px-3 text-xs font-semibold text-white active:bg-white/25"
+                            description={
+                                NGAI_GIAO_ORGANIZATION.organization.fullName
+                            }
+                            label="Chia sẻ"
+                            path="/public-notices/fees"
+                            title={
+                                schedule?.title ??
+                                "Bảng phí, lệ phí thủ tục hành chính"
+                            }
+                        />
                     </div>
                     <h2 className="mt-4 text-lg font-bold leading-6">
                         {schedule?.title ??
