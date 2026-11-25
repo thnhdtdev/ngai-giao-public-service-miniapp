@@ -1,74 +1,109 @@
-import { LoaderCircle } from "lucide-react";
-import React, { lazy, Suspense } from "react";
+import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { AnimationRoutes, ZMPRouter } from "zmp-ui";
 
-import PageLayout from "@components/layout/PageLayout";
-import RouteErrorBoundary from "@components/RouteErrorBoundary";
-
 import { HomePage } from "./Home";
-import { QAPage } from "./QA";
-import { CommonProceduresPage } from "./CommonProcedures";
-import { WorkingHoursPage } from "./WorkingHours";
-import { OnlineGuidePage } from "./OnlineGuide";
-import { LocationPage } from "./Location";
-import { PublicNoticesPage } from "./PublicNotices";
-import { GuideVideosPage } from "./GuideVideos";
-import { OneStopGuidePage } from "./OneStopGuide";
-import { ProcedureCatalogPage } from "./ProcedureCatalog";
-import { ProcedureDetailPage } from "./ProcedureCatalog/ProcedureDetail";
-import { BookingPage } from "./Booking";
-import { MyAppointmentsPage } from "./MyAppointments";
-import { loadDocumentViewer } from "./PublicNotices/loadDocumentViewer";
-import { FeeSchedulePage } from "./PublicNotices/FeeSchedule";
+import { lazyPage, preloadWhenIdle } from "./lazyPage";
+import { DocumentViewerPage } from "./PublicNotices/documentViewerPage";
 
-const DocumentViewerPage = lazy(loadDocumentViewer);
-
-const DOCUMENT_VIEWER_TITLE = "Xem văn bản";
-
-const DocumentViewerFallback: React.FC = () => (
-    <PageLayout className="bg-gray-100" title={DOCUMENT_VIEWER_TITLE}>
-        <div className="flex min-h-64 items-center justify-center text-blue-600">
-            <LoaderCircle className="h-7 w-7 animate-spin" />
-        </div>
-    </PageLayout>
+const QAPage = lazyPage(() => import("./QA"), "Trợ lý hỏi đáp");
+const WorkingHoursPage = lazyPage(
+    () => import("./WorkingHours"),
+    "Giờ làm việc",
+);
+const OnlineGuidePage = lazyPage(
+    () => import("./OnlineGuide"),
+    "Hướng dẫn nộp hồ sơ online",
+);
+const CommonProceduresPage = lazyPage(
+    () => import("./CommonProcedures"),
+    "Thủ tục thường dùng",
+);
+const PublicNoticesPage = lazyPage(
+    () => import("./PublicNotices"),
+    "Niêm yết công khai",
+);
+const FeeSchedulePage = lazyPage(
+    () => import("./PublicNotices/FeeSchedule"),
+    "Phí, lệ phí",
+);
+const LocationPage = lazyPage(() => import("./Location"), "Địa chỉ Trung tâm");
+const GuideVideosPage = lazyPage(
+    () => import("./GuideVideos"),
+    "Video hướng dẫn",
+);
+const OneStopGuidePage = lazyPage(
+    () => import("./OneStopGuide"),
+    "Hướng dẫn một cửa",
+);
+const ProcedureCatalogPage = lazyPage(
+    () => import("./ProcedureCatalog"),
+    "Tra cứu thủ tục",
+);
+const ProcedureDetailPage = lazyPage(
+    () => import("./ProcedureCatalog/ProcedureDetail"),
+    "Chi tiết thủ tục",
+);
+const BookingPage = lazyPage(() => import("./Booking"), "Đặt lịch hẹn");
+const MyAppointmentsPage = lazyPage(
+    () => import("./MyAppointments"),
+    "Lịch hẹn của tôi",
 );
 
-const Routes: React.FC = () => (
-    <ZMPRouter>
-        <AnimationRoutes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/working-hours" element={<WorkingHoursPage />} />
-            <Route path="/qa" element={<QAPage />} />
-            <Route path="/online-guide" element={<OnlineGuidePage />} />
-            <Route
-                path="/public-notices/document/:noticeId"
-                element={
-                    <RouteErrorBoundary title={DOCUMENT_VIEWER_TITLE}>
-                        <Suspense fallback={<DocumentViewerFallback />}>
-                            <DocumentViewerPage />
-                        </Suspense>
-                    </RouteErrorBoundary>
-                }
-            />
-            <Route
-                path="/common-procedures"
-                element={<CommonProceduresPage />}
-            />
-            <Route path="/public-notices" element={<PublicNoticesPage />} />
-            <Route path="/public-notices/fees" element={<FeeSchedulePage />} />
-            <Route path="/location" element={<LocationPage />} />
-            <Route path="/guide-videos" element={<GuideVideosPage />} />
-            <Route path="/one-stop-guide" element={<OneStopGuidePage />} />
-            <Route path="/procedures" element={<ProcedureCatalogPage />} />
-            <Route
-                path="/procedures/:procedureId"
-                element={<ProcedureDetailPage />}
-            />
-            <Route path="/booking" element={<BookingPage />} />
-            <Route path="/appointments" element={<MyAppointmentsPage />} />
-        </AnimationRoutes>
-    </ZMPRouter>
-);
+const PRELOAD_ORDER = [
+    ProcedureCatalogPage,
+    ProcedureDetailPage,
+    BookingPage,
+    QAPage,
+    PublicNoticesPage,
+    MyAppointmentsPage,
+    FeeSchedulePage,
+    CommonProceduresPage,
+    WorkingHoursPage,
+    LocationPage,
+    OnlineGuidePage,
+    OneStopGuidePage,
+    GuideVideosPage,
+];
+
+const Routes: React.FC = () => {
+    useEffect(() => {
+        preloadWhenIdle(PRELOAD_ORDER);
+    }, []);
+
+    return (
+        <ZMPRouter>
+            <AnimationRoutes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/working-hours" element={<WorkingHoursPage />} />
+                <Route path="/qa" element={<QAPage />} />
+                <Route path="/online-guide" element={<OnlineGuidePage />} />
+                <Route
+                    path="/public-notices/document/:noticeId"
+                    element={<DocumentViewerPage />}
+                />
+                <Route
+                    path="/common-procedures"
+                    element={<CommonProceduresPage />}
+                />
+                <Route path="/public-notices" element={<PublicNoticesPage />} />
+                <Route
+                    path="/public-notices/fees"
+                    element={<FeeSchedulePage />}
+                />
+                <Route path="/location" element={<LocationPage />} />
+                <Route path="/guide-videos" element={<GuideVideosPage />} />
+                <Route path="/one-stop-guide" element={<OneStopGuidePage />} />
+                <Route path="/procedures" element={<ProcedureCatalogPage />} />
+                <Route
+                    path="/procedures/:procedureId"
+                    element={<ProcedureDetailPage />}
+                />
+                <Route path="/booking" element={<BookingPage />} />
+                <Route path="/appointments" element={<MyAppointmentsPage />} />
+            </AnimationRoutes>
+        </ZMPRouter>
+    );
+};
 
 export default Routes;

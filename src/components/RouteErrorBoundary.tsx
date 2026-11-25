@@ -1,18 +1,14 @@
 import { TriangleAlert } from "lucide-react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 import PageLayout from "@components/layout/PageLayout";
+import { useGoBack } from "@utils/navigation";
 
 const RouteErrorFallback: React.FC<{ title: string }> = ({ title }) => {
-    const navigate = useNavigate();
+    const goBack = useGoBack();
 
     return (
-        <PageLayout
-            className="bg-gray-50"
-            title={title}
-            onBackClick={() => navigate(-1)}
-        >
+        <PageLayout className="bg-gray-50" title={title}>
             <div className="flex min-h-96 items-center justify-center px-6 text-center">
                 <div>
                     <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-500">
@@ -31,7 +27,7 @@ const RouteErrorFallback: React.FC<{ title: string }> = ({ title }) => {
                         <button
                             className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 active:bg-gray-50"
                             type="button"
-                            onClick={() => navigate(-1)}
+                            onClick={goBack}
                         >
                             Quay lại
                         </button>
@@ -58,11 +54,6 @@ type RouteErrorBoundaryProps = {
 type RouteErrorBoundaryState = {
     hasError: boolean;
 };
-
-/**
- * Bắt lỗi khi tải chunk lazy (mạng chập chờn trong Zalo) để không
- * làm trắng toàn bộ app.
- */
 class RouteErrorBoundary extends React.Component<
     RouteErrorBoundaryProps,
     RouteErrorBoundaryState

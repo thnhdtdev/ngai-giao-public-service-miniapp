@@ -24,8 +24,11 @@ import { bookingCategoryCodeForField } from "@api/appointments";
 import { buildProcedureDetailView } from "@api/procedureDetailView";
 import { useProcedureDetail } from "@api/procedures";
 import PageLayout from "@components/layout/PageLayout";
+import ShareButton from "@components/ShareButton";
+import { useGoBack } from "@utils/navigation";
 
 const PAGE_TITLE = "Chi tiết thủ tục";
+const SHARE_DESCRIPTION = "Thủ tục hành chính xã Ngãi Giao";
 
 const DetailSection: React.FC<{
     icon: React.ReactNode;
@@ -61,6 +64,7 @@ const Fact: React.FC<{
 
 const ProcedureDetailPage: React.FC = () => {
     const navigate = useNavigate();
+    const goBack = useGoBack();
     const { openSnackbar } = useSnackbar();
     const { procedureId } = useParams<{ procedureId: string }>();
     const { data, error, loading, retry } = useProcedureDetail(procedureId);
@@ -123,7 +127,7 @@ const ProcedureDetailPage: React.FC = () => {
                         <div className="mt-4 flex justify-center gap-3">
                             <button
                                 type="button"
-                                onClick={() => navigate(-1)}
+                                onClick={goBack}
                                 className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 active:bg-gray-50"
                             >
                                 Quay lại
@@ -222,6 +226,20 @@ const ProcedureDetailPage: React.FC = () => {
                         <CalendarCheck className="h-4 w-4" />
                         Đặt lịch nộp hồ sơ tại Trung tâm
                     </button>
+
+                    <ShareButton
+                        className="mt-2.5 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 active:bg-gray-50"
+                        description={
+                            [data.field, data.agency]
+                                .filter(Boolean)
+                                .join(" · ") || SHARE_DESCRIPTION
+                        }
+                        label="Chia sẻ thủ tục qua Zalo"
+                        path={`/procedures/${encodeURIComponent(
+                            procedureId ?? "",
+                        )}`}
+                        title={data.title}
+                    />
                 </section>
 
                 {view.dossier.length > 0 && (

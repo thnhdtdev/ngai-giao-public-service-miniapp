@@ -1,6 +1,6 @@
 import PageLayout from "@components/layout/PageLayout";
+import { useGoBack } from "@utils/navigation";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { openWebview } from "zmp-sdk";
 import { Header, Icon, useSnackbar } from "zmp-ui";
 import {
@@ -120,7 +120,7 @@ const categories: ProcedureCategory[] = [
 ];
 
 const CommonProceduresPage: React.FC = () => {
-    const navigate = useNavigate();
+    const goBack = useGoBack();
     const { openSnackbar } = useSnackbar();
 
     const [selectedCategory, setSelectedCategory] =
@@ -132,7 +132,7 @@ const CommonProceduresPage: React.FC = () => {
             return;
         }
 
-        navigate(-1);
+        goBack();
     };
 
     const handleOpenProcedure = async (procedure: CommonProcedure) => {

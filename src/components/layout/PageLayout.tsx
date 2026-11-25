@@ -2,6 +2,9 @@ import clsx from "clsx";
 import React, { ReactNode, useImperativeHandle, useRef } from "react";
 import { Page } from "zmp-ui";
 import { PageProps } from "zmp-ui/page";
+
+import { useGoBack } from "@utils/navigation";
+
 import DefaultHeader from "./DefaultHeader";
 
 interface PropsType extends PageProps {
@@ -30,6 +33,7 @@ const PageLayout = React.forwardRef<HTMLDivElement, PropsType>((props, ref) => {
         ...rest
     } = props;
     const pageRef = useRef<HTMLDivElement>(null);
+    const goBack = useGoBack();
     const hasBackgroundClass = className
         ?.split(/\s+/)
         .some(value => value.startsWith("bg-"));
@@ -55,7 +59,7 @@ const PageLayout = React.forwardRef<HTMLDivElement, PropsType>((props, ref) => {
                     <DefaultHeader
                         title={title}
                         back
-                        onBackClick={onBackClick}
+                        onBackClick={onBackClick ?? goBack}
                     />
                 ))}
             {children}

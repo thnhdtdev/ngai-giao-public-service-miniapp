@@ -18,16 +18,13 @@ import {
 } from "@content/publicNotices";
 
 import PageLayout from "@components/layout/PageLayout";
+import { useGoBack } from "@utils/navigation";
 
-import { loadDocumentViewer } from "./loadDocumentViewer";
+import { DocumentViewerPage } from "./documentViewerPage";
 
-// Nhóm TTHC phi địa giới: id cũ trong manifest R2 hoặc mã loại file của backend
 const isNonBoundary = (categoryId: string) =>
     categoryId === "non-boundary" || categoryId === "PHI_DIA_GIOI";
 
-// Giữ nguyên chữ hoa của tên riêng, viết tắt (Hồ Chí Minh, TTHC, UBND);
-// chỉ hạ về chữ thường khi cả câu viết hoa toàn bộ (từ 3 từ trở lên, để
-// không đụng vào số hiệu văn bản như "123/QĐ-UBND").
 const formatTitle = (title: string) => {
     const trimmed = title.trim().replace(/\s+/g, " ");
 
@@ -55,9 +52,9 @@ const CategorySkeleton: React.FC = () => (
 
 const PublicNoticesPage: React.FC = () => {
     const navigate = useNavigate();
+    const goBack = useGoBack();
     const { categories, loading } = usePublicNotices();
 
-    // Lưu id thay vì object để vẫn khớp khi dữ liệu mới từ R2 về
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
         null,
     );
@@ -70,12 +67,12 @@ const PublicNoticesPage: React.FC = () => {
             return;
         }
 
-        navigate(-1);
+        goBack();
     };
 
     const handleSelectCategory = (category: PublicNoticeCategory) => {
         setSelectedCategoryId(category.id);
-        loadDocumentViewer().catch(() => undefined);
+        DocumentViewerPage.preload();
     };
 
     const handleOpenNotice = (notice: PublicNotice) => {

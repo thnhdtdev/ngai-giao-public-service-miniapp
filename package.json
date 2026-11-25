@@ -17,8 +17,8 @@
     "scripts": {
         "start": "zmp start",
         "build": "vite build",
-        "deploy": "vite build && zmp deploy --existing",
-        "deploy:testing": "vite build && zmp deploy --existing --testing",
+        "deploy": "zmp deploy",
+        "deploy:testing": "zmp deploy --testing",
         "build:css": "postcss src/css/tailwind.css -o src/css/styles.css",
         "start:zalo": "zmp start --zalo-app --ios",
         "prettier": "prettier \"**/*.+(js|json|ts)\"",
